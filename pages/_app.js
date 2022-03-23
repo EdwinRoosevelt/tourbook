@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import reactDom from "react-dom";
+import { useState } from "react";
 
-import '../styles/globals.css'
-import MainHeader from '../components/MainHeader'
-import reactDom from 'react-dom';
+import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
+
+import "../styles/globals.css";
+import MainHeader from "../components/MainHeader";
+import { HeroBanner } from "../components/homepage/HeroBanner";
 
 const data = {
   user: {
@@ -11,20 +15,39 @@ const data = {
     image:
       "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80",
   },
-  tabs: ["Home", "Orders", "Education", "Community", "Forums", "Account"],
+  links: [
+    {
+      link: "/",
+      label: "Home",
+    },
+    {
+      link: "/pricing",
+      label: "Pricing",
+    },
+    {
+      link: "/learn",
+      label: "Learn",
+    },
+    {
+      link: "/community",
+      label: "Community",
+    },
+  ],
 };
 
 function MyApp({ Component, pageProps }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  console.log(isLoggedIn)
 
   return (
-    <>
-      {isLoggedIn && <MainHeader user={data.user} tabs={data.tabs} />}
-      {!isLoggedIn && <Component {...pageProps} />}
-    </>
+    <MantineProvider>
+      <ModalsProvider>
+        {isLoggedIn && <MainHeader user={data.user} links={data.links} />}
+        <div>{!isLoggedIn && <HeroBanner />}</div>
+
+        <Component {...pageProps} />
+      </ModalsProvider>
+    </MantineProvider>
   );
-  
 }
 
-export default MyApp
+export default MyApp;

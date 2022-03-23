@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import Link from "next/link";
 import {
   createStyles,
   Container,
@@ -8,8 +10,8 @@ import {
   Text,
   Menu,
   Divider,
-  Tabs,
   Burger,
+  Button
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
 import {
@@ -22,7 +24,10 @@ import {
   Trash,
   SwitchHorizontal,
   ChevronDown,
+  PlaylistAdd
 } from "tabler-icons-react";
+
+
 import { MantineLogo } from "../public/MantineLogo";
 
 const useStyles = createStyles((theme) => ({
@@ -71,52 +76,88 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
   },
 
-  tabs: {
-    [theme.fn.smallerThan("sm")]: {
+  links: {
+    [theme.fn.smallerThan("xs")]: {
       display: "none",
     },
   },
 
-  tabsList: {
-    borderBottom: "0 !important",
-  },
-
-  tabControl: {
+  link: {
+    display: "block",
+    lineHeight: 1,
+    padding: "8px 12px",
+    borderRadius: theme.radius.sm,
+    textDecoration: "none",
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
+    fontSize: theme.fontSizes.sm,
     fontWeight: 500,
-    height: 38,
 
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors.gray[1],
+          ? theme.colors.dark[6]
+          : theme.colors.gray[0],
     },
   },
 
-  tabControlActive: {
-    borderColor: `${
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[2]
-    } !important`,
+  linkActive: {
+    "&, &:hover": {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+          : theme.colors[theme.primaryColor][0],
+      color:
+        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
+    },
   },
+
 }));
 
 interface HeaderTabsProps {
   user: { name: string; image: string };
-  tabs: string[];
+  links: { link: string; label: string }[];
 }
 
-export default function MainHeader({ user, tabs }: HeaderTabsProps) {
+
+
+export default function MainHeader({ user, links }: HeaderTabsProps) {
+
+  const [active, setActive] = useState(links[0].link);
   const { classes, theme, cx } = useStyles();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-  const items = tabs.map((tab) => <Tabs.Tab label={tab} key={tab} />);
+  const items = links.map((link) => (
+    <Link href={link.link}>
+      <a
+        key={link.label}
+        className={cx(classes.link, {
+          [classes.linkActive]: active === link.link,
+        })}
+        onClick={(event) => {
+          event.preventDefault();
+          setActive(link.link);
+        }}
+      >
+        {link.label}
+      </a>
+    </Link>
+  ));
+
+
 
   return (
     <div className={classes.header}>
       <Container className={classes.mainSection}>
         <Group position="apart">
-          <MantineLogo />
+          <MantineLogo
+            onClick={() => {
+              console.log("heloo");
+            }}
+          />
 
           <Burger
             opened={opened}
@@ -153,6 +194,12 @@ export default function MainHeader({ user, tabs }: HeaderTabsProps) {
               </UnstyledButton>
             }
           >
+            <Menu.Item
+
+              icon={<PlaylistAdd size={14} color={theme.colors.green[6]} />}
+            >
+              New Tour
+            </Menu.Item>
             <Menu.Item icon={<Heart size={14} color={theme.colors.red[6]} />}>
               Liked posts
             </Menu.Item>
@@ -185,19 +232,6 @@ export default function MainHeader({ user, tabs }: HeaderTabsProps) {
             </Menu.Item>
           </Menu>
         </Group>
-      </Container>
-      <Container>
-        <Tabs grow
-          variant="outline"
-          classNames={{
-            root: classes.tabs,
-            tabsListWrapper: classes.tabsList,
-            tabControl: classes.tabControl,
-            tabActive: classes.tabControlActive,
-          }}
-        >
-          {items}
-        </Tabs>
       </Container>
     </div>
   );

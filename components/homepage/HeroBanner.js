@@ -32,6 +32,11 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  bigtitle: {
+    fontSize: 70,
+    textAlign: "center"
+  },
+
   title: {
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
@@ -75,6 +80,9 @@ export function HeroBanner() {
   return (
     <div>
       <Container>
+        <h1 className={classes.bigtitle}>
+          Welcome to Tourbook
+        </h1>
         <div className={classes.inner}>
           <div className={classes.content}>
             <Title className={classes.title}>
