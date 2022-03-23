@@ -1,147 +1,204 @@
 import React, { useState } from "react";
 import {
   createStyles,
-  Header,
   Container,
+  Avatar,
+  UnstyledButton,
   Group,
+  Text,
+  Menu,
+  Divider,
+  Tabs,
   Burger,
-  Paper,
-  Transition,
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-//import MantineLogo from "../public/vercel.svg";
+import {
+  Logout,
+  Heart,
+  Star,
+  Message,
+  Settings,
+  PlayerPause,
+  Trash,
+  SwitchHorizontal,
+  ChevronDown,
+} from "tabler-icons-react";
 import { MantineLogo } from "../public/MantineLogo";
 
-const HEADER_HEIGHT = 60;
-
 const useStyles = createStyles((theme) => ({
-  root: {
-    position: "relative",
-    zIndex: 1,
+  header: {
+    paddingTop: theme.spacing.sm,
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
+    borderBottom: `1px solid ${
+      theme.colorScheme === "dark" ? "transparent" : theme.colors.gray[2]
+    }`,
+    marginBottom: 120,
   },
 
-  dropdown: {
-    position: "absolute",
-    top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 0,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
-    overflow: "hidden",
+  mainSection: {
+    paddingBottom: theme.spacing.sm,
+  },
 
-    [theme.fn.largerThan("sm")]: {
+  userMenu: {
+    [theme.fn.smallerThan("xs")]: {
       display: "none",
     },
   },
 
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: "100%",
-  },
+  user: {
+    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+    borderRadius: theme.radius.sm,
+    transition: "background-color 100ms ease",
 
-  links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
+    "&:hover": {
+      backgroundColor:
+        theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
     },
   },
 
   burger: {
-    [theme.fn.largerThan("sm")]: {
+    [theme.fn.largerThan("xs")]: {
       display: "none",
     },
   },
 
-  link: {
-    display: "block",
-    lineHeight: 1,
-    padding: "8px 12px",
-    borderRadius: theme.radius.sm,
-    textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
+  userActive: {
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+  },
+
+  tabs: {
+    [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
+  },
+
+  tabsList: {
+    borderBottom: "0 !important",
+  },
+
+  tabControl: {
     fontWeight: 500,
+    height: 38,
 
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-
-    [theme.fn.smallerThan("sm")]: {
-      borderRadius: 0,
-      padding: theme.spacing.md,
+          ? theme.colors.dark[5]
+          : theme.colors.gray[1],
     },
   },
 
-  linkActive: {
-    "&, &:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-          : theme.colors[theme.primaryColor][0],
-      color:
-        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
-    },
+  tabControlActive: {
+    borderColor: `${
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[2]
+    } !important`,
   },
 }));
 
-interface HeaderResponsiveProps {
-  links: { link: string, label: string }[];
+interface HeaderTabsProps {
+  user: { name: string; image: string };
+  tabs: string[];
 }
 
-export function MainHeader({ links }: HeaderResponsiveProps) {
+export default function MainHeader({ user, tabs }: HeaderTabsProps) {
+  const { classes, theme, cx } = useStyles();
   const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(links[0].link);
-  const { classes, cx } = useStyles();
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-  const items = links.map((link) => (
-    <a
-      key={link.label}
-      href={link.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(link.link);
-        toggleOpened(false);
-      }}
-    >
-      {link.label}
-    </a>
-  ));
+  const items = tabs.map((tab) => <Tabs.Tab label={tab} key={tab} />);
 
   return (
-    <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
-      <Container className={classes.header}>
-        <MantineLogo />
-        <Group spacing={5} className={classes.links}>
-          {items}
+    <div className={classes.header}>
+      <Container className={classes.mainSection}>
+        <Group position="apart">
+          <MantineLogo />
+
+          <Burger
+            opened={opened}
+            onClick={() => toggleOpened()}
+            className={classes.burger}
+            size="sm"
+          />
+
+          <Menu
+            size={260}
+            placement="end"
+            transition="pop-top-right"
+            className={classes.userMenu}
+            onClose={() => setUserMenuOpened(false)}
+            onOpen={() => setUserMenuOpened(true)}
+            control={
+              <UnstyledButton
+                className={cx(classes.user, {
+                  [classes.userActive]: userMenuOpened,
+                })}
+              >
+                <Group spacing={7}>
+                  <Avatar
+                    src={user.image}
+                    alt={user.name}
+                    radius="xl"
+                    size={20}
+                  />
+                  <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
+                    {user.name}
+                  </Text>
+                  <ChevronDown size={12} />
+                </Group>
+              </UnstyledButton>
+            }
+          >
+            <Menu.Item icon={<Heart size={14} color={theme.colors.red[6]} />}>
+              Liked posts
+            </Menu.Item>
+            <Menu.Item icon={<Star size={14} color={theme.colors.yellow[6]} />}>
+              Saved posts
+            </Menu.Item>
+            <Menu.Item
+              icon={<Message size={14} color={theme.colors.blue[6]} />}
+            >
+              Your comments
+            </Menu.Item>
+
+            <Menu.Label>Settings</Menu.Label>
+            <Menu.Item icon={<Settings size={14} />}>
+              Account settings
+            </Menu.Item>
+            <Menu.Item icon={<SwitchHorizontal size={14} />}>
+              Change account
+            </Menu.Item>
+            <Menu.Item icon={<Logout size={14} />}>Logout</Menu.Item>
+
+            <Divider />
+
+            <Menu.Label>Danger zone</Menu.Label>
+            <Menu.Item icon={<PlayerPause size={14} />}>
+              Pause subscription
+            </Menu.Item>
+            <Menu.Item color="red" icon={<Trash size={14} />}>
+              Delete account
+            </Menu.Item>
+          </Menu>
         </Group>
-
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened()}
-          className={classes.burger}
-          size="sm"
-        />
-
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
-            </Paper>
-          )}
-        </Transition>
       </Container>
-    </Header>
+      <Container>
+        <Tabs grow
+          variant="outline"
+          classNames={{
+            root: classes.tabs,
+            tabsListWrapper: classes.tabsList,
+            tabControl: classes.tabControl,
+            tabActive: classes.tabControlActive,
+          }}
+        >
+          {items}
+        </Tabs>
+      </Container>
+    </div>
   );
 }
