@@ -10,9 +10,9 @@ const whenList = ["Afternoon", ]
 
 var dayList = [];
  
-function SubPlanCard({ days}) {
+function SubPlanCard({ value, days, deleteCardHandler }) {
 
-    const [type, setType] = useState("");
+    const [type, setType] = useState(value.type);
     const [day, setDay] = useState("");
     const [travelBy, setTravelBy] = useState("");
 
@@ -24,12 +24,21 @@ function SubPlanCard({ days}) {
     dayList = Array(days).fill(0).map((_, index) => `Day ${index}`)
 
   return (
-    <Card shadow="md" p="md">
-      <Group grow position="right">
+    <Card
+      mt="md"
+      shadow="md"
+      p="md"
+      sx={(theme) => ({ backgroundColor: theme.colors.gray[0] })}
+    >
+      <Group position="right">
         <Button variant="light" color="green">
           <Copy size={25} />
         </Button>
-        <Button variant="light" color="red">
+        <Button
+          variant="light"
+          color="red"
+          onClick={() => deleteCardHandler(value.id)}
+        >
           <TrashX size={25} />
         </Button>
       </Group>

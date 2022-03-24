@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { v4 as uuid } from "uuid";
 
 import { DateRangePicker } from "@mantine/dates";
 import {
@@ -20,11 +21,11 @@ import {
   Select
 } from "@mantine/core";
 
-import { ArrowBackUp, Container, Router } from "tabler-icons-react";
-
-import { BrandTwitter, BrandYoutube, BrandInstagram } from "tabler-icons-react";
+import { ArrowBackUp, Container, Router, BrandTwitter, BrandYoutube, BrandInstagram } from "tabler-icons-react";
 
 import SubPlanCard from './SubPlanCard';
+import AddSubplanCard from './AddSubPlanCard';
+
 
 // import { ContactIconsList } from "../ContactIcons/ContactIcons";
 
@@ -94,16 +95,33 @@ const useStyles = createStyles((theme) => ({
 
 const social = [BrandTwitter, BrandYoutube, BrandInstagram];
 const allFriendsList=[
-              "Edwin Roosevelt",
-              "Arpana Varma",
-              "Svelte",
-              "Vue",
-              "Riot",
-              "Next.js",
-              "Blitz.js",
-            ];
+  "Edwin Roosevelt",
+  "Arpana Varma",
+  "Svelte",
+  "Vue",
+  "Riot",
+  "Next.js",
+  "Blitz.js",
+];
+
+const dummySubPlanList = [
+  {
+    id: "23af",
+    type: "Travel",
+  },
+  {
+    id: "31",
+    type: "Stay",
+  },
+  {
+    id: "45",
+  },
+];
+
+    
 
 export default function ContactUs() {
+  const [subPlanList, setSubPlanList] = useState(dummySubPlanList);
   const [invitedFriends, setInvitedFriends] = useState([]);
   const { classes } = useStyles();
   const router = useRouter();
@@ -112,7 +130,20 @@ export default function ContactUs() {
     [Date | null, Date | null]
   >([new Date(2021, 11, 1), new Date(2021, 11, 5)]);
 
-  console.log(invitedFriends)
+  const deleteSubPlanCard = (idToBeDeleted) => {
+    const newSubPlanList = subPlanList.filter(
+      (plan) => plan.id !== idToBeDeleted
+    );
+    setSubPlanList(newSubPlanList)
+  }
+
+  const addSubPlanCard = () => {
+    const newSubPlan = { id: uuid().slice(0,4) }
+    const newSubPlanList = subPlanList.concat(newSubPlan)
+    setSubPlanList(newSubPlanList);
+  }
+
+
   return (
     <div className={classes.wrapper}>
       <SimpleGrid
@@ -128,7 +159,7 @@ export default function ContactUs() {
             Create Tour
           </Title>
           <Text className={classes.description} mt="sm">
-            Plan Tour, add Friends and make it Memorable! 
+            Plan Tour, add Friends and make it Memorable!
           </Text>
         </div>
         <div className={classes.form}>
@@ -166,11 +197,18 @@ export default function ContactUs() {
               spacing={10}
               breakpoints={[{ maxWidth: "sm", cols: 1 }]}
             >
-              <SubPlanCard days={3} />
-              <SubPlanCard days={3} />
-              <SubPlanCard days={3} />
-            </SimpleGrid>
-            
+              {subPlanList.map(plan => {
+                return (
+                  <SubPlanCard
+                    key={plan.id}
+                    value={plan}
+                    days={3}
+                    deleteCardHandler={deleteSubPlanCard}
+                  />
+                );
+              })}
+              <AddSubplanCard onClickHandler={addSubPlanCard}/>
+            </SimpleGrid >
           </Box>
 
           <MultiSelect
@@ -186,7 +224,7 @@ export default function ContactUs() {
 
           <Group position="right" mt="md">
             <Button variant="outline" className={classes.control}>
-              Send message
+              Create
             </Button>
           </Group>
         </div>
