@@ -41,10 +41,17 @@ function MyApp({ Component, pageProps }) {
   return (
     <MantineProvider>
       <ModalsProvider>
-        {isLoggedIn && <MainHeader user={data.user} links={data.links} />}
-        <div>{!isLoggedIn && <HeroBanner />}</div>
-
-        <Component {...pageProps} />
+        {isLoggedIn && (
+          <div>
+            <MainHeader user={data.user} links={data.links} />
+            <Component {...pageProps} />
+          </div>
+        )}
+        {!isLoggedIn && (
+          <div>
+            <HeroBanner />
+          </div>
+        )}
       </ModalsProvider>
     </MantineProvider>
   );

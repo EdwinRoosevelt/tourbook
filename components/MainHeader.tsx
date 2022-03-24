@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Link from "next/link";
+
 import {
   createStyles,
   Container,
@@ -194,12 +195,14 @@ export default function MainHeader({ user, links }: HeaderTabsProps) {
               </UnstyledButton>
             }
           >
-            <Menu.Item
+            <Link href="/createTour">
+              <Menu.Item
+                icon={<PlaylistAdd size={14} color={theme.colors.green[6]} />}
+              >
+                New Tour
+              </Menu.Item>
+            </Link>
 
-              icon={<PlaylistAdd size={14} color={theme.colors.green[6]} />}
-            >
-              New Tour
-            </Menu.Item>
             <Menu.Item icon={<Heart size={14} color={theme.colors.red[6]} />}>
               Liked posts
             </Menu.Item>

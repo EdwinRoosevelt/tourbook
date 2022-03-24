@@ -1,5 +1,4 @@
-import React from 'react';
-import { useModals } from "@mantine/modals";
+import Link from 'next/Link';
 import {
   createStyles,
   Card,
@@ -8,6 +7,7 @@ import {
   Button,
   Text,
   useMantineTheme,
+  TextInput
 } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
@@ -50,29 +50,13 @@ const data = {
     "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
   title: "Create a New Tour",
   description:
-    "Plan a tour, add your friends and make all your every tour memorable!",
+    "Plan a tour, add your friends and make all your every tour memorable! ",
 };
 
-export default function ImageActionBanner() {
+export default function createTourBanner() {
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
-  const modals = useModals();
-
-    const openConfirmModal = () =>
-      modals.openConfirmModal({
-        title: "Please confirm your action",
-        centered: true,
-        children: (
-          <Text size="sm">
-            This action is so important that you are required to confirm it with
-            a modal. Please click one of these buttons to proceed.
-          </Text>
-        ),
-        labels: { confirm: "Confirm", cancel: "Cancel" },
-        onCancel: () => console.log("Cancel"),
-        onConfirm: () => console.log("Confirmed"),
-      });
-
+    
   return (
     <Card
       radius="md"
@@ -94,16 +78,16 @@ export default function ImageActionBanner() {
           {data.description}
         </Text>
 
-        <Button
-          className={classes.action}
-          size="sm"
-          variant="filled"
-          sx={{ color: "white", borderColor: "white" }}
-          onClick={openConfirmModal}
-        >
-          Create now
-        </Button>
-        <Button color="gray">Settings</Button>
+        <Link href="/createTour">
+          <Button
+            className={classes.action}
+            size="sm"
+            variant="filled"
+            sx={{ color: "white", borderColor: "white" }}
+          >
+            Create Tour
+          </Button>
+        </Link>
       </div>
     </Card>
   );

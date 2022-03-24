@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import { Grid, Container, Text } from "@mantine/core";
 
 import TourCard from "../components/tour/TourCard";
-import CreateTour from '../components/CreateTour'
+
 
 const card = {
   image:
@@ -50,32 +50,17 @@ export default function Home() {
 
       <div>
         <Container size="xs" px="xs">
-          <CreateTour/>
+
+          <TourCard
+            shadow="sm"
+            my="lg"
+            image={card.image}
+            title={card.title}
+            description={card.description}
+            country={card.country}
+            badges={card.badges}
+          />
         </Container>
-        <Grid justify="center" align="flex-start">
-          <Grid.Col span={3} style={{ minHeight: 80 }}></Grid.Col>
-          <Grid.Col span={5} style={{ minHeight: 120 }}>
-            <TourCard
-              shadow="sm"
-              my="lg"
-              image={card.image}
-              title={card.title}
-              description={card.description}
-              country={card.country}
-              badges={card.badges}
-            />
-            <TourCard
-              shadow="sm"
-              my="lg"
-              image={card.image}
-              title={card.title}
-              description={card.description}
-              country={card.country}
-              badges={card.badges}
-            />
-          </Grid.Col>
-          <Grid.Col span={3}></Grid.Col>
-        </Grid>
       </div>
     </div>
   );
