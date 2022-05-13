@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/CreateTour.js", "components/tour/NewTour.tsx"  ],
+, "components/CreateTour.js", "components/tourPage/NewTour.tsx", "components/tour/TourDetails.jsx"  ],
   "exclude": [
     "node_modules"
   ]

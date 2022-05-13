@@ -190,14 +190,34 @@ export default function ContactUs() {
             mt="md"
             classNames={{ input: classes.input, label: classes.inputLabel }}
           />
-          <Box>
+          <Text mt="md" size="sm" weight={500}>
+            Sub Plans
+          </Text>
+          <Box
+            sx={(theme) => ({
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+              padding: theme.spacing.sm,
+              borderRadius: theme.radius.md,
+              cursor: "pointer",
+
+              "&:hover": {
+                backgroundColor:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[5]
+                    : theme.colors.gray[1],
+              },
+            })}
+          >
             <SimpleGrid
-              mt="md"
+              pt="0"
               cols={2}
               spacing={10}
               breakpoints={[{ maxWidth: "sm", cols: 1 }]}
             >
-              {subPlanList.map(plan => {
+              {subPlanList.map((plan) => {
                 return (
                   <SubPlanCard
                     key={plan.id}
@@ -207,8 +227,8 @@ export default function ContactUs() {
                   />
                 );
               })}
-              <AddSubplanCard onClickHandler={addSubPlanCard}/>
-            </SimpleGrid >
+              <AddSubplanCard onClickHandler={addSubPlanCard} />
+            </SimpleGrid>
           </Box>
 
           <MultiSelect
