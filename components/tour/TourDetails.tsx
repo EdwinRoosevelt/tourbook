@@ -1,10 +1,19 @@
 import { useState } from 'react'
 
-import { Calendar, CurrencyRupee, MapPin, User } from "tabler-icons-react";
-import { TextInput } from "@mantine/core"
+import {
+  Calendar,
+  CurrencyRupee,
+  MapPin,
+  User,
+  Edit,
+  Users,
+  Heart,
+  Check
+} from "tabler-icons-react";
+import { TextInput, NumberInput } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 
-function TourDetails({ data, formState, dataChangeHandler }) {
+function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
 
     const [refresh, setRefresh] = useState(false);
     const [dateRange, setDateRange] = useState<
@@ -16,15 +25,44 @@ function TourDetails({ data, formState, dataChangeHandler }) {
     refresh ? setRefresh(false) : setRefresh(true)
   }
 
-  console.log("reloaded!")
 
   return (
     <section id="tourdetails">
-      <div className="container my-5 p-5 bg-white">
-        <h1 className="display-4"> Tour Details</h1>
-        <p className="text-muted mb-5">All the specifics about this trip!</p>
+      <div
+        className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
+      >
+        {/* Section TITLE */}
+        <div className="flex justify-content-between">
+          <div>
+            <h1 className="display-4"> Tour Details</h1>
+            <p className="text-muted mb-5">
+              All the specifics about this trip!
+            </p>
+          </div>
+          <div>
+            <button
+              className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
+            >
+              <Check size={25} /> <div>I'm IN</div>
+            </button>
+            <button className={`btn btn-outline-danger active mr-2`}>
+              <Heart size={25} />
+            </button>
+            {formState === "VIEW" && (
+              <button
+                title="Edit Tour plan"
+                className="btn btn-outline-secondary"
+                onClick={() => setFormState("EDIT")}
+              >
+                <Edit size={25} />
+              </button>
+            )}
+          </div>
+        </div>
 
-        <div className="d-inline-flex flex-wrap flex-fill">
+        {/* Section CONTENT */}
+        <div className="flex flex-wrap justify-content-around">
+
           {/* Organizer */}
           <div
             className="d-flex gap-2 align-items-center p-2 me-5"
@@ -37,7 +75,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
                 placeholder="Organizers"
                 required
                 id="organizers"
-                value={data.organizers[0]}
+                value={data.organizers}
                 onChange={localDataChangeHandler}
               />
             )}
@@ -79,7 +117,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
                 disabled
               />
             )}
-            {formState === "VIEW" && <div >{data.budget} / head</div>}
+            {formState === "VIEW" && <div>{data.budget} / head</div>}
           </div>
 
           {/* DateRange */}
@@ -96,12 +134,33 @@ function TourDetails({ data, formState, dataChangeHandler }) {
                 onChange={setDateRange}
               />
             )}
-            {formState === "VIEW" && (
+            {/* {formState === "VIEW" && (
               <div>
-                {data.dates[0].toDateString()} - {data.dates[1].toDateString()}{" "}
+                {data.dates!==null && data.dates[0].toDateString()} - {data.dates[1].toDateString()}{" "}
                 : __ days
               </div>
+            )} */}
+          </div>
+
+          {/* Maximum Count */}
+          <div
+            className="d-flex gap-2 align-items-center p-2 me-5"
+            title="Confirm / Maximum Count"
+          >
+            <Users size={30} color="#CC9544" />
+            {formState === "EDIT" && (
+              <NumberInput
+                size="md"
+                placeholder="Budget"
+                id="maximumHead"
+                value={data.maximumHead}
+                onChange={(val) =>
+                  localDataChangeHandler({ target: { id: "maximumHead", val } })
+                }
+                required
+              />
             )}
+            {formState === "VIEW" && <div>2 / {data.maximumHead}</div>}
           </div>
         </div>
       </div>

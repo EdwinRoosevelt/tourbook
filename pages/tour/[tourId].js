@@ -5,7 +5,6 @@ import TourPlan from "../../components/tour/TourPlan";
 import ExpenseSection from "../../components/tour/ExpensesSection";
 import OnboardingSection from "../../components/tour/OnboardingSection";
 import TourDetails from "../../components/tour/TourDetails";
-import MyStatus from "../../components/tour/MyStatus";
 
 const DUMMY_CONTENT = {
   details: {
@@ -17,17 +16,21 @@ const DUMMY_CONTENT = {
     days: 3,
     venue: "Paris, France",
     organizers: ["Edwin Roosevelt"],
+    maximumHead: 10
   },
   plan: [
     [
       {
         type: "TRAVEL",
-        details: ["Train - Cheran Exp"],
+        details: ["Train", "Yelagiri Exp"],
         time: ["Night"],
         cost: true,
       },
       {
         type: "STAY",
+        details: ["OYO", "345678"],
+        time: ["Night"],
+        cost: true,
       },
       {
         type: "STAY",
@@ -45,25 +48,23 @@ const DUMMY_CONTENT = {
   expenses: {
     list: [
       {
-        no: "1",
         title: "Hotel",
         description: "L'amby Bay",
-        price: "1,000 x 2 nights",
-        total: "2,000",
+        total: ["1000", ""],
+        perHead: "2,000",
       },
       {
-        no: "2",
         title: "Train Ticket",
         description: "Kovai Ecpress",
-        price: "700 x 2 way",
-        total: "1,400",
+        total: "700 x 2 way",
+        perHead: "1,400",
       },
     ],
     total: "3,500",
   },
   onboarders: [
     {
-      name: "Edwin Roosevelt",
+      name: "Edwin Roosevelt B",
       status: "confirm",
       color: "success",
     },
@@ -99,32 +100,38 @@ function TourPage() {
         // }
 
         setData(newData);
-
-        console.log(data.plan);
     }
+
+    function saveDataHandler() {
+        setFormState("VIEW")
+    }
+
 
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <LandingSection props={DUMMY_CONTENT.details} />
+      <LandingSection
+        data={data.details}
+        dataChangeHandler={dataChangeHandler}
+        formState={formState}
+        saveData={saveDataHandler}
+      />
       <div className="container-md">
-        <MyStatus
-          props={DUMMY_CONTENT.details}
-          formState={formState}
-          setFormState={setFormState}
-        />
+
         <TourDetails
           data={data.details}
           dataChangeHandler={dataChangeHandler}
           formState={formState}
+          setFormState={setFormState}
         />
         <TourPlan
           data={data.plan}
           dataChangeHandler={dataChangeHandler}
           formState={formState}
         />
-        <ExpenseSection props={DUMMY_CONTENT.expenses} />
-        <OnboardingSection props={DUMMY_CONTENT.onboarders} />
+        <ExpenseSection data={data.expenses} formState={formState} />
+        <OnboardingSection data={data.onboarders} formState={formState} />
       </div>
+      <div className="container mb-5">...</div>
     </div>
   );
 }

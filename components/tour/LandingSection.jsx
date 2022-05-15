@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
-function LandingSection({ props }) {
+import { TextInput } from "@mantine/core";
+
+function LandingSection({ data, formState, dataChangeHandler, saveData }) {
+
+  const [refresh, setRefresh] = useState(false);
+
+  function localDataChangeHandler({ target }) {
+    dataChangeHandler("EDIT", "details", target.id, target.value);
+    refresh ? setRefresh(false) : setRefresh(true);
+  }
+
   return (
     <div>
       <section
@@ -10,9 +20,34 @@ function LandingSection({ props }) {
           backgroundSize: "cover",
         }}
       >
-        <div className="container py-5 w-75 mb-5">
-          <h1 className="display-2">{props.title}</h1>
-          <p className="">{props.description}</p>
+        <div className="container py-5 mb-5">
+          {formState === "VIEW" && (
+            <>
+              <h1 className="display-2">{data.title}</h1>
+              <p className="">{data.description}</p>
+            </>
+          )}
+          {formState === "EDIT" && (
+            <>
+              <TextInput
+                size="xl"
+                placeholder="Tour Title"
+                id="title"
+                value={data.title}
+                onChange={localDataChangeHandler}
+                required
+              />
+              <TextInput
+                size="sm"
+                mt="xs"
+                placeholder="Description"
+                id="description"
+                value={data.description}
+                onChange={localDataChangeHandler}
+                required
+              />
+            </>
+          )}
         </div>
       </section>
     </div>

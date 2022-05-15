@@ -23,7 +23,7 @@
 
 // import { ArrowBackUp, Container, Router, BrandTwitter, BrandYoutube, BrandInstagram } from "tabler-icons-react";
 
-// import SubPlanCard from './PlanCard';
+// import SubPlanCard from './PlanEditCard';
 // import AddSubplanCard from './AddSubPlanCard';
 
 
