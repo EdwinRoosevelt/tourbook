@@ -12,7 +12,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
   >([null, null]);
 
   function localDataChangeHandler({target}) {
-    dataChangeHandler("details", target.id, target.value)
+    dataChangeHandler("EDIT", "details", target.id, target.value)
     refresh ? setRefresh(false) : setRefresh(true)
   }
 
@@ -30,7 +30,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
             className="d-flex gap-2 align-items-center p-2 me-5"
             title="Organizers"
           >
-            <User size={30} />
+            <User size={30} color="#F8B400" />
             {formState === "EDIT" && (
               <TextInput
                 size="md"
@@ -49,7 +49,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
             className="d-flex gap-2 align-items-center p-2 me-5"
             title="Venue"
           >
-            <MapPin size={30} />
+            <MapPin size={30} color="#035397" />
             {formState === "EDIT" && (
               <TextInput
                 size="md"
@@ -68,7 +68,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
             className="d-flex gap-2 align-items-center p-2 me-5"
             title="Budget"
           >
-            <CurrencyRupee size={30} />
+            <CurrencyRupee size={30} color="#B20600" />
             {formState === "EDIT" && (
               <TextInput
                 size="md"
@@ -79,7 +79,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
                 disabled
               />
             )}
-            {formState === "VIEW" && <div>{data.budget}</div>}
+            {formState === "VIEW" && <div >{data.budget} / head</div>}
           </div>
 
           {/* DateRange */}
@@ -87,7 +87,7 @@ function TourDetails({ data, formState, dataChangeHandler }) {
             className="d-flex gap-2 align-items-center p-2 me-5"
             title="Tour Dates"
           >
-            <Calendar size={30} />
+            <Calendar size={30} color="#6BCB77" />
             {formState === "EDIT" && (
               <DateRangePicker
                 size="md"

@@ -14,10 +14,34 @@ const DUMMY_CONTENT = {
       "Join us to celebrate a magical New Year with us in Paris, France",
     budget: "2,100",
     dates: [new Date(2022, 6, 15), new Date(2022, 6, 15)],
+    days: 3,
     venue: "Paris, France",
     organizers: ["Edwin Roosevelt"],
   },
-  plan: {},
+  plan: [
+    [
+      {
+        type: "TRAVEL",
+        details: ["Train - Cheran Exp"],
+        time: ["Night"],
+        cost: true,
+      },
+      {
+        type: "STAY",
+      },
+      {
+        type: "STAY",
+      },
+    ],
+    [
+      {
+        type: "VISIT",
+        details: ["Central Park"],
+        time: ["Evening"],
+        cost: false,
+      },
+    ],
+  ],
   expenses: {
     list: [
       {
@@ -62,10 +86,21 @@ function TourPage() {
   const [formState, setFormState] = useState("VIEW");
   const [isChangesMade, setIsChangesMade] = useState(false);
 
-    function dataChangeHandler(category, subCat, value) {
+    function dataChangeHandler(changeType, category, key, value) {
         const newData = data;
-        newData[category][subCat] = value;
+
+        // if (changeType === "ADDPLAN") {
+        //     data.plan.push({type: "VISIT"})
+        // }
+
+        // if (changeType === "EDIT") {
+            if (category === "plan") newData[category] = value;
+            else if (category === "details") newData[category][key] = value;
+        // }
+
         setData(newData);
+
+        console.log(data.plan);
     }
 
   return (
@@ -82,7 +117,11 @@ function TourPage() {
           dataChangeHandler={dataChangeHandler}
           formState={formState}
         />
-        <TourPlan />
+        <TourPlan
+          data={data.plan}
+          dataChangeHandler={dataChangeHandler}
+          formState={formState}
+        />
         <ExpenseSection props={DUMMY_CONTENT.expenses} />
         <OnboardingSection props={DUMMY_CONTENT.onboarders} />
       </div>

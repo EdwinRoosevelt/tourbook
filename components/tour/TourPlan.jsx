@@ -1,43 +1,26 @@
 import { useState } from 'react';
+import { v4 as uuid } from "uuid";
 
-import { DateRangePicker } from "@mantine/dates";
-import { SimpleGrid } from "@mantine/core";
+import { Button } from "@mantine/core";
+import { Plus } from "tabler-icons-react";
 
-import SubPlanCard from "./SubPlanCard";
-import AddSubplanCard from "./AddSubPlanCard";
-
-const dummySubPlanList = [
-  {
-    id: "23af",
-    type: "Travel",
-  },
-  {
-    id: "31",
-    type: "Stay",
-  },
-  {
-    id: "45",
-  },
-];
+import PlanCard from "./PlanCard";
 
 
-function TourPlan() {
-  
-  const [subPlanList, setSubPlanList] = useState(dummySubPlanList);
+function TourPlan({ data, formState, dataChangeHandler }) {
 
-  const deleteSubPlanCard = (idToBeDeleted) => {
-    const newSubPlanList = subPlanList.filter(
-      (plan) => plan.id !== idToBeDeleted
-    );
-    setSubPlanList(newSubPlanList);
-  };
+  const [refresh, setRefresh] = useState(false);
 
-  const addSubPlanCard = () => {
-    const newSubPlan = { id: uuid().slice(0, 4) };
-    const newSubPlanList = subPlanList.concat(newSubPlan);
-    setSubPlanList(newSubPlanList);
-  };
+  const localDataChangeHandler = (mode, day, key, target) => {
+    const newData = data;
 
+    if (mode === "ADDPLAN") newData[day].push({type: "STAY"});
+    else if (mode === "EDIT") newData[day][key] = target;
+    else if (mode === "DEL") newData[day].splice(key, 1);
+
+    dataChangeHandler(mode, "plan", null, newData);
+    refresh ? setRefresh(false) : setRefresh(true);
+  }
 
   return (
     <section id="tour-plan">
@@ -47,33 +30,48 @@ function TourPlan() {
           Here is the complete agenda for the trip
         </p>
 
-        {/* <!-- Day 00 Card --> */}
-        <div className="card mt-2">
-          <div className="card-header d-flex">
-            <div>DAY 00</div>
-          </div>
-          <div className="card-body">
-            <SimpleGrid
-              pt="0"
-              cols={2}
-              spacing={10}
-              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            >
-              {subPlanList.map((plan) => {
-                return (
-                  <SubPlanCard
-                    key={plan.id}
-                    value={plan}
-                    days={3}
-                    deleteCardHandler={deleteSubPlanCard}
-                  />
-                );
-              })}
-              <AddSubplanCard onClickHandler={addSubPlanCard} />
-            </SimpleGrid>
-          </div>
-        </div>
+        {data.map((dayPlan, day) => {
+          return (
+            <div className="card mt-2" key={day}>
+              <div className="card-header">Day 0{day}</div>
+              <div className="card-body">
+                <div class="container-fluid" style={{ overflowX: "scroll" }}>
+                  <div class="row flex-row flex-nowrap">
+                    {dayPlan.map((plan, index) => {
+                      return (
+                        <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                          <PlanCard
+                            key={index}
+                            day={day}
+                            index={index}
+                            plan={plan}
+                            dataChangeHandler={localDataChangeHandler}
+                            formState={formState}
+                          />
+                        </div>
+                      );
+                    })}
 
+                    <div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-3">
+                      <div
+                        className="card btn justify-content-center align-items-center mt-2"
+                        style={{ minHeight: "360px" }}
+
+                        onClick={() => {
+                          localDataChangeHandler("ADDPLAN", day);
+                        }}
+                      >
+                        <Plus size={50} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+               
         {/* <!-- Day 01 Card --> */}
         <div className="card mt-2">
           <div className="card-header">
