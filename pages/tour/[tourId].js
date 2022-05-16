@@ -105,6 +105,8 @@ function TourPage() {
     }
 
     function saveDataHandler() {
+        console.log("Hi")
+        console.log(process.env.SECRET)
         setFormState("VIEW")
     }
 

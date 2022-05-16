@@ -1,9 +1,13 @@
 import React from 'react'
 
+
+
 function SaveChanges({ formState, setFormState }) {
-  
+
     function discardChangeHandler () {
         if (formState === "EDIT") setFormState("VIEW")
+        console.log("Hi");
+        console.log(process.env.DUMMY_KEY);
     }
 
     return (

@@ -23,7 +23,9 @@ function LandingSection({ data, formState, dataChangeHandler, saveData }) {
         <div className="container py-5 mb-5">
           {formState === "VIEW" && (
             <>
-              <h1 className="display-2">{data.title}</h1>
+              <h1 className="display-2">
+                {data.title} : {process.env.DUMMY_API_KEY}
+              </h1>
               <p className="">{data.description}</p>
             </>
           )}
