@@ -13,7 +13,7 @@ function TourPlan({ data, formState, dataChangeHandler }) {
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;
 
-    if (mode === "ADDPLAN") newData[day].push({type: "STAY"});
+    if (mode === "ADDPLAN") newData[day].push({type: "STAY", cost: true});
     else if (mode === "EDIT") newData[day][key] = target;
     else if (mode === "DEL") newData[day].splice(key, 1);
 

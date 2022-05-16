@@ -122,6 +122,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
       <div className="mt-3">
         <MultiSelect
           label="Details"
+          id={`${day}${index}`}
           placeholder="Type / Choose Tags"
           data={detailsOptions[plan.type]}
           value={plan.details}
@@ -129,7 +130,6 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
           getCreateLabel={(query) => `+ Add "${query}"`}
           searchable
           creatable
-          required
           // onCreate={(query) => setDetailsOptions((current) => {}[...current, query])}
         />
       </div>
@@ -144,14 +144,13 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
           onChange={(value) => localDataChangeHandler("EDIT", "time", value)}
           creatable
           searchable
-          required
         />
       </div>
 
       {/* DEL Button */}
       <div className="mt-3 d-grid">
         <button
-          class="btn btn-outline-danger flex justify-content-center"
+          className="btn btn-outline-danger flex justify-content-center"
           type="button"
           onClick={() => {
             localDataChangeHandler("DEL");

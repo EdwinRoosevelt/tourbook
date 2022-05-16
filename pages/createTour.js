@@ -5,10 +5,11 @@ import TourPlan from "../components/tour/TourPlan";
 import ExpenseSection from "../components/tour/ExpensesSection";
 import OnboardingSection from "../components/tour/OnboardingSection";
 import TourDetails from "../components/tour/TourDetails";
+import SaveChanges from '../components/common/SaveChanges';
 
 const emptyTour = {
   details: {},
-  plan: [[], []],
+  plan: [[{type: "TRAVEL", cost: true}], []],
   expenses: {},
   onboarders: []
 }
@@ -19,10 +20,6 @@ function newTour() {
 
   function dataChangeHandler(changeType, category, key, value) {
     const newData = data;
-
-    // if (changeType === "ADDPLAN") {
-    //     data.plan.push({type: "VISIT"})
-    // }
 
     // if (changeType === "EDIT") {
     if (category === "plan") newData[category] = value;
@@ -38,6 +35,7 @@ function newTour() {
 
   function formSubmitHandler(event) {
     event.preventDefault();
+    
     console.log("submitted")
     console.log(data)
   }
@@ -68,26 +66,7 @@ function newTour() {
           <OnboardingSection data={data.onboarders} formState={formState} />
         </div>
         <div className="container mb-5">...</div>
-        {formState === "EDIT" && (
-          <>
-            <div className="fixed-bottom">
-              <div className="card p-3" style={{ background: "#EEEEEE" }}>
-                <div className="flex gap-5 justify-content-end">
-                  <button className="btn btn-outline-danger  px-5">
-                    Discard
-                  </button>
-                  <button
-                    className="btn btn-success bg-success px-5"
-                    type="submit"
-                    // onClick={saveDataHandler}
-                  >
-                    Create
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
+        <SaveChanges formState={formState} setFormState={setFormState} />
       </form>
     </div>
   );

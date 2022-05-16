@@ -5,14 +5,16 @@ import TourPlan from "../../components/tour/TourPlan";
 import ExpenseSection from "../../components/tour/ExpensesSection";
 import OnboardingSection from "../../components/tour/OnboardingSection";
 import TourDetails from "../../components/tour/TourDetails";
+import SaveChanges from "../../components/common/SaveChanges";
 
 const DUMMY_CONTENT = {
-  details: {
+tourId: "ADF87954",
+details: {
     title: "Paris - 2022",
     description:
       "Join us to celebrate a magical New Year with us in Paris, France",
     budget: "2,100",
-    dates: [new Date(2022, 6, 15), new Date(2022, 6, 15)],
+    dates: [new Date(2022, 4, 26), new Date(2022, 4, 30)],
     days: 3,
     venue: "Paris, France",
     organizers: ["Edwin Roosevelt"],
@@ -106,32 +108,41 @@ function TourPage() {
         setFormState("VIEW")
     }
 
+    function formSubmitHandler(event) {
+      event.preventDefault();
+      alert("Are you Sure?")
+      console.log("submitted");
+      console.log(data);
+    }
+
 
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <LandingSection
-        data={data.details}
-        dataChangeHandler={dataChangeHandler}
-        formState={formState}
-        saveData={saveDataHandler}
-      />
-      <div className="container-md">
-
-        <TourDetails
+      <form onSubmit={formSubmitHandler}>
+        <LandingSection
           data={data.details}
           dataChangeHandler={dataChangeHandler}
           formState={formState}
-          setFormState={setFormState}
+          saveData={saveDataHandler}
         />
-        <TourPlan
-          data={data.plan}
-          dataChangeHandler={dataChangeHandler}
-          formState={formState}
-        />
-        <ExpenseSection data={data.expenses} formState={formState} />
-        <OnboardingSection data={data.onboarders} formState={formState} />
-      </div>
-      <div className="container mb-5">...</div>
+        <div className="container-md">
+          <TourDetails
+            data={data.details}
+            dataChangeHandler={dataChangeHandler}
+            formState={formState}
+            setFormState={setFormState}
+          />
+          <TourPlan
+            data={data.plan}
+            dataChangeHandler={dataChangeHandler}
+            formState={formState}
+          />
+          <ExpenseSection data={data.expenses} formState={formState} />
+          <OnboardingSection data={data.onboarders} formState={formState} />
+        </div>
+        <div className="container mb-5">...</div>
+        <SaveChanges formState={formState} setFormState={setFormState} />
+      </form>
     </div>
   );
 }
