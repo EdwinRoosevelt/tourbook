@@ -7,7 +7,7 @@ function SaveChanges({ formState, setFormState }) {
     function discardChangeHandler () {
         if (formState === "EDIT") setFormState("VIEW")
         console.log("Hi");
-        console.log(process.env.DUMMY_KEY);
+        console.log(process.env.DUMMY_API_KEY);
     }
 
     return (

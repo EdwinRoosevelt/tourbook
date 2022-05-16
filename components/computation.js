@@ -1,6 +1,8 @@
 
-const planToExpense = () => {
-
+const planToExpenses = () => {
+    console.log("hi")
 }
 
-export planToExpense
+module.exports = {
+    planToExpenses
+}
