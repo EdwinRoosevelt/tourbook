@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+const AWS = require("aws-sdk");
+const uuid = require("uuidV4");
 
 import LandingSection from "../../components/tour/LandingSection";
 import TourPlan from "../../components/tour/TourPlan";
@@ -83,8 +86,12 @@ details: {
   ],
 };
 
-function TourPage() {
-    const [data, setData] = useState(DUMMY_CONTENT);
+
+function TourPage ({ responseData }) {
+  // const { sucess, Item } = data
+  console.log(responseData.Item);
+
+  const [data, setData] = useState(responseData.Item);
 
   const [formState, setFormState] = useState("VIEW");
   const [isChangesMade, setIsChangesMade] = useState(false);
@@ -139,13 +146,23 @@ function TourPage() {
             formState={formState}
           />
           <ExpenseSection data={data.expenses} formState={formState} />
-          <OnboardingSection data={data.onboarders} formState={formState} />
+          {/* <OnboardingSection data={data.onboarders} formState={formState} /> */}
         </div>
         <div className="container mb-5">...</div>
         <SaveChanges formState={formState} setFormState={setFormState} />
       </form>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+
+  const tourId = context.params.tourId
+  const response = await fetch(`http:localhost:3000/api/tour/${tourId}`)
+  const responseData = await response.json()
+
+  return { props: { responseData } };
+
 }
 
 export default TourPage;

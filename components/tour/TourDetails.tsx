@@ -27,6 +27,7 @@ function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
 
 
   return (
+
     <section id="tourdetails">
       <div
         className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
@@ -122,12 +123,12 @@ function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
                 required
               />
             )}
-            {formState === "VIEW" && (
+            {/* {formState === "VIEW" && (
               <div>
                 {data.dates !== null && data.dates[0].toDateString()} -{" "}
                 {data.dates[1].toDateString()}
               </div>
-            )}
+            )} */}
           </div>
 
           {/* Days */}

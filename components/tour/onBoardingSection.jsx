@@ -11,20 +11,25 @@ function OnboardersSection({ data, formState }) {
         <h1 className="display-4">Onboarders</h1>
         <p className="text-muted mb-5">The people you will be touring with!</p>
 
-        <ul className="list-group list-group-flush">
-          {/* <!-- Members --> */}
-          {data.map((row, index) => {
+        {/* <ul className="list-group list-group-flush"> */}
+        <ul>
+          <li>Edwin</li>
+          
+          {/* {data.map((row, index) => {
             return (
-              <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
+              <li
+                className="list-group-item d-flex justify-content-between align-items-center"
+                key={index}
+              >
                 <a href="#" className="text-dark">
-                  {row.name}
+                    {row.userName} : {row.userId}
                 </a>
-                <span className={`badge rounded-pill bg-${row.color}`}>
+                <span className={`badge rounded-pill bg-primary`}>
                   {row.status}
                 </span>
               </li>
             );
-          })}
+          })} */}
         </ul>
       </div>
     </section>
