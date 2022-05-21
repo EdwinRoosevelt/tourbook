@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router'
 
 import LandingSection from "../components/tour/LandingSection";
 import TourPlan from "../components/tour/TourPlan";
@@ -8,13 +9,24 @@ import TourDetails from "../components/tour/TourDetails";
 import SaveChanges from '../components/common/SaveChanges';
 
 const emptyTour = {
-  details: {},
-  plan: [[{type: "TRAVEL", cost: true}], []],
+  tourId: "",
+  details: {
+    title: "",
+    description: "",
+    tagList: [],
+    venue: "",
+    image: "",
+    manimumHead: "",
+    days: "",
+    budget: "",
+  },
+  plan: [[{ type: "TRAVEL", cost: true }], []],
   expenses: {},
-  onboarders: []
-}
+  onboarders: [],
+};
 
 function newTour() {
+  const router = useRouter();
   const [data, setData] = useState(emptyTour)
   const [formState, setFormState] = useState("EDIT")
 
@@ -33,11 +45,29 @@ function newTour() {
     setFormState("VIEW");
   }
 
-  function formSubmitHandler(event) {
+  async function formSubmitHandler(event) {
     event.preventDefault();
-    
-    console.log("submitted")
-    console.log(data)
+
+    try {
+      var response = await fetch("/api/tour/add", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      response = await response.json();
+
+      console.log(response.data);
+
+      if (response.success) router.push(`/tour/${response.tourId}`)
+
+    } catch(err) {
+      console.log(err);
+    }
+
   }
    
 

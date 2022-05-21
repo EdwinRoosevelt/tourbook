@@ -24,7 +24,7 @@ function LandingSection({ data, formState, dataChangeHandler, saveData }) {
           {formState === "VIEW" && (
             <>
               <h1 className="display-2">
-                {data.title}
+                {data.title!==undefined && data.title}
               </h1>
               <p className="">{data.description}</p>
             </>

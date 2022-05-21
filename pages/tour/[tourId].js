@@ -89,7 +89,6 @@ details: {
 
 function TourPage ({ responseData }) {
   // const { sucess, Item } = data
-  console.log(responseData.Item);
 
   const [data, setData] = useState(responseData.Item);
 
@@ -125,33 +124,42 @@ function TourPage ({ responseData }) {
 
 
   return (
-    <div style={{ backgroundColor: "#EEEEEE" }}>
-      <form onSubmit={formSubmitHandler}>
-        <LandingSection
-          data={data.details}
-          dataChangeHandler={dataChangeHandler}
-          formState={formState}
-          saveData={saveDataHandler}
-        />
-        <div className="container-md">
-          <TourDetails
-            data={data.details}
-            dataChangeHandler={dataChangeHandler}
-            formState={formState}
-            setFormState={setFormState}
-          />
-          <TourPlan
-            data={data.plan}
-            dataChangeHandler={dataChangeHandler}
-            formState={formState}
-          />
-          <ExpenseSection data={data.expenses} formState={formState} />
-          {/* <OnboardingSection data={data.onboarders} formState={formState} /> */}
-        </div>
-        <div className="container mb-5">...</div>
-        <SaveChanges formState={formState} setFormState={setFormState} />
-      </form>
-    </div>
+    <>
+      <div style={{ backgroundColor: "#EEEEEE" }}>
+        {responseData.success && (
+          <>
+            <form onSubmit={formSubmitHandler}>
+              <LandingSection
+                data={data.details}
+                dataChangeHandler={dataChangeHandler}
+                formState={formState}
+                saveData={saveDataHandler}
+              />
+              <div className="container-md">
+                <TourDetails
+                  data={data.details}
+                  dataChangeHandler={dataChangeHandler}
+                  formState={formState}
+                  setFormState={setFormState}
+                />
+                <TourPlan
+                  data={data.plan}
+                  dataChangeHandler={dataChangeHandler}
+                  formState={formState}
+                />
+                <ExpenseSection data={data.expenses} formState={formState} />
+                {/* <OnboardingSection data={data.onboarders} formState={formState} /> */}
+              </div>
+              <div className="container mb-5">...</div>
+              <SaveChanges formState={formState} setFormState={setFormState} />
+            </form>
+          </>
+        )}
+      </div>
+      {!responseData.success && (
+        <div class="display-6 text-center mt-5"><strong>404</strong> | {responseData.message}</div>
+      )}
+    </>
   );
 }
 

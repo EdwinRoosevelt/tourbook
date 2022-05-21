@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import tourbook from '../../public/tourbook_white.svg'
-import { PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
+import { List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
 
 function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -11,11 +12,15 @@ function Header() {
     <header className="py-3 mb-3 bg-dark border-bottom">
       <div className="container-fluid d-flex gap-3 justify-content-between align-items-center">
         <div className="col-4 col-md-2 col-lg-1 p-2 mx-2">
-          <Image src={tourbook} alt="tourbook logo" />
+          <Link href="/">
+            <a>
+              <Image src={tourbook} alt="tourbook logo" />
+            </a>
+          </Link>
         </div>
-        <div class="dropdown">
+        <div className="dropdown">
           <button
-            class="btn btn-dark dropdown-toggle d-flex align-items-center gap-2"
+            className="btn btn-dark dropdown-toggle d-flex align-items-center gap-2 mb-1"
             type="button"
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
@@ -30,24 +35,38 @@ function Header() {
             />
             Edwin Roosevelt
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <a className="dropdown-item flex gap-2 mb-2" href="#">
-                <PlaylistAdd color="#198754" />
-                <p style={{ width: "200px" }}>New project</p>
-              </a>
+              <Link href="/createTour">
+                <a className="dropdown-item flex gap-2 mb-2">
+                  <PlaylistAdd color="#198754" />
+                  <p style={{ width: "200px" }}>New Tour</p>
+                </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item flex gap-2 mb-2" href="#">
-                <Settings />
-                <p style={{ width: "200px" }}>Settings</p>
-              </a>
+              <Link href="/myTours">
+                <a className="dropdown-item flex gap-2 mb-2">
+                  <List color="#0dcaf0" />
+                  <p style={{ width: "200px" }}>My Tours</p>
+                </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item flex gap-2 mb-2" href="#">
-                <UserCircle />
-                <p style={{ width: "200px" }}>Profile</p>
-              </a>
+              <Link href="/settings">
+                <a className="dropdown-item flex gap-2 mb-2">
+                  <Settings color="#fd7e14" />
+                  <p style={{ width: "200px" }}>Settings</p>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/profile">
+                <a className="dropdown-item flex gap-2 mb-2">
+                  <UserCircle />
+                  <p style={{ width: "200px" }}>Profile</p>
+                </a>
+              </Link>
             </li>
             <hr className="dropdown-divider" />
 
