@@ -8,6 +8,10 @@ import OnboardingSection from "../components/tour/OnboardingSection";
 import TourDetails from "../components/tour/TourDetails";
 import SaveChanges from '../components/common/SaveChanges';
 
+const today = new Date();
+const twoDaysFromToday = new Date();
+twoDaysFromToday.setDate(twoDaysFromToday.getDate() + 2);
+
 const emptyTour = {
   tourId: "",
   details: {
@@ -16,11 +20,13 @@ const emptyTour = {
     tagList: [],
     venue: "",
     image: "",
-    manimumHead: "",
+    dates: [today, twoDaysFromToday],
+    maximumHead: "",
     days: "",
     budget: "",
   },
-  plan: [[{ type: "TRAVEL", cost: true }], []],
+  // plan: [[<day 00>], [<day 01>], [<day 02>], ...]
+  plan: [[{ type: "TRAVEL", cost: true }], [], []],
   expenses: {},
   onboarders: [],
 };
@@ -62,7 +68,11 @@ function newTour() {
 
       console.log(response.data);
 
-      if (response.success) router.push(`/tour/${response.tourId}`)
+      if (response.success) {
+        router.push(`/tour/${response.tourId}`);
+        setData(emptyTour);
+      }
+      
 
     } catch(err) {
       console.log(err);
@@ -83,12 +93,14 @@ function newTour() {
         <div className="container-md">
           <TourDetails
             data={data.details}
+            planData={data.plan}
             dataChangeHandler={dataChangeHandler}
             formState={formState}
             setFormState={setFormState}
           />
           <TourPlan
             data={data.plan}
+            details={data.details}
             dataChangeHandler={dataChangeHandler}
             formState={formState}
           />

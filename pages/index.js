@@ -58,7 +58,7 @@ export default function Home({ responseData }) {
 
       <div>
         <Container size="xs" px="xs">
-          <h1 className="display-6">Tours around you...</h1>
+          <h1 className="display-6">Tours near you...</h1>
           {Items.map((tour) => {return <TourCard key={tour.tourId} tourId={tour.tourId} cardData={tour.details} />;})}
         </Container>
       </div>

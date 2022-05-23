@@ -14,10 +14,13 @@ function SaveChanges({ formState, setFormState }) {
       <>
         {(formState === "EDIT" || formState === "CREATE") && (
           <div className="fixed-bottom">
-            <div className="card p-3" style={{ background: "#F0ECE3" }}>
-              <div className="flex gap-5 justify-content-end">
+            <div
+              className="card p-3 m-4 shadow"
+              
+            >
+              <div className="flex gap-1 justify-content-between">
                 <button
-                  className="btn btn-danger  bg-danger px-5"
+                  className="btn btn-outline-danger px-5"
                   onClick={discardChangeHandler}
                 >
                   Discard

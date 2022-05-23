@@ -6,7 +6,7 @@ import { Plus } from "tabler-icons-react";
 import PlanEditCard from "./PlanEditCard";
 import PlanViewCard from "./PlanViewCard";
 
-function TourPlan({ data, formState, dataChangeHandler }) {
+function TourPlan({ data, details, formState, dataChangeHandler }) {
 
   const [refresh, setRefresh] = useState(false);
 
@@ -21,20 +21,34 @@ function TourPlan({ data, formState, dataChangeHandler }) {
     refresh ? setRefresh(false) : setRefresh(true);
   }
 
+  function returnNextDates(day) {
+    var date = new Date(details.dates[0]);
+    date.setDate(date.getDate() + day);
+   
+    return date.toDateString();
+  }
+
   return (
     <section id="tour-plan">
       <div
         className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
       >
         <h1 className="display-4">Tour Plan</h1>
-        <p className="text-muted mb-5">
+        <p className="text-muted mb-4">
           Here is the complete agenda for the trip
         </p>
+
+        <div className="alert alert-danger mb-4">
+          <i class="bi bi-exclamation-triangle-fill mx-2" />
+          Reducing <strong>Tour dates</strong> range will truncate the extra tour plan. In case of losing the tour plan, kindly discard the changes and edit the dates again.
+        </div>
 
         {data.map((dayPlan, day) => {
           return (
             <div className="card mt-2" key={day}>
-              <div className="card-header">Day 0{day}</div>
+              <div className="card-header">
+                <strong>Day 0{day} </strong>- {returnNextDates(day)}
+              </div>
               <div className="card-body">
                 <div
                   className="container-fluid"

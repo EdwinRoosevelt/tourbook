@@ -13,21 +13,36 @@ import {
 import { TextInput, NumberInput } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 
-function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
+function TourDetails({ data, planData, formState, setFormState, dataChangeHandler }) {
 
-    const [refresh, setRefresh] = useState(false);
-    const [dateRange, setDateRange] = useState<
-    [Date | null, Date | null]
-  >([null, null]);
+  const [refresh, setRefresh] = useState(false);
 
   function localDataChangeHandler({target}) {
     dataChangeHandler("EDIT", "details", target.id, target.value)
+
+    if(target.id == "dates") {
+      const newPlanData = planData;
+      try {
+        const requiredPlanArrSize = data.dates[1].getDate() - data.dates[0].getDate() + 1;
+
+        while (newPlanData.length < requiredPlanArrSize) {
+          newPlanData.push([]);
+        }
+
+        while (newPlanData.length > requiredPlanArrSize) {
+          newPlanData.pop();
+        }
+        
+        dataChangeHandler("EDIT", "plan", null, newPlanData);
+      } catch (err) {}
+      
+    }
+
     refresh ? setRefresh(false) : setRefresh(true)
   }
 
 
   return (
-
     <section id="tourdetails">
       <div
         className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
@@ -40,16 +55,17 @@ function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
               All the specifics about this trip!
             </p>
           </div>
-          <div>
-            <button
-              className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
-            >
-              <Check size={25} /> <div>I'm IN</div>
-            </button>
-            <button className={`btn btn-outline-danger active mr-2`}>
-              <Heart size={25} />
-            </button>
-            {formState === "VIEW" && (
+          {formState === "VIEW" && (
+            <div>
+              <button
+                className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
+              >
+                <Check size={25} /> <div>I'm IN</div>
+              </button>
+              <button className={`btn btn-outline-danger active mr-2`}>
+                <Heart size={25} />
+              </button>
+
               <button
                 title="Edit Tour plan"
                 className="btn btn-outline-secondary"
@@ -57,8 +73,8 @@ function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
               >
                 <Edit size={25} />
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Section CONTENT */}
@@ -134,13 +150,13 @@ function TourDetails({ data, formState, setFormState, dataChangeHandler }) {
           {/* Days */}
           <div
             className="d-flex gap-2 align-items-center p-2 me-5"
-            title="Effective days"
+            title="_ Days / _ Night (excluding the travel plans)"
           >
             <Calendar size={30} color="#6BCB77" />
             {formState === "EDIT" && (
-              <NumberInput
+              <TextInput
                 size="md"
-                placeholder="pick the dates"
+                placeholder="e.g. 3D / 4N"
                 value={data.days}
                 id="days"
                 onChange={(value) =>
