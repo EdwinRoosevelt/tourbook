@@ -4,9 +4,9 @@ const uuid = require("uuidV4");
 const tourId = uuid.uuid().slice(0, 8);
 
 const awsTourbookUser = {
-  accessKeyId: "AKIAQZMKKHQJFO4NBIYU",
-  secretAccessKey: "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",
-  region: "ap-south-1",
+  accessKeyId: process.env.AWS_ACCESS_ID,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_REGION,
 };
 
 export default function handler(req, res) {

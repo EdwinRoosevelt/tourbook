@@ -24,8 +24,11 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
   function returnNextDates(day) {
     var date = new Date(details.dates[0]);
     date.setDate(date.getDate() + day);
-   
     return date.toDateString();
+  }
+
+  function refreshPage() {
+    refresh ? setRefresh(false) : setRefresh(true);
   }
 
   return (
@@ -33,14 +36,31 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
       <div
         className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
       >
-        <h1 className="display-4">Tour Plan</h1>
-        <p className="text-muted mb-4">
-          Here is the complete agenda for the trip
-        </p>
+        <div className="flex justify-content-between align-items-center">
+          <div>
+            <h1 className="display-4">Tour Plan</h1>
+            <p className="text-muted mb-4">
+              Here is the complete agenda for the trip
+            </p>
+          </div>
+          {formState !== "VIEW" && (
+            <div>
+              <button
+                title="Refresh Tour plan"
+                className="btn btn-outline-secondary"
+                onClick={refreshPage}
+              >
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+            </div>
+          )}
+        </div>
 
         <div className="alert alert-danger mb-4">
           <i class="bi bi-exclamation-triangle-fill mx-2" />
-          Reducing <strong>Tour dates</strong> range will truncate the extra tour plan. In case of losing the tour plan, kindly discard the changes and edit the dates again.
+          Reducing <strong>Tour dates</strong> range will truncate the extra
+          tour plan. In case of losing the tour plan, kindly discard the changes
+          and set the dates again.
         </div>
 
         {data.map((dayPlan, day) => {
