@@ -1,13 +1,23 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSelector, useDispatch } from 'react-redux';
 
-import tourbook from '../../public/tourbook_white.svg'
 import { List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
+import tourbook from "../../public/tourbook_white.svg";
+
+import { logout } from '../../store/UserSlice';
 import LoginModal from './LoginModal';
 
+
 function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.isLoggedIn);
+
+    function signOut () {
+      dispatch(logout());
+    }
+
 
   return (
     <header className="py-3 mb-3 bg-dark border-bottom">
@@ -19,6 +29,7 @@ function Header() {
             </a>
           </Link>
         </div>
+
         {!isLoggedIn && (
           <>
             <button
@@ -26,11 +37,11 @@ function Header() {
               data-bs-toggle="modal"
               data-bs-target="#loginModal"
             >
-              Log In - ! {process.env.AWS_REGION}
+              Log In
             </button>
-            <LoginModal />
           </>
         )}
+        <LoginModal />
         {isLoggedIn && (
           <div className="dropdown">
             <button
@@ -85,10 +96,13 @@ function Header() {
               <hr className="dropdown-divider" />
 
               <li>
-                <a className="dropdown-item flex gap-2" href="#">
+                <button
+                  className="dropdown-item flex gap-2"
+                  onClick={signOut}
+                >
                   <Power color="#dc3545" />
                   <p style={{ width: "200px" }}>Logout</p>
-                </a>
+                </button>
               </li>
             </ul>
           </div>

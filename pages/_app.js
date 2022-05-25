@@ -1,12 +1,19 @@
 import reactDom from "react-dom";
+import { Provider } from 'react-redux'
 import { useState } from "react";
-
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 
-import "../styles/globals.css";
 import { HeroBanner } from "../components/homepage/HeroBanner";
 import Header from "../components/UI/Header";
+
+
+
+import store from '../store/index.js'
+
+import "../styles/globals.css";
+
+
 
 
 function MyApp({ Component, pageProps }) {
@@ -15,17 +22,19 @@ function MyApp({ Component, pageProps }) {
   return (
     <MantineProvider>
       <ModalsProvider>
-        {isLoggedIn && (
-          <div>
-            <Header/>
-            <Component {...pageProps} />
-          </div>
-        )}
-        {!isLoggedIn && (
-          <div>
-            <HeroBanner />
-          </div>
-        )}
+        <Provider store={store}>
+          {isLoggedIn && (
+            <div>
+              <Header />
+              <Component {...pageProps} />
+            </div>
+          )}
+          {!isLoggedIn && (
+            <div>
+              <HeroBanner />
+            </div>
+          )}
+        </Provider>
       </ModalsProvider>
     </MantineProvider>
   );
