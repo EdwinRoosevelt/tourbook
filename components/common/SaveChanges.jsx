@@ -18,7 +18,7 @@ function SaveChanges({ formState, setFormState }) {
               className="card p-3 m-4 shadow"
               
             >
-              <div className="flex gap-1 justify-content-between">
+              <div className="flex gap-3 justify-content-end">
                 <button
                   className="btn btn-outline-danger px-5"
                   onClick={discardChangeHandler}

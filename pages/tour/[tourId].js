@@ -143,6 +143,7 @@ function TourPage ({ responseData }) {
                   setFormState={setFormState}
                 />
                 <TourPlan
+                  details={data.details}
                   data={data.plan}
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}

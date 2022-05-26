@@ -13,9 +13,13 @@ import {
 import { TextInput, NumberInput } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 
-function TourDetails({ data, planData, formState, setFormState, dataChangeHandler }) {
 
+function TourDetails({ data, planData, formState, setFormState, dataChangeHandler }) {
   const [refresh, setRefresh] = useState(false);
+
+  var date1 = new Date(data.dates[0])
+  var date2 = new Date(data.dates[1]);
+
 
   function localDataChangeHandler({target}) {
     dataChangeHandler("EDIT", "details", target.id, target.value)
@@ -139,12 +143,12 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
                 required
               />
             )}
-            {/* {formState === "VIEW" && (
+            {formState === "VIEW" && (
               <div>
-                {data.dates !== null && data.dates[0].toDateString()} -{" "}
-                {data.dates[1].toDateString()}
+                {/* {data.dates !== null && data.dates[0].toDateString()} -{" "} */}
+                {date1.toDateString()} - {date2.toDateString()}
               </div>
-            )} */}
+            )}
           </div>
 
           {/* Days */}
@@ -159,9 +163,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
                 placeholder="e.g. 3D / 4N"
                 value={data.days}
                 id="days"
-                onChange={(value) =>
-                  localDataChangeHandler({ target: { id: "days", value } })
-                }
+                onChange={localDataChangeHandler}
                 required
               />
             )}

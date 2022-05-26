@@ -1,11 +1,14 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { Container} from "@mantine/core";
+import { useSelector } from 'react-redux';
 
 import TourCard from "../components/tour/TourCard";
+import { HeroBanner } from "../components/homepage/HeroBanner";
 
 export default function Home({ responseData }) {
 
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const { Items } = responseData;
 
   return (
@@ -19,7 +22,7 @@ export default function Home({ responseData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
+      {isLoggedIn && (
         <Container size="xs" px="xs">
           <h1 className="display-6">Tours near you...</h1>
           {Items.map((tour) => {
@@ -32,7 +35,8 @@ export default function Home({ responseData }) {
             );
           })}
         </Container>
-      </div>
+      )}
+      {!isLoggedIn && <HeroBanner />}
     </div>
   );
 }
@@ -43,3 +47,11 @@ export async function getServerSideProps() {
 
   return { props: { responseData } };
 }
+
+const userItem = {
+  email: "b.edwinroosevelt@gmail.com",
+  name: "Edwin Roosevelt",
+  tourStats: [{ tourId: "ADF87954", status: "CONFIRM" }],
+  likedTours: ["ADF87954", ],
+  tourPartners: ["anandhan@gmail.com", ]
+};

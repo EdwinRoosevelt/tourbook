@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { v4 as uuid } from "uuid";
 
 import { Plus } from "tabler-icons-react";
 
@@ -50,14 +49,14 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
                 className="btn btn-outline-secondary"
                 onClick={refreshPage}
               >
-                <i class="bi bi-arrow-clockwise"></i>
+                <i className="bi bi-arrow-clockwise"></i>
               </button>
             </div>
           )}
         </div>
 
         <div className="alert alert-danger mb-4">
-          <i class="bi bi-exclamation-triangle-fill mx-2" />
+          <i className="bi bi-exclamation-triangle-fill mx-2" />
           Reducing <strong>Tour dates</strong> range will truncate the extra
           tour plan. In case of losing the tour plan, kindly discard the changes
           and set the dates again.

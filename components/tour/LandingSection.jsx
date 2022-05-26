@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { TextInput } from "@mantine/core";
 
+
+
 function LandingSection({ data, formState, dataChangeHandler, saveData }) {
 
   const [refresh, setRefresh] = useState(false);
@@ -27,6 +29,7 @@ function LandingSection({ data, formState, dataChangeHandler, saveData }) {
                 {data.title!==undefined && data.title}
               </h1>
               <p className="">{data.description}</p>
+              
             </>
           )}
           {formState === "EDIT" && (
