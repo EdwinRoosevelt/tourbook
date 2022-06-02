@@ -47,37 +47,34 @@ function newTour() {
     setData(newData);
   }
 
-  function saveDataHandler() {
-    setFormState("VIEW");
-  }
-
   async function formSubmitHandler(event) {
     event.preventDefault();
 
-    try {
-      var response = await fetch("/api/tour/add", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    var answer = window.confirm("Are you sure ?");
 
-      response = await response.json();
+    if (answer) {
+      try {
+        var response = await fetch("/api/tour/add", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      console.log(response.data);
+        response = await response.json();
 
-      if (response.success) {
-        router.push(`/tour/${response.tourId}`);
-        setData(emptyTour);
+        console.log(response.data);
+
+        if (response.success) {
+          router.push(`/tour/${response.tourId}`);
+          setData(emptyTour);
+        }
+      } catch (err) {
+        console.log(err);
       }
-      
-
-    } catch(err) {
-      console.log(err);
     }
-
   }
    
 
@@ -88,7 +85,6 @@ function newTour() {
           data={data.details}
           dataChangeHandler={dataChangeHandler}
           formState={formState}
-          saveData={saveDataHandler}
         />
         <div className="container-md">
           <TourDetails

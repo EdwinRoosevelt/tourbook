@@ -4,7 +4,7 @@ import { TextInput } from "@mantine/core";
 
 
 
-function LandingSection({ data, formState, dataChangeHandler, saveData }) {
+function LandingSection({ data, formState, dataChangeHandler }) {
 
   const [refresh, setRefresh] = useState(false);
 
@@ -25,11 +25,21 @@ function LandingSection({ data, formState, dataChangeHandler, saveData }) {
         <div className="container py-5 mb-5">
           {formState === "VIEW" && (
             <>
-              <h1 className="display-2">
-                {data.title!==undefined && data.title}
+              <h1 className="display-1">
+                {data.title !== undefined && data.title}
               </h1>
-              <p className="">{data.description}</p>
+              <p className="mb-3">{data.description}</p>
               
+              {data.tagList.map((tag, index) => {
+                return (
+                  <span
+                    key={index}
+                    className="d-inline-flex gap-1 badge bg-light text-dark p-2 mr-2"
+                  >
+                    {tag}
+                  </span>
+                );
+              })}
             </>
           )}
           {formState === "EDIT" && (

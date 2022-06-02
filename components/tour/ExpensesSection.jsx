@@ -6,7 +6,7 @@ function ExpensesSection({ data, formState }) {
       <div
         className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
       >
-        <h1 className="display-4">Expenses</h1>
+        <h1 className="display-5">Expenses</h1>
         <p className="text-muted mb-5">
           Close approximation for the total expenses.
         </p>

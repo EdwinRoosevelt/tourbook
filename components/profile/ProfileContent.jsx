@@ -23,31 +23,12 @@ function ProfileContent() {
         {/* Section TITLE */}
         <div className="flex justify-content-between">
           <div>
-            <h1 className="display-4"> Tour Details</h1>
+            <h1 className="display-5"> My Profile</h1>
             <p className="text-muted mb-5">
-              All the specifics about this trip!
+              My personal details
             </p>
           </div>
-          {formState === "VIEW" && (
-            <div>
-              <button
-                className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
-              >
-                <Check size={25} /> <div>I'm IN</div>
-              </button>
-              <button className={`btn btn-outline-danger active mr-2`}>
-                <Heart size={25} />
-              </button>
 
-              <button
-                title="Edit Tour plan"
-                className="btn btn-outline-secondary"
-                onClick={() => setFormState("EDIT")}
-              >
-                <Edit size={25} />
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Section CONTENT */}

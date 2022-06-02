@@ -27,8 +27,10 @@ export default function handler(req, res) {
 
       docClient.put(params, function (err, data) {
         if (err) {
+          console.log(err);
           res.status(503).json({ success: false, message: err });
         } else {
+          console.log(data);
             res.status(200).json({
               success: true,
               tourId: Item.tourId,
@@ -39,6 +41,7 @@ export default function handler(req, res) {
 
       
     } catch (err) {
+      console.log(err);
       res.status(500).json({ success: false, message: err.message });
     }
 }

@@ -54,7 +54,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
         {/* Section TITLE */}
         <div className="flex justify-content-between">
           <div>
-            <h1 className="display-4"> Tour Details</h1>
+            <h1 className="display-5"> Tour Details</h1>
             <p className="text-muted mb-5">
               All the specifics about this trip!
             </p>
@@ -82,7 +82,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
         </div>
 
         {/* Section CONTENT */}
-        <div className="flex flex-wrap justify-content-around">
+        <div className="flex flex-wrap justify-content-between">
           {/* Organizer */}
           <div
             className="d-flex gap-2 align-items-center p-2 me-5"

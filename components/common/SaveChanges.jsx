@@ -2,29 +2,38 @@ import React from 'react'
 
 
 
-function SaveChanges({ formState, setFormState }) {
+function SaveChanges({ formState, setFormState, formDiscardHandler }) {
 
-    function discardChangeHandler () {
-        if (formState === "EDIT") setFormState("VIEW")
-        console.log("Hi");
-        console.log(process.env.DUMMY_API_KEY);
-    }
+  function loaclFormDiscardHandler () {
+    console.log("hi")
 
-    return (
-      <>
-        {(formState === "EDIT" || formState === "CREATE") && (
-          <div className="fixed-bottom">
-            <div
-              className="card p-3 m-4 shadow"
-              
-            >
-              <div className="flex gap-3 justify-content-end">
+  }
+  
+
+  return (
+    <>
+      {(formState === "EDIT" || formState === "NEW") && (
+        <div className="fixed-bottom">
+          <div className="card p-3 m-4 shadow">
+            <div className="flex gap-3 justify-content-end">
+              <button
+                className="btn btn-outline-danger px-5"
+                type="button"
+                onClick={formDiscardHandler}
+              >
+                Discard
+              </button>
+
+              {formState === "EDIT" && (
                 <button
-                  className="btn btn-outline-danger px-5"
-                  onClick={discardChangeHandler}
+                  className="btn btn-success bg-success px-5"
+                  type="submit"
+                  // onClick={saveDataHandler}
                 >
-                  Discard
+                  Save
                 </button>
+              )}
+              {formState === "NEW" && (
                 <button
                   className="btn btn-success bg-success px-5"
                   type="submit"
@@ -32,12 +41,13 @@ function SaveChanges({ formState, setFormState }) {
                 >
                   Create
                 </button>
-              </div>
+              )}
             </div>
           </div>
-        )}
-      </>
-    );
+        </div>
+      )}
+    </>
+  );
 }
 
 export default SaveChanges

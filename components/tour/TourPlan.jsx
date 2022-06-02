@@ -37,7 +37,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
       >
         <div className="flex justify-content-between align-items-center">
           <div>
-            <h1 className="display-4">Tour Plan</h1>
+            <h1 className="display-5">Tour Plan</h1>
             <p className="text-muted mb-4">
               Here is the complete agenda for the trip
             </p>
