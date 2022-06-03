@@ -7,6 +7,7 @@ import {
   Button,
   Group,
   MultiSelect,
+  NumberInput,
   Progress
 } from "@mantine/core";
 import { range } from "@mantine/hooks";
@@ -39,21 +40,24 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
     const [refresh, setRefresh] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [checked, setChecked] = useState(plan.cost);
     const [detailsOptions, setDetailsOptions] = useState(INITIAL_DETAILS_OPTIONS);
 
-    const [data, setData] = useState(["React", "Angular", "Svelte", "Vue"]);
-
-
+    
     const localDataChangeHandler = (mode, label, value) => {
       if(mode === "EDIT") {
         if (label === "type") plan.details = {}
+        if (label === "totalCost" && value[0] && value[1]) {
+          plan["perHead"] = Math.floor(value[0] / value[1]);
+        }
+
         plan[label] = value;
         dataChangeHandler(mode, day, index, plan);
       }
       else if(mode === "DEL") {
         dataChangeHandler(mode, day, index);
       }
+
+      
 
       refresh ? setRefresh(false) : setRefresh(true);
     }
@@ -84,37 +88,15 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
       {/* ROW 2 */}
       <div className="row flex flex-wrap gap-2 align-items-end mt-3">
-        <div className="col-md-6">
-          <Select
-            label="Type"
-            placeholder="Travel, Visit, Stay, ..."
-            data={PLAN_OPTIONS}
-            value={plan.type}
-            onChange={(value) => {
-              localDataChangeHandler("EDIT", "type", value);
-            }}
-          />
-        </div>
-        <div className="col-md-6">
-          <div
-            className="gap-2 d-flex justify-content-center p-1"
-            title="Cost Details can be filled in the next section"
-          >
-            <div className="div text-success">Free</div>{" "}
-            <Switch
-              size="md"
-              checked={plan.cost}
-              onChange={(event) =>
-                localDataChangeHandler(
-                  "EDIT",
-                  "cost",
-                  event.currentTarget.checked
-                )
-              }
-            />
-            <div className="div text-danger">Cost</div>
-          </div>
-        </div>
+        <Select
+          label="Type"
+          placeholder="Travel, Visit, Stay, ..."
+          data={PLAN_OPTIONS}
+          value={plan.type}
+          onChange={(value) => {
+            localDataChangeHandler("EDIT", "type", value);
+          }}
+        />
       </div>
 
       {/* ROW 3 */}
@@ -146,6 +128,56 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
           searchable
         />
       </div>
+
+      <div className="mt-3 gap-2 d-flex justify-content-center p-1">
+        <div className="div text-success">Free</div>{" "}
+        <Switch
+          size="md"
+          checked={plan.isCost}
+          onChange={(event) =>
+            localDataChangeHandler(
+              "EDIT",
+              "isCost",
+              event.currentTarget.checked
+            )
+          }
+        />
+        <div className="div text-danger">Cost</div>
+      </div>
+
+      {/* ROW 5 */}
+      {plan.isCost && (
+        <div class="mt-2 input-group mb-3">
+          <span class="input-group-text">₹</span>
+          <input
+            type="number"
+            id="totalCost"
+            class="form-control"
+            placeholder="cost"
+            value={plan.totalCost[0]}
+            onChange={(event) =>
+              localDataChangeHandler("EDIT", "totalCost", [
+                event.target.value,
+                plan.totalCost[1],
+              ])
+            }
+          />
+          <span class="input-group-text">/</span>
+          <input
+            type="number"
+            id="totalPerson"
+            class="form-control"
+            placeholder="person"
+            value={plan.totalCost[1]}
+            onChange={(event) =>
+              localDataChangeHandler("EDIT", "totalCost", [
+                plan.totalCost[0],
+                event.target.value,
+              ])
+            }
+          />
+        </div>
+      )}
 
       {/* DEL Button */}
       <div className="mt-3 d-grid">

@@ -61,11 +61,11 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
           </div>
           {formState === "VIEW" && (
             <div>
-              <button
+              {/* <button
                 className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
               >
                 <Check size={25} /> <div>I'm IN</div>
-              </button>
+              </button> */}
               <button className={`btn btn-outline-danger active mr-2`}>
                 <Heart size={25} />
               </button>
@@ -89,7 +89,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             title="Organizers"
           >
             <User size={30} color="#F8B400" />
-            {formState === "EDIT" && (
+            {formState !== "VIEW" && (
               <TextInput
                 size="md"
                 placeholder="organizers"
@@ -108,7 +108,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             title="Venue"
           >
             <MapPin size={30} color="#035397" />
-            {formState === "EDIT" && (
+            {formState !== "VIEW" && (
               <TextInput
                 size="md"
                 placeholder="venue"
@@ -131,7 +131,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
               className="bi bi-calendar-range"
               style={{ color: "#125B50", fontSize: "1.7rem" }}
             />
-            {formState === "EDIT" && (
+            {formState !== "VIEW" && (
               <DateRangePicker
                 size="md"
                 placeholder="pick the dates"
@@ -157,7 +157,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             title="_ Days / _ Night (excluding the travel plans)"
           >
             <Calendar size={30} color="#6BCB77" />
-            {formState === "EDIT" && (
+            {formState !== "VIEW" && (
               <TextInput
                 size="md"
                 placeholder="e.g. 3D / 4N"
@@ -176,7 +176,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             title="Budget"
           >
             <CurrencyRupee size={30} color="#B20600" />
-            {formState === "EDIT" && (
+            {formState !== "VIEW" && (
               <TextInput
                 size="md"
                 placeholder="budget"
@@ -195,7 +195,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             title="Confirm / Maximum Count"
           >
             <Users size={30} color="#30AADD" />
-            {formState === "EDIT" && (
+            {formState !== "VIEW" && (
               <NumberInput
                 size="md"
                 placeholder="max head count"

@@ -23,7 +23,7 @@ export default function Home({ responseData }) {
       </Head>
 
       {isLoggedIn && (
-        <Container size="xs" px="xs">
+        <div className="container-md col-sm-8 col-md-9 col-lg-5 col-xl-5 col-xxl-4">
           <h1 className="display-6">Tours near you...</h1>
           {Items.map((tour) => {
             return (
@@ -34,7 +34,7 @@ export default function Home({ responseData }) {
               />
             );
           })}
-        </Container>
+        </div>
       )}
       {!isLoggedIn && <HeroBanner />}
     </div>

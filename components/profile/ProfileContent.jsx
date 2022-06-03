@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import {
   Calendar,
   CurrencyRupee,
@@ -15,6 +16,9 @@ import { TextInput, NumberInput } from "@mantine/core";
 function ProfileContent() {
   const formState = "VIEW";
 
+  const userId = useSelector(state => state.userData.userId)
+
+
   return (
     <section id="tourdetails">
       <div
@@ -28,7 +32,6 @@ function ProfileContent() {
               My personal details
             </p>
           </div>
-
         </div>
 
         {/* Section CONTENT */}
@@ -49,7 +52,7 @@ function ProfileContent() {
                 required
               />
             )}
-            {formState === "VIEW" && <div>Edwin Roosevelt</div>}
+            {formState === "VIEW" && <div>{userId}</div>}
           </div>
           
         </div>

@@ -17,7 +17,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
     else if (mode === "DEL") newData[day].splice(key, 1);
 
     dataChangeHandler(mode, "plan", null, newData);
-    refresh ? setRefresh(false) : setRefresh(true);
+    setRefresh(!refresh)
   }
 
   function returnNextDates(day) {
@@ -26,9 +26,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
     return date.toDateString();
   }
 
-  function refreshPage() {
-    refresh ? setRefresh(false) : setRefresh(true);
-  }
+
 
   return (
     <section id="tour-plan">
@@ -46,8 +44,9 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
             <div>
               <button
                 title="Refresh Tour plan"
+                type='button'
                 className="btn btn-outline-secondary"
-                onClick={refreshPage}
+                onClick={() => setRefresh(!refresh)}
               >
                 <i className="bi bi-arrow-clockwise"></i>
               </button>
@@ -91,7 +90,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
                           </div>
                         );
                       })}
-                    {formState === "EDIT" &&
+                    {formState !== "VIEW" &&
                       dayPlan.map((plan, index) => {
                         return (
                           <div
@@ -109,7 +108,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
                         );
                       })}
 
-                    {formState === "EDIT" && (
+                    {formState !== "VIEW" && (
                       <div className="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-3 p-3">
                         <div
                           className="card btn justify-content-center align-items-center"

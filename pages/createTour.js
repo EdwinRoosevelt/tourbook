@@ -1,113 +1,78 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router'
 
-import LandingSection from "../components/tour/LandingSection";
-import TourPlan from "../components/tour/TourPlan";
-import ExpenseSection from "../components/tour/ExpensesSection";
-import OnboardingSection from "../components/tour/OnboardingSection";
-import TourDetails from "../components/tour/TourDetails";
-import SaveChanges from '../components/common/SaveChanges';
+import TourPage from '../components/tour/TourPage';
 
 const today = new Date();
 const twoDaysFromToday = new Date();
 twoDaysFromToday.setDate(twoDaysFromToday.getDate() + 2);
 
 const emptyTour = {
-  tourId: "",
-  details: {
-    title: "",
-    description: "",
-    tagList: [],
-    venue: "",
-    image: "",
-    dates: [today, twoDaysFromToday],
-    maximumHead: "",
-    days: "",
-    budget: "",
+  success: true,
+  Item: {
+    tourId: "",
+    details: {
+      title: "",
+      description: "",
+      tagList: [],
+      venue: "",
+      image: "",
+      dates: [today, twoDaysFromToday],
+      maximumHead: "",
+      days: "",
+      budget: "5500",
+    },
+    // plan: [[<day 00>], [<day 01>], [<day 02>], ...]
+    plan: [
+      [
+        {
+          type: "STAY",
+          details: ["OYO 30456"],
+          isCost: true,
+          totalCost: [10000, 5],
+          perHead: 1000,
+        },
+        {
+          type: "TRAVEL",
+          details: ["Yercaud Exp"],
+          isCost: false,
+          totalCost: [20000, 5],
+          perHead: 2000,
+        },
+      ],
+      
+      [
+        {
+          type: "TRAVEL",
+          details: ["Cheran Exp"],
+          isCost: true,
+          totalCost: [30000, 5],
+          perHead: 3000,
+        },
+      ],
+    ],
+    expenses: [
+      {
+        id: 14,
+        title: "Stay",
+        description: "OYO 30546",
+        total: [10000, 5],
+        perHead: 2000,
+      },
+      {
+        id: 11,
+        title: "Travel",
+        description: "Yercaud Exp",
+        total: [10000, 10],
+        perHead: 10000,
+      },
+    ],
+    onboarders: [],
   },
-  // plan: [[<day 00>], [<day 01>], [<day 02>], ...]
-  plan: [[{ type: "TRAVEL", cost: true }], [], []],
-  expenses: {},
-  onboarders: [],
 };
 
 function newTour() {
-  const router = useRouter();
-  const [data, setData] = useState(emptyTour)
-  const [formState, setFormState] = useState("EDIT")
 
-  function dataChangeHandler(changeType, category, key, value) {
-    const newData = data;
-
-    // if (changeType === "EDIT") {
-    if (category === "plan") newData[category] = value;
-    else if (category === "details") newData[category][key] = value;
-    // }
-
-    setData(newData);
-  }
-
-  async function formSubmitHandler(event) {
-    event.preventDefault();
-
-    var answer = window.confirm("Are you sure ?");
-
-    if (answer) {
-      try {
-        var response = await fetch("/api/tour/add", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-
-        response = await response.json();
-
-        console.log(response.data);
-
-        if (response.success) {
-          router.push(`/tour/${response.tourId}`);
-          setData(emptyTour);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }
-   
-
-  return (
-    <div style={{ backgroundColor: "#EEEEEE" }}>
-      <form onSubmit={formSubmitHandler}>
-        <LandingSection
-          data={data.details}
-          dataChangeHandler={dataChangeHandler}
-          formState={formState}
-        />
-        <div className="container-md">
-          <TourDetails
-            data={data.details}
-            planData={data.plan}
-            dataChangeHandler={dataChangeHandler}
-            formState={formState}
-            setFormState={setFormState}
-          />
-          <TourPlan
-            data={data.plan}
-            details={data.details}
-            dataChangeHandler={dataChangeHandler}
-            formState={formState}
-          />
-          <ExpenseSection data={data.expenses} formState={formState} />
-          <OnboardingSection data={data.onboarders} formState={formState} />
-        </div>
-        <div className="container mb-5">...</div>
-        <SaveChanges formState={formState} setFormState={setFormState} />
-      </form>
-    </div>
-  );
+  return (<TourPage originalFormState={"NEW"} originalData={emptyTour} />);
 }
 
 export default newTour

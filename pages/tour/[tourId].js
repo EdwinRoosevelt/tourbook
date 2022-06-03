@@ -8,9 +8,7 @@ import TourPage from "../../components/tour/TourPage"
 
 function TourViewPage ({ responseData }) {
 
-  return (
-      <TourPage originalFormState={"VIEW"} responseData={responseData} />
-  );
+  return <TourPage originalFormState={"VIEW"} originalData={responseData} />;
 }
 
 export async function getServerSideProps(context) {

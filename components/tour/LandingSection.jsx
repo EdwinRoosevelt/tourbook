@@ -29,7 +29,7 @@ function LandingSection({ data, formState, dataChangeHandler }) {
                 {data.title !== undefined && data.title}
               </h1>
               <p className="mb-3">{data.description}</p>
-              
+
               {data.tagList.map((tag, index) => {
                 return (
                   <span
@@ -42,7 +42,7 @@ function LandingSection({ data, formState, dataChangeHandler }) {
               })}
             </>
           )}
-          {formState === "EDIT" && (
+          {formState !== "VIEW" && (
             <>
               <TextInput
                 size="xl"

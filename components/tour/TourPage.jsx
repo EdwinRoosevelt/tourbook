@@ -7,17 +7,21 @@ import ExpenseSection from "./ExpensesSection";
 import TourDetails from "./TourDetails";
 import SaveChanges from "../common/SaveChanges";
 
-var OriginalData;
+var initiallData;
 
-function TourPage({responseData, originalFormState}) {
+function TourPage({originalData, originalFormState}) {
 
   useEffect(() => {
-    OriginalData = JSON.parse(JSON.stringify(responseData.Item))
-    console.log("renders")
+    if (originalData.success) {
+      initiallData = JSON.parse(JSON.stringify(originalData.Item));
+    }
+    
   }, [])
 
   const router = useRouter()
-  const [data, setData] = useState(responseData.Item);
+
+  console.log(originalData.Item)
+  const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
   const [isChangesMade, setIsChangesMade] = useState(false);
     
@@ -40,7 +44,10 @@ function TourPage({responseData, originalFormState}) {
 
     if (confirmationAnswer) {
       try {
-        var response = await fetch("/api/tour/edit", {
+        var url;
+        if (formState === "EDIT") url = "/api/tour/edit";
+        if (formState === "NEW") url = "/api/tour/add";
+        var response = await fetch(url, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -54,7 +61,8 @@ function TourPage({responseData, originalFormState}) {
         console.log(response.data);
 
         if (response.success) {
-          router.push(`/tour/${data.tourId}`);
+          router.push(`/tour/${response.tourId}`);
+          setFormState("VIEW")
           
         }
       } catch (err) {
@@ -67,9 +75,7 @@ function TourPage({responseData, originalFormState}) {
     if (isChangesMade) {
       var confirmationAnswer = window.confirm("You have made some changes. Are you sure want to discard them?");
       if (confirmationAnswer) {
-        setData(OriginalData);
-        setFormState("VIEW");
-        console.log(OriginalData);
+        setData(initiallData);
         setFormState("VIEW");
       }
     } else {
@@ -80,7 +86,7 @@ function TourPage({responseData, originalFormState}) {
   return (
     <>
       <div style={{ backgroundColor: "#EEEEEE" }}>
-        {responseData.success && (
+        {originalData.success && (
           <>
             <form onSubmit={formSubmitHandler}>
               <LandingSection
@@ -101,7 +107,7 @@ function TourPage({responseData, originalFormState}) {
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                 />
-                <ExpenseSection data={data.expenses} formState={formState} />
+                <ExpenseSection data={data.plan} total={data.details.budget} formState={formState} />
                 {/* <OnboardingSection data={data.onboarders} formState={formState} /> */}
               </div>
               <div className="container mb-5">...</div>
@@ -114,9 +120,9 @@ function TourPage({responseData, originalFormState}) {
           </>
         )}
       </div>
-      {!responseData.success && (
-        <div class="display-6 text-center mt-5">
-          <strong>404</strong> | {responseData.message}
+      {!originalData.success && (
+        <div class="display-6 flex justify-content-center align-items-center" style={{height: "80vh"}}>
+          <strong>404</strong> | {originalData.message}
         </div>
       )}
     </>
