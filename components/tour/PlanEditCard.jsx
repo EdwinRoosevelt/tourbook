@@ -152,7 +152,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
           <input
             type="number"
             id="totalCost"
-            class="form-control"
+            className="form-control"
             placeholder="cost"
             value={plan.totalCost[0]}
             onChange={(event) =>
@@ -166,7 +166,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
           <input
             type="number"
             id="totalPerson"
-            class="form-control"
+            className="form-control"
             placeholder="person"
             value={plan.totalCost[1]}
             onChange={(event) =>

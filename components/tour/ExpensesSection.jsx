@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Users } from 'tabler-icons-react';
 
-function ExpensesSection({ data, total, formState }) {
-
+function ExpensesSection({ data, total, dataChangeHandler, formState }) {
   const [refresh, setRefresh] = useState(false);
+
+  var budget = 0;
+  data.map((dayPlan) => {
+    dayPlan.map((plan) => {
+      if (plan.isCost) budget += plan.perHead;
+    });
+  });
+
+  dataChangeHandler("EDIT", "details", "budget", budget);
+
 
   return (
     <section id="expenses">
@@ -44,31 +53,15 @@ function ExpensesSection({ data, total, formState }) {
             </tr>
           </thead>
           <tbody>
-            {/* {data &&
-              data.sort((a, b) => {return a.id - b.id}).map((row, index) => {
-                return (
-                  <tr key={index}>
-                    <td scope="row">{index + 1}</td>
-                    <td>
-                      <strong>{row.title}</strong>
-                      <p className="text-muted">{row.description}</p>
-                    </td>
-                    <td className="text-center">
-                      ₹{row.total[0]} for {row.total[1]} person(s)
-                    </td>
-                    <td className="text-center">₹{row.perHead}</td>
-                  </tr>
-                );
-              })} */}
-
             {data.map((dayPlan, day) => {
               return (
                 <>
+                  <tr key={day} />
                   {dayPlan.map((plan, index) => {
                     return (
                       <>
                         {plan.isCost && (
-                          <tr key={`${day}${index}`}>
+                          <tr key={`A${day}${index}`}>
                             <td scope="row">#</td>
                             <td>
                               <strong>{plan.type}</strong>
@@ -90,26 +83,6 @@ function ExpensesSection({ data, total, formState }) {
               );
             })}
 
-            {/* {data.map((dayPlan, day) => {
-              return dayPlan.map((plan, index) => {
-                {
-                  plan.isCost && (
-                    <tr key={`${day}${index}`}>
-                      <td scope="row">{index + 1}</td>
-                      <td>
-                        <strong>{plan.type}</strong>
-                        <p className="text-muted">{plan.details}</p>
-                      </td>
-                      <td className="text-center">
-                        ₹{plan.totalCost[0]} for {plan.totalCost[1]} person(s)
-                      </td>
-                      <td className="text-center">₹{plan.perHead}</td>
-                    </tr>
-                  );
-                }
-              });
-            })} */}
-
             <tr className="table-dark">
               <td scope="row"></td>
               <td>
@@ -117,7 +90,7 @@ function ExpensesSection({ data, total, formState }) {
               </td>
               <td></td>
               <td className="text-center">
-                <strong>₹{total}</strong>
+                <strong>₹{budget}</strong>
               </td>
             </tr>
           </tbody>

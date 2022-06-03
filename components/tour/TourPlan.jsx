@@ -12,7 +12,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;
 
-    if (mode === "ADDPLAN") newData[day].push({type: "STAY", cost: true});
+    if (mode === "ADDPLAN") newData[day].push({type: "STAY", cost: false, totalCost: [0, 0]});
     else if (mode === "EDIT") newData[day][key] = target;
     else if (mode === "DEL") newData[day].splice(key, 1);
 
@@ -33,7 +33,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
       <div
         className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
       >
-        <div className="flex justify-content-between align-items-center">
+        <div className="flex justify-content-between align-items-start">
           <div>
             <h1 className="display-5">Tour Plan</h1>
             <p className="text-muted mb-4">

@@ -27,17 +27,18 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
     if(target.id == "dates") {
       const newPlanData = planData;
       try {
-        const requiredPlanArrSize = data.dates[1].getDate() - data.dates[0].getDate() + 1;
+        const requiredPlanArrSize =
+          target.value[1].getDate() - target.value[0].getDate() + 1;
 
         while (newPlanData.length < requiredPlanArrSize) {
           newPlanData.push([]);
         }
 
-        while (newPlanData.length > requiredPlanArrSize) {
+        while (newPlanData.length > requiredPlanArrSize ) {
           newPlanData.pop();
         }
-        
-        dataChangeHandler("EDIT", "plan", null, newPlanData);
+        console.log(newPlanData)
+        // dataChangeHandler("EDIT", "plan", null, newPlanData);
       } catch (err) {}
       
     }

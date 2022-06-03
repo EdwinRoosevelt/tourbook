@@ -39,7 +39,7 @@ const emptyTour = {
           perHead: 2000,
         },
       ],
-      
+      [],
       [
         {
           type: "TRAVEL",

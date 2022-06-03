@@ -24,6 +24,8 @@ function TourPage({originalData, originalFormState}) {
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
   const [isChangesMade, setIsChangesMade] = useState(false);
+
+  const [reload, setReload] = useState(false)
     
 
   function dataChangeHandler(changeType, category, key, value) {
@@ -34,6 +36,7 @@ function TourPage({originalData, originalFormState}) {
 
     setData(newData);
     setIsChangesMade(true);
+    // setReload(!reload);
   }
 
 
@@ -97,6 +100,7 @@ function TourPage({originalData, originalFormState}) {
               <div className="container-md">
                 <TourDetails
                   data={data.details}
+                  planData={data.plan}
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                   setFormState={setFormState}
@@ -107,7 +111,12 @@ function TourPage({originalData, originalFormState}) {
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                 />
-                <ExpenseSection data={data.plan} total={data.details.budget} formState={formState} />
+                <ExpenseSection
+                  data={data.plan}
+                  total={data.details.budget}
+                  dataChangeHandler={dataChangeHandler}
+                  formState={formState}
+                />
                 {/* <OnboardingSection data={data.onboarders} formState={formState} /> */}
               </div>
               <div className="container mb-5">...</div>
@@ -121,7 +130,10 @@ function TourPage({originalData, originalFormState}) {
         )}
       </div>
       {!originalData.success && (
-        <div class="display-6 flex justify-content-center align-items-center" style={{height: "80vh"}}>
+        <div
+          class="display-6 flex justify-content-center align-items-center"
+          style={{ height: "80vh" }}
+        >
           <strong>404</strong> | {originalData.message}
         </div>
       )}
