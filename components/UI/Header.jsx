@@ -13,11 +13,11 @@ import LoginModal from './LoginModal';
 function Header({ notificationList }) {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.isLoggedIn);
+    const currentUser = useSelector(state => state.userData.userId)
 
     function signOut () {
       dispatch(logout());
     }
-
 
   return (
     <header className="py-3 mb-3 bg-dark border-bottom">
@@ -108,7 +108,7 @@ function Header({ notificationList }) {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/profile">
+                  <Link href={`/profile/${currentUser}`}>
                     <a className="dropdown-item flex gap-2 mb-2">
                       <UserCircle />
                       <p style={{ width: "200px" }}>Profile</p>

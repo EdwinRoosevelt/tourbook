@@ -1,5 +1,9 @@
 import React from "react";
 
+import { Select } from "@mantine/core";
+
+const allUsers = [ "Angular", "Svelte", "Vue"]
+
 function OnboardersSection({ data, formState }) {
   return (
     <section id="onboarders">
@@ -9,27 +13,77 @@ function OnboardersSection({ data, formState }) {
         } p-5 mb-5 bg-white`}
       >
         <h1 className="display-4">Onboarders</h1>
-        <p className="text-muted mb-5">The people you will be touring with!</p>
+        <p className="text-muted mb-4">The people you will be touring with!</p>
 
-        {/* <ul className="list-group list-group-flush"> */}
-        <ul>
-          <li>Edwin</li>
-          
-          {/* {data.map((row, index) => {
-            return (
-              <li
-                className="list-group-item d-flex justify-content-between align-items-center"
-                key={index}
-              >
-                <a href="#" className="text-dark">
-                    {row.userName} : {row.userId}
-                </a>
-                <span className={`badge rounded-pill bg-primary`}>
-                  {row.status}
-                </span>
-              </li>
-            );
-          })} */}
+        <div className="flex gap-3 mb-4">
+          <Select
+            placeholder="Pick your tour buddy"
+            data={allUsers}
+            searchable
+            clearable
+            maxDropdownHeight={200}
+            nothingFound="No such User"
+          />
+          <button className="btn btn-outline-success">Send Invite</button>
+        </div>
+
+        <ul className="list-group list-group-flush mb-4">
+          {data
+            .filter((row) => {
+              return row.status === "CONFIRM";
+            })
+            .map((row, index) => {
+              return (
+                <li
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                  key={row.userId}
+                >
+                  <div className="flex">
+                    <p>{index + 1}. &nbsp; &nbsp;</p>
+                    <a href="#">
+                      <strong>{row.displayName}</strong>
+                    </a>
+                  </div>
+
+                  <span
+                    className={`badge rounded-pill ${
+                      row.status === "CONFIRM" ? "bg-success" : "bg-warning"
+                    }`}
+                  >
+                    {row.status}
+                  </span>
+                </li>
+              );
+            })}
+        </ul>
+        <ul className="list-group list-group-flush">
+          {data
+            .filter((row) => {
+              return row.status === "INVITED";
+            })
+            .map((row, index) => {
+              return (
+                <li
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                  key={row.userId}
+                >
+                  <div className="flex">
+                    <p>{index + 1}. &nbsp; &nbsp;</p>
+                    <a href="#">
+                      <strong>{row.displayName}</strong>
+                    </a>
+                  </div>
+
+                  <span
+                    className={`badge rounded-pill ${
+                      row.status === "CONFIRM" ? "bg-success" : "bg-warning"
+                    }`}
+                  >
+                    {row.status}
+                  </span>
+                </li>
+              );
+            })}
         </ul>
       </div>
     </section>

@@ -6,8 +6,31 @@ import TourPlan from "./TourPlan";
 import ExpenseSection from "./ExpensesSection";
 import TourDetails from "./TourDetails";
 import SaveChanges from "../common/SaveChanges";
+import OnboardingSection from './onBoardingSection'
 
 var initiallData;
+const onboardersData = [
+  {
+    userId: "b.edwinroosevelt@gmail.com",
+    displayName: "Edwin Roosevelt",
+    status: "CONFIRM",
+  },
+  {
+    userId: "harishnandhat@gmail.com",
+    displayName: "Harish Nandha",
+    status: "INVITED",
+  },
+  {
+    userId: "selvamani@gmail.com",
+    displayName: "Selva Mani",
+    status: "INVITED",
+  },
+  {
+    userId: "haresh@gmail.com",
+    displayName: "Haresh",
+    status: "OUT",
+  },
+];
 
 function TourPage({originalData, originalFormState}) {
 
@@ -117,7 +140,12 @@ function TourPage({originalData, originalFormState}) {
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                 />
-                {/* <OnboardingSection data={data.onboarders} formState={formState} /> */}
+                {formState === "VIEW" && (
+                  <OnboardingSection
+                    data={onboardersData}
+                    formState={formState}
+                  />
+                )}
               </div>
               <div className="container mb-5">...</div>
               <SaveChanges
@@ -131,7 +159,7 @@ function TourPage({originalData, originalFormState}) {
       </div>
       {!originalData.success && (
         <div
-          class="display-6 flex justify-content-center align-items-center"
+          className="display-6 flex justify-content-center align-items-center"
           style={{ height: "80vh" }}
         >
           <strong>404</strong> | {originalData.message}

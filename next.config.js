@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["tour-with-eddy.s3.ap-south-1.amazonaws.com"],
+  },
   env: {
     DUMMY_KEY: "1234",
     AWS_ACCESS_ID: process.env.AWS_ACCESS_ID,

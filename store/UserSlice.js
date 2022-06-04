@@ -63,7 +63,7 @@ const UserSlice = createSlice({
         },
         loadUserData (state, {payload}) {
           state.userData = payload.userData
-          loicalStorage.setItem("tourbook_userId", payload.userData.userId);
+          localStorage.setItem("tourbook_userId", payload.userData.userId);
         },
         updateUserData(state, {payload}) {
           //
