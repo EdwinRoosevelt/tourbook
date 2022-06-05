@@ -25,31 +25,23 @@ const onboardersData = [
     displayName: "Selva Mani",
     status: "INVITED",
   },
-  {
-    userId: "haresh@gmail.com",
-    displayName: "Haresh",
-    status: "OUT",
-  },
 ];
 
-function TourPage({originalData, originalFormState}) {
-
+function TourPage({ originalData, originalFormState, allUserData }) {
   useEffect(() => {
     if (originalData.success) {
       initiallData = JSON.parse(JSON.stringify(originalData.Item));
     }
-    
-  }, [])
+  }, []);
 
-  const router = useRouter()
+  const router = useRouter();
 
-  console.log(originalData.Item)
+  console.log(originalData.Item);
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
   const [isChangesMade, setIsChangesMade] = useState(false);
 
-  const [reload, setReload] = useState(false)
-    
+  const [reload, setReload] = useState(false);
 
   function dataChangeHandler(changeType, category, key, value) {
     const newData = data;
@@ -61,7 +53,6 @@ function TourPage({originalData, originalFormState}) {
     setIsChangesMade(true);
     // setReload(!reload);
   }
-
 
   async function formSubmitHandler(event) {
     event.preventDefault();
@@ -88,8 +79,7 @@ function TourPage({originalData, originalFormState}) {
 
         if (response.success) {
           router.push(`/tour/${response.tourId}`);
-          setFormState("VIEW")
-          
+          setFormState("VIEW");
         }
       } catch (err) {
         console.log(err);
@@ -99,7 +89,9 @@ function TourPage({originalData, originalFormState}) {
 
   function formDiscardHandler() {
     if (isChangesMade) {
-      var confirmationAnswer = window.confirm("You have made some changes. Are you sure want to discard them?");
+      var confirmationAnswer = window.confirm(
+        "You have made some changes. Are you sure want to discard them?"
+      );
       if (confirmationAnswer) {
         setData(initiallData);
         setFormState("VIEW");
@@ -144,6 +136,7 @@ function TourPage({originalData, originalFormState}) {
                   <OnboardingSection
                     data={onboardersData}
                     formState={formState}
+                    allUserData={allUserData}
                   />
                 )}
               </div>

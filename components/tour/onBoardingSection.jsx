@@ -1,10 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-import { Select } from "@mantine/core";
+import { Select, Loader } from "@mantine/core";
+import { Notification } from "@mantine/core";
+import { Check } from "tabler-icons-react";
 
-const allUsers = [ "Angular", "Svelte", "Vue"]
+// const allUsers = [ "Angular", "Svelte Roosevelt", "Vue"]
 
-function OnboardersSection({ data, formState }) {
+function OnboardersSection({ data, formState, allUserData }) {
+
+  const allUsers = allUserData.map(user => {return user.userName})
+
+  const [invitee, setInvitee] = useState();
+  const [errorNotification, setErrorNotification] = useState(false)
+  const [inviteSent, setInviteSent] = useState(false);
+
+  useEffect(() => {
+    if (invitee) setErrorNotification(false);
+  }, [invitee])
+  
+
+  const sendNotification = async () => {
+    if (invitee) {
+      setInviteSent(true);
+      try {
+        console.log(invitee)
+        
+        const postData = {
+          userName: invitee,
+          tourId: "EFGH1234"
+        }
+        
+        var response = await fetch('/api/user/sendNotification', {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+
+        response = await response.json();
+        console.log(response.data);
+
+      } catch (err) {
+        console.log(err.message)
+      }
+
+      setTimeout(() => {
+        setInviteSent(false);
+      }, 2000)
+
+      
+    } else {
+      setErrorNotification(true)
+    }
+  }
+
   return (
     <section id="onboarders">
       <div
@@ -19,15 +70,33 @@ function OnboardersSection({ data, formState }) {
           <Select
             placeholder="Pick your tour buddy"
             data={allUsers}
+            value={invitee}
+            onChange={setInvitee}
             searchable
             clearable
             maxDropdownHeight={200}
             nothingFound="No such User"
           />
-          <button className="btn btn-outline-success">Send Invite</button>
+          <button
+            type="button"
+            className={`flex btn btn-outline-success ${inviteSent && "disabled"}`}
+            onClick={sendNotification}
+          >
+            {!inviteSent && "Send Invite"}
+            {inviteSent && (
+              <>
+                <Check /> &nbsp; Sent
+              </>
+            )}
+          </button>
         </div>
+        {errorNotification && (
+          <Notification disallowClose color="red" title="You cant't do that">
+            You need to select someone before sending an invite!
+          </Notification>
+        )}
 
-        <ul className="list-group list-group-flush mb-4">
+        <ul className="list-group list-group-flush mb-4 mt-4">
           {data
             .filter((row) => {
               return row.status === "CONFIRM";
@@ -89,5 +158,7 @@ function OnboardersSection({ data, formState }) {
     </section>
   );
 }
+
+
 
 export default OnboardersSection;

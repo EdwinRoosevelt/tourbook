@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,10 +10,25 @@ import { logout } from '../../store/UserSlice';
 import LoginModal from './LoginModal';
 
 
-function Header({ notificationList }) {
+function Header() {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const currentUser = useSelector(state => state.userData.userId)
+
+    const [notification, setNotification] = useState();
+
+    useEffect(() => {
+
+      const fetchData = async () => {
+        const response = await fetch(
+          `/api/user/edwin_roosevelt`
+        );
+        const responseData = await response.json();
+        setNotification(responseData.Item.notifications);
+      }
+      fetchData()
+
+    }, []);
 
     function signOut () {
       dispatch(logout());
@@ -56,9 +71,12 @@ function Header({ notificationList }) {
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenuButton1"
               >
-                <li>
-                  <p style={{ width: "400px" }}>New Tour</p>
-                </li>
+                {notification.map(row => {return (
+                  <li>
+                    <p style={{ width: "400px" }}>{row.type} - {row.tourId} </p>
+                  </li>
+                );})}
+                
               </ul>
             </div>
 
@@ -134,5 +152,7 @@ function Header({ notificationList }) {
     </header>
   );
 }
+
+
 
 export default Header

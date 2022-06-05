@@ -7,7 +7,7 @@ const awsTourbookUser = {
 };
 
 export default function handler(req, res) {
-  const { userId } = req.query;
+  const { emailId } = req.query;
   AWS.config.update(awsTourbookUser);
 
   const docClient = new AWS.DynamoDB.DocumentClient();
@@ -15,14 +15,14 @@ export default function handler(req, res) {
   const params = {
     TableName: "tourbook_users",
     Key: {
-      userId: userId,
+      emailId,
     },
   };
 
-  docClient.get(params, function (err, data) {
-    const { Item } = data;
+  docClient.scan(params, function (err, data) {
+    const Item  = data;
     if (err) {
-      console.log(err)
+      console.log(err);
       res.json({ success: false, message: err });
     } else {
       if (Object.keys(data).length === 0)

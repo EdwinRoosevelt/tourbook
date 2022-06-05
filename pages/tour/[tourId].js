@@ -1,24 +1,33 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+
 const AWS = require("aws-sdk");
 const uuid = require("uuidV4");
 
 import TourPage from "../../components/tour/TourPage"
 
 
-function TourViewPage ({ responseData }) {
+function TourViewPage({ tourData, allUserData }) {
 
-  return <TourPage originalFormState={"VIEW"} originalData={responseData} />;
+  return (
+    <TourPage
+      originalFormState={"VIEW"}
+      originalData={tourData}
+      allUserData={allUserData.Items}
+    />
+  );
 }
 
 export async function getServerSideProps(context) {
 
   const tourId = context.params.tourId
-  const response = await fetch(`http:localhost:3000/api/tour/${tourId}`)
-  const responseData = await response.json()
+  const tourDataResponse = await fetch(`http:localhost:3000/api/tour/${tourId}`)
+  const tourData = await tourDataResponse.json();
 
-  return { props: { responseData } };
+  const allUserDataResponse = await fetch(`http:localhost:3000/api/user/all`);
+  const allUserData = await allUserDataResponse.json();
 
+  return { props: { tourData, allUserData } };
 }
 
 export default TourViewPage;
