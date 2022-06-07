@@ -9,25 +9,9 @@ import SaveChanges from "../common/SaveChanges";
 import OnboardingSection from './onBoardingSection'
 
 var initiallData;
-const onboardersData = [
-  {
-    userId: "b.edwinroosevelt@gmail.com",
-    displayName: "Edwin Roosevelt",
-    status: "CONFIRM",
-  },
-  {
-    userId: "harishnandhat@gmail.com",
-    displayName: "Harish Nandha",
-    status: "INVITED",
-  },
-  {
-    userId: "selvamani@gmail.com",
-    displayName: "Selva Mani",
-    status: "INVITED",
-  },
-];
 
 function TourPage({ originalData, originalFormState, allUserData }) {
+
   useEffect(() => {
     if (originalData.success) {
       initiallData = JSON.parse(JSON.stringify(originalData.Item));
@@ -35,28 +19,24 @@ function TourPage({ originalData, originalFormState, allUserData }) {
   }, []);
 
   const router = useRouter();
-
-  console.log(originalData.Item);
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
   const [isChangesMade, setIsChangesMade] = useState(false);
-
   const [reload, setReload] = useState(false);
+
 
   function dataChangeHandler(changeType, category, key, value) {
     const newData = data;
 
-    if (category === "plan") newData[category] = value;
     if (category === "details") newData[category][key] = value;
+    else newData[category] = value;
 
     setData(newData);
     setIsChangesMade(true);
-    // setReload(!reload);
   }
 
   async function formSubmitHandler(event) {
     event.preventDefault();
-
     var confirmationAnswer = window.confirm("Are you sure hehe ?");
 
     if (confirmationAnswer) {
@@ -74,8 +54,6 @@ function TourPage({ originalData, originalFormState, allUserData }) {
         });
 
         response = await response.json();
-
-        console.log(response.data);
 
         if (response.success) {
           router.push(`/tour/${response.tourId}`);
@@ -134,9 +112,11 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 />
                 {formState === "VIEW" && (
                   <OnboardingSection
-                    data={onboardersData}
-                    formState={formState}
+                    tourData={data}
                     allUserData={allUserData}
+                    dataChangeHandler={dataChangeHandler}
+                    formState={formState}
+                    formSubmitHandler={formSubmitHandler}
                   />
                 )}
               </div>

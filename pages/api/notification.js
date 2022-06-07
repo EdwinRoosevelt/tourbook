@@ -11,7 +11,7 @@ export default function handler(req, res) {
 
   const docClient = new AWS.DynamoDB.DocumentClient();
 
-  const { userName, tourId } = req.body;
+  const { type, userName, tourId, action } = req.body;
 
   const params = {
     TableName: "tourbook_users",
@@ -28,7 +28,6 @@ export default function handler(req, res) {
 
   docClient.update(params, function (err, data) {
     if (err) {
-      
       res.json({ success: false, message: err });
       console.log(err);
     } else {

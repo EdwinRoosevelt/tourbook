@@ -13,9 +13,10 @@ const emptyTour = {
     details: {
       title: "",
       description: "",
-      tagList: [],
+      tagList: ["🤽 Water sports", "🌲 Nature"],
       venue: "",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1465778893808-9b3d1b443be4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dG91cnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
       dates: [today, twoDaysFromToday],
       maximumHead: "",
       days: "",
@@ -70,9 +71,23 @@ const emptyTour = {
   },
 };
 
-function newTour() {
-
-  return (<TourPage originalFormState={"NEW"} originalData={emptyTour} />);
+function newTour({ allUserData }) {
+  return (
+    <TourPage
+      originalFormState={"NEW"}
+      originalData={emptyTour}
+      allUserData={allUserData.Items}
+    />
+  );
 }
+
+export async function getServerSideProps(t) {
+
+  const allUserDataResponse = await fetch(`http:localhost:3000/api/user/all`);
+  const allUserData = await allUserDataResponse.json();
+
+  return { props: { allUserData } };
+}
+
 
 export default newTour

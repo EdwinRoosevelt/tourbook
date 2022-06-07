@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux';
+import Image from "next/image";
+import Link from "next/link";
 
 import { BellRinging, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
+
 import tourbook from "../../public/tourbook_white.svg";
+import LoginModal from './LoginModal';
+import NotificationCard from '../common/NotificationCard';
 
 import { logout } from '../../store/UserSlice';
-import LoginModal from './LoginModal';
 
 
 function Header() {
@@ -15,7 +17,7 @@ function Header() {
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const currentUser = useSelector(state => state.userData.userId)
 
-    const [notification, setNotification] = useState();
+    const [notification, setNotification] = useState([]);
 
     useEffect(() => {
 
@@ -44,7 +46,6 @@ function Header() {
             </a>
           </Link>
         </div>
-
         {!isLoggedIn && (
           <button
             className="btn btn-outline-warning px-4"
@@ -54,7 +55,7 @@ function Header() {
             Log In
           </button>
         )}
-        <LoginModal />
+        {/* <LoginModal /> */}
         {isLoggedIn && (
           <div className="d-flex gap-3 justify-content-between align-items-center">
             <div className="dropdown">
@@ -71,15 +72,16 @@ function Header() {
                 className="dropdown-menu"
                 aria-labelledby="dropdownMenuButton1"
               >
-                {notification.map(row => {return (
-                  <li>
-                    <p style={{ width: "400px" }}>{row.type} - {row.tourId} </p>
-                  </li>
-                );})}
+                {notification.map((row, index) => {
+                  return (
+                    <li key={index}>
+                      <NotificationCard data={row} />
+                    </li>
+                  );
+                })}
                 
               </ul>
             </div>
-
             <div className="dropdown">
               <button
                 className="btn btn-dark d-flex align-items-center gap-2 mb-1"
@@ -134,7 +136,6 @@ function Header() {
                   </Link>
                 </li>
                 <hr className="dropdown-divider" />
-
                 <li>
                   <button
                     className="dropdown-item flex gap-2"

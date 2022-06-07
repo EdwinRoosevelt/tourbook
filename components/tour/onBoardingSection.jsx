@@ -1,60 +1,127 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import { Select, Loader } from "@mantine/core";
 import { Notification } from "@mantine/core";
 import { Check } from "tabler-icons-react";
 
+import postToDB from '../functions/postToDB'
+
 // const allUsers = [ "Angular", "Svelte Roosevelt", "Vue"]
+const allUsers = {userNames: [], displayNames: []}
 
-function OnboardersSection({ data, formState, allUserData }) {
+function OnboardersSection({ 
+  formState, allUserData, tourData, dataChangeHandler, formSubmitHandler,
+}) {
 
-  const allUsers = allUserData.map(user => {return user.userName})
-
-  const [invitee, setInvitee] = useState();
-  const [errorNotification, setErrorNotification] = useState(false)
+  const router = useRouter();
+  const [errorNotification, setErrorNotification] = useState(false);
   const [inviteSent, setInviteSent] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [invitee, setInvitee] = useState();
+
+  const currentUser = "edwin_roosevelt";
+
+
+  useEffect(() => {
+    allUsers.userNames = allUserData.map((user) => {
+      return user.userName;
+    });
+    allUsers.displayNames = allUserData.map((user) => {
+      return user.displayName;
+    });
+  }, []);
+ 
 
   useEffect(() => {
     if (invitee) setErrorNotification(false);
-  }, [invitee])
-  
+  }, [invitee]);
 
-  const sendNotification = async () => {
+  const sendInvite = async () => {
     if (invitee) {
-      setInviteSent(true);
-      try {
-        console.log(invitee)
-        
-        const postData = {
-          userName: invitee,
-          tourId: "EFGH1234"
-        }
-        
-        var response = await fetch('/api/user/sendNotification', {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
+      var inviteAlreadyExists = false
+      // inviteAlreadyExists = tourData.onboarders.map((item) => {
+      //   if (item.userName === invitee) inviteAlreadyExists = true;
+      // });
+
+      if (!inviteAlreadyExists) {
+        setInviteSent(true);
+
+        var userIndex = 0;
+        allUsers.userNames.map((userName, index) => {
+          if (userName === invitee) userIndex = index;
         });
 
-        response = await response.json();
-        console.log(response.data);
 
-      } catch (err) {
-        console.log(err.message)
+        // Send Invitation
+        const newTourData = JSON.parse(JSON.stringify(tourData));
+        newTourData.onboarders.push({
+          userName: invitee,
+          displayName: allUsers.displayNames[userIndex],
+
+          status: "INVITED",
+        });
+        await postToDB("/api/tour/edit", newTourData);
+
+
+        // Send Notification
+        const notification = {
+          inviter: currentUser,
+          userName: invitee,
+          actionType: "ADD",
+          tourId: "ZXC123",
+        };
+        await postToDB("/api/notification", notification);
+
+        router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
       }
+      
 
       setTimeout(() => {
         setInviteSent(false);
-      }, 2000)
-
-      
+      }, 2000);
     } else {
-      setErrorNotification(true)
+      setErrorNotification(true);
     }
-  }
+  };
+
+  const acceptInvite = async () => {
+    var confirmationAnswer = window.confirm("Are you sure ?");
+
+    if (confirmationAnswer) {
+      const newOnboardersData = JSON.parse(JSON.stringify(tourData.onboarders));
+      newOnboardersData.map((item) => {
+        if (item.userName === currentUser) {
+          item.status = "CONFIRM";
+        }
+        return item;
+      });
+
+      tourData.onboarders = newOnboardersData;
+
+      await postToDB("/api/tour/edit", tourData);
+      router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
+          
+    }
+  };
+
+  const rejectInvite = async () => {
+    var confirmationAnswer = window.confirm("Are you sure ?");
+
+    if (confirmationAnswer) {
+      var newOnboardersData = JSON.parse(JSON.stringify(tourData.onboarders));
+      newOnboardersData = newOnboardersData.filter((item) => {
+        return item.userName !== currentUser;
+      });
+
+      tourData.onboarders = newOnboardersData;
+
+      await postToDB("/api/tour/edit", tourData);
+      router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
+    }
+    
+
+  };
 
   return (
     <section id="onboarders">
@@ -69,7 +136,7 @@ function OnboardersSection({ data, formState, allUserData }) {
         <div className="flex gap-3 mb-4">
           <Select
             placeholder="Pick your tour buddy"
-            data={allUsers}
+            data={allUsers.userNames}
             value={invitee}
             onChange={setInvitee}
             searchable
@@ -79,8 +146,10 @@ function OnboardersSection({ data, formState, allUserData }) {
           />
           <button
             type="button"
-            className={`flex btn btn-outline-success ${inviteSent && "disabled"}`}
-            onClick={sendNotification}
+            className={`flex border btn btn-outline-success ${
+              inviteSent && "disabled"
+            }`}
+            onClick={sendInvite}
           >
             {!inviteSent && "Send Invite"}
             {inviteSent && (
@@ -97,7 +166,7 @@ function OnboardersSection({ data, formState, allUserData }) {
         )}
 
         <ul className="list-group list-group-flush mb-4 mt-4">
-          {data
+          {tourData.onboarders
             .filter((row) => {
               return row.status === "CONFIRM";
             })
@@ -105,7 +174,7 @@ function OnboardersSection({ data, formState, allUserData }) {
               return (
                 <li
                   className="list-group-item d-flex justify-content-between align-items-center"
-                  key={row.userId}
+                  key={row.userName}
                 >
                   <div className="flex">
                     <p>{index + 1}. &nbsp; &nbsp;</p>
@@ -114,11 +183,7 @@ function OnboardersSection({ data, formState, allUserData }) {
                     </a>
                   </div>
 
-                  <span
-                    className={`badge rounded-pill ${
-                      row.status === "CONFIRM" ? "bg-success" : "bg-warning"
-                    }`}
-                  >
+                  <span className="badge rounded-pill bg-success">
                     {row.status}
                   </span>
                 </li>
@@ -126,7 +191,7 @@ function OnboardersSection({ data, formState, allUserData }) {
             })}
         </ul>
         <ul className="list-group list-group-flush">
-          {data
+          {tourData.onboarders
             .filter((row) => {
               return row.status === "INVITED";
             })
@@ -134,7 +199,7 @@ function OnboardersSection({ data, formState, allUserData }) {
               return (
                 <li
                   className="list-group-item d-flex justify-content-between align-items-center"
-                  key={row.userId}
+                  key={row.userName}
                 >
                   <div className="flex">
                     <p>{index + 1}. &nbsp; &nbsp;</p>
@@ -143,13 +208,30 @@ function OnboardersSection({ data, formState, allUserData }) {
                     </a>
                   </div>
 
-                  <span
-                    className={`badge rounded-pill ${
-                      row.status === "CONFIRM" ? "bg-success" : "bg-warning"
-                    }`}
-                  >
-                    {row.status}
-                  </span>
+                  {row.userName === currentUser && (
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        className="btn btn-outline-success border btn-sm"
+                        onClick={acceptInvite}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline-danger border btn-sm"
+                        onClick={rejectInvite}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  )}
+
+                  {row.userName !== currentUser && (
+                    <span className="badge rounded-pill bg-warning">
+                      {row.status}
+                    </span>
+                  )}
                 </li>
               );
             })}

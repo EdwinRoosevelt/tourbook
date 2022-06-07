@@ -59,30 +59,19 @@ function LoginModal() {
             <h5 className="modal-title" id="exampleModalLabel">
               Login / Signup
             </h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
           </div>
           <div className="modal-body flex justify-content-center">
             Email and password
           </div>
           <div className="modal-footer flex justify-content-center">
-            <button
+            {/* <button
               className="btn btn-outline-primary flex align-items-center gap-2"
+              type="button"
               onClick={signIn}
             >
               <Image src={googleIcon} height="20rem" width="20rem"></Image>
               <p>Sign in with Google</p>
-            </button>
-            <button
-              className="btn btn-outline-primary flex align-items-center gap-2"
-              onClick={signOut}
-            >
-              <p>Sign out</p>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
