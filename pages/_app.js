@@ -5,6 +5,7 @@ import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 
 import Header from "../components/UI/Header";
+import ClientOnly from '../components/ClientOnly'
 
 import store from '../store/index.js'
 import "../styles/globals.css";
@@ -18,7 +19,9 @@ function MyApp({ Component, pageProps }) {
     <MantineProvider>
       <ModalsProvider>
         <Provider store={store}>
-          <Header />
+          <ClientOnly>
+            <Header />
+          </ClientOnly>
           <Component {...pageProps} />
         </Provider>
       </ModalsProvider>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   Calendar,
@@ -12,38 +12,57 @@ import {
 } from "tabler-icons-react";
 import { TextInput, NumberInput } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
+import DateRangeCard from "../common/DateRangeCard";
+
 
 
 function TourDetails({ data, planData, formState, setFormState, dataChangeHandler }) {
   const [refresh, setRefresh] = useState(false);
+  // var date1, date2;
+  useEffect(() => {
+    
+  }, [])
 
-  var date1 = new Date(data.dates[0])
-  var date2 = new Date(data.dates[1]);
+  function dateRangeChanger (value) {
+    
+    if (value[0] !== null && value[1] !== null) {
+      const reformatedDates = value.map((date) => {
+        const dateArr = date.toString().split(" ");
+        return `${dateArr[0]} ${dateArr[1]} ${dateArr[2]} ${dateArr[3]}`;
+      });
+      localDataChangeHandler({target: {id: "dates", value: reformatedDates}});
+    }
+  }
+
 
 
   function localDataChangeHandler({target}) {
-    dataChangeHandler("EDIT", "details", target.id, target.value)
+    dataChangeHandler("details", target.id, target.value)
 
     if(target.id == "dates") {
-      const newPlanData = planData;
-      try {
-        const requiredPlanArrSize =
-          target.value[1].getDate() - target.value[0].getDate() + 1;
-
-        while (newPlanData.length < requiredPlanArrSize) {
-          newPlanData.push([]);
-        }
-
-        while (newPlanData.length > requiredPlanArrSize ) {
-          newPlanData.pop();
-        }
-        console.log(newPlanData)
-        // dataChangeHandler("EDIT", "plan", null, newPlanData);
-      } catch (err) {}
       
+      const newPlanData = planData;
+
+      var date1 = new Date(target.value[0]);
+      var date2 = new Date(target.value[1]);
+
+      var requiredPlanArrSize = date2.getDate() - date1.getDate() + 1;
+      var currentPlanArrSize = newPlanData.length;
+
+      while (currentPlanArrSize < requiredPlanArrSize) {
+        newPlanData.push([]);
+        currentPlanArrSize++;
+      }
+
+      while (currentPlanArrSize > requiredPlanArrSize) {
+        newPlanData.pop();
+        currentPlanArrSize--;
+      }
+      console.log(newPlanData);
+      // dataChangeHandler("plan", null, newPlanData);
     }
 
-    refresh ? setRefresh(false) : setRefresh(true)
+    setRefresh(!refresh)
   }
 
 
@@ -81,6 +100,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             </div>
           )}
         </div>
+        {/* <DateRangeCard dates={data.dates}/> */}
 
         {/* Section CONTENT */}
         <div className="flex flex-wrap justify-content-between">
@@ -136,18 +156,15 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
               <DateRangePicker
                 size="md"
                 placeholder="pick the dates"
-                value={data.dates}
+                value={[new Date(data.dates[0]), new Date(data.dates[1])]}
                 id="dates"
-                onChange={(value) =>
-                  localDataChangeHandler({ target: { id: "dates", value } })
-                }
+                onChange={dateRangeChanger}
                 required
               />
             )}
             {formState === "VIEW" && (
               <div>
-                {/* {data.dates !== null && data.dates[0].toDateString()} -{" "} */}
-                {date1.toDateString()} - {date2.toDateString()}
+                {data.dates[0]} - {data.dates[1]}
               </div>
             )}
           </div>
@@ -201,7 +218,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
                 size="md"
                 placeholder="max head count"
                 id="maximumHead"
-                value={data.maximumHead}
+                value={Number(data.maximumHead)}
                 onChange={(val) =>
                   localDataChangeHandler({ target: { id: "maximumHead", val } })
                 }

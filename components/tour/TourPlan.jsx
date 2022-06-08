@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Plus } from "tabler-icons-react";
 
@@ -9,6 +9,10 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
 
   const [refresh, setRefresh] = useState(false);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;
 
@@ -16,7 +20,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
     else if (mode === "EDIT") newData[day][key] = target;
     else if (mode === "DEL") newData[day].splice(key, 1);
 
-    dataChangeHandler(mode, "plan", null, newData);
+    dataChangeHandler("plan", null, newData);
     setRefresh(!refresh)
   }
 

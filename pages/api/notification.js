@@ -11,7 +11,7 @@ export default function handler(req, res) {
 
   const docClient = new AWS.DynamoDB.DocumentClient();
 
-  const { type, userName, tourId, action } = req.body;
+  const { type, userName, tourId, actionType } = req.body;
 
   const params = {
     TableName: "tourbook_users",

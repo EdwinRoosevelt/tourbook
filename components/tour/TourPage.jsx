@@ -12,21 +12,23 @@ var initiallData;
 
 function TourPage({ originalData, originalFormState, allUserData }) {
 
+  const router = useRouter();
+  const [data, setData] = useState(originalData.Item);
+  const [formState, setFormState] = useState(originalFormState);
+  const [isChangesMade, setIsChangesMade] = useState(false);
+
   useEffect(() => {
     if (originalData.success) {
       initiallData = JSON.parse(JSON.stringify(originalData.Item));
     }
   }, []);
 
-  const router = useRouter();
-  const [data, setData] = useState(originalData.Item);
-  const [formState, setFormState] = useState(originalFormState);
-  const [isChangesMade, setIsChangesMade] = useState(false);
-  const [reload, setReload] = useState(false);
+  useEffect(() => {
 
+  }, [data])
 
-  function dataChangeHandler(changeType, category, key, value) {
-    const newData = data;
+  function dataChangeHandler(category, key, value) {
+    const newData = JSON.parse(JSON.stringify(data));
 
     if (category === "details") newData[category][key] = value;
     else newData[category] = value;

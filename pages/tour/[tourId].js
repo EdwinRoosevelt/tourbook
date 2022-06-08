@@ -26,6 +26,7 @@ export async function getServerSideProps(context) {
 
   const allUserDataResponse = await fetch(`http:localhost:3000/api/user/all`);
   const allUserData = await allUserDataResponse.json();
+  
 
   return { props: { tourData, allUserData } };
 }

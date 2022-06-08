@@ -147,8 +147,8 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
       {/* ROW 5 */}
       {plan.isCost && (
-        <div class="mt-2 input-group mb-3">
-          <span class="input-group-text">₹</span>
+        <div className="mt-2 input-group mb-3">
+          <span className="input-group-text">₹</span>
           <input
             type="number"
             id="totalCost"
@@ -162,7 +162,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
               ])
             }
           />
-          <span class="input-group-text">/</span>
+          <span className="input-group-text">/</span>
           <input
             type="number"
             id="totalPerson"

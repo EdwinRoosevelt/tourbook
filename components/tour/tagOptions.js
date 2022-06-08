@@ -1,4 +1,5 @@
-export const TAG_OPTIONS = [
+
+export const TOUR_TAGS = [
   "🌲 Nature",
   "🤽 Water sports",
   "☀️ Sunny weather",

@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Users } from 'tabler-icons-react';
 
+var budget = 0;
+var expenseData = []
+
+
 function ExpensesSection({ data, total, dataChangeHandler, formState }) {
   const [refresh, setRefresh] = useState(false);
 
-  var budget = 0;
-  data.map((dayPlan) => {
-    dayPlan.map((plan) => {
-      if (plan.isCost) budget += plan.perHead;
-    });
-  });
 
-  dataChangeHandler("EDIT", "details", "budget", budget);
+  useEffect(() => {  
+    data.map((dayPlan) => {
+      dayPlan.map((plan) => {
+        if (plan.isCost) {
+          budget += plan.perHead;
+          expenseData.push(plan)
+        }
+      });
+    });
+
+    dataChangeHandler("details", "budget", budget);
+  }, [refresh]);
+
+  
 
 
   return (
@@ -53,33 +64,22 @@ function ExpensesSection({ data, total, dataChangeHandler, formState }) {
             </tr>
           </thead>
           <tbody>
-            {data.map((dayPlan, day) => {
+            {expenseData.map((item, index) => {
               return (
-                <>
-                  <tr key={day} />
-                  {dayPlan.map((plan, index) => {
-                    return (
-                      <>
-                        {plan.isCost && (
-                          <tr key={`A${day}${index}`}>
-                            <td scope="row">#</td>
-                            <td>
-                              <strong>{plan.type}</strong>
-                              <p className="text-muted">{plan.details}</p>
-                            </td>
-                            <td className="text-center">
-                              <p>₹{plan.totalCost[0]}</p>
-                              <p className="flex gap-2 align-items-center justify-content-center">
-                                <Users size={20} /> {plan.totalCost[1]}
-                              </p>{" "}
-                            </td>
-                            <td className="text-center">₹{plan.perHead}</td>
-                          </tr>
-                        )}
-                      </>
-                    );
-                  })}
-                </>
+                <tr key={index}>
+                  <td scope="row">{index + 1}</td>
+                  <td>
+                    <strong>{item.type}</strong>
+                    <p className="text-muted">{item.details}</p>
+                  </td>
+                  <td className="text-center">
+                    <p>₹{item.totalCost[0]}</p>
+                    <p className="flex gap-2 align-items-center justify-content-center">
+                      <Users size={20} /> {item.totalCost[1]}
+                    </p>{" "}
+                  </td>
+                  <td className="text-center">₹{item.perHead}</td>
+                </tr>
               );
             })}
 
