@@ -1,31 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  Card,
-  Select,
-  Switch,
-  Badge,
-  Button,
-  Group,
-  MultiSelect,
-  NumberInput,
-  Progress
+  Card, Select, Switch,
+  Badge, Button,
+  Group, MultiSelect,
+  NumberInput, Progress
 } from "@mantine/core";
-import { range } from "@mantine/hooks";
+
 import { TrashX } from "tabler-icons-react";
 
+import { DEFAULT_TAG_OPTIONS } from "./tagOptions"
 
 const PLAN_OPTIONS = ["TRAVEL", "STAY", "VISIT", "ACTIVITY", "OTHERS"];
-const INITIAL_DETAILS_OPTIONS = {
-  TRAVEL: [
-    "🏍️ Bike - R1",
-    "🚗 Car - Verna",
-    "🚆 Train - Yercaud Exp",
-    "✈️ Airplane",
-  ],
-  STAY: ["OYO", "ITC Chola", "L'Amby Bay", "Rock Fort Inn"],
-  VISIT: ["🍟 Restaurant", "🏞️ Park", "Film City", "Mall"],
-  ACTIVITY: ["🏄‍♂️ Surfing", "⚽ Football", "🥏 Frisbee", "🏏 Cricket"],
-};
+
 const WHEN_OPTIONS = [
   "✨ Night",
   "🌻 Morning",
@@ -40,7 +26,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
     const [refresh, setRefresh] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [detailsOptions, setDetailsOptions] = useState(INITIAL_DETAILS_OPTIONS);
+    const [detailsOptions, setDetailsOptions] = useState(DEFAULT_TAG_OPTIONS);
 
     
     const localDataChangeHandler = (mode, label, value) => {

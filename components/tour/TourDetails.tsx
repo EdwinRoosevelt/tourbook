@@ -34,34 +34,8 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
     }
   }
 
-
-
   function localDataChangeHandler({target}) {
     dataChangeHandler("details", target.id, target.value)
-
-    if(target.id == "dates") {
-      
-      const newPlanData = planData;
-
-      var date1 = new Date(target.value[0]);
-      var date2 = new Date(target.value[1]);
-
-      var requiredPlanArrSize = date2.getDate() - date1.getDate() + 1;
-      var currentPlanArrSize = newPlanData.length;
-
-      while (currentPlanArrSize < requiredPlanArrSize) {
-        newPlanData.push([]);
-        currentPlanArrSize++;
-      }
-
-      while (currentPlanArrSize > requiredPlanArrSize) {
-        newPlanData.pop();
-        currentPlanArrSize--;
-      }
-      console.log(newPlanData);
-      // dataChangeHandler("plan", null, newPlanData);
-    }
-
     setRefresh(!refresh)
   }
 

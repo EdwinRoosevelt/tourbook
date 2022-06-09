@@ -8,10 +8,30 @@ import PlanViewCard from "./PlanViewCard";
 function TourPlan({ data, details, formState, dataChangeHandler }) {
 
   const [refresh, setRefresh] = useState(false);
+  const newPlanData = data;
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+
+    var date1 = new Date(details.dates[0]);
+    var date2 = new Date(details.dates[1]);
+
+    var requiredPlanArrSize = date2.getDate() - date1.getDate() + 1;
+    var currentPlanArrSize = newPlanData.length;
+
+    while (currentPlanArrSize < requiredPlanArrSize) {
+      newPlanData.push([]);
+      currentPlanArrSize++;
+    }
+
+    while (currentPlanArrSize > requiredPlanArrSize) {
+      newPlanData.pop();
+      currentPlanArrSize--;
+    }
+
+    // dataChangeHandler("plan", null, newPlanData);
+    setRefresh(!refresh)
+
+  }, [details.dates]);
 
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;
@@ -48,7 +68,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
             <div>
               <button
                 title="Refresh Tour plan"
-                type='button'
+                type="button"
                 className="btn btn-outline-secondary"
                 onClick={() => setRefresh(!refresh)}
               >
@@ -65,7 +85,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
           and set the dates again.
         </div>
 
-        {data.map((dayPlan, day) => {
+        {newPlanData.map((dayPlan, day) => {
           return (
             <div className="card mt-2" key={day}>
               <div className="card-header">
