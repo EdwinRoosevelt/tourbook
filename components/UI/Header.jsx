@@ -15,7 +15,7 @@ import { logout } from '../../store/UserSlice';
 function Header() {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.isLoggedIn);
-    const currentUser = useSelector(state => state.userData.userId)
+    const currentUser = useSelector(state => state.currentUser)
 
     const [notification, setNotification] = useState([]);
 
@@ -46,16 +46,6 @@ function Header() {
             </a>
           </Link>
         </div>
-        {!isLoggedIn && (
-          <button
-            className="btn btn-outline-warning px-4"
-            data-bs-toggle="modal"
-            data-bs-target="#loginModal"
-          >
-            Log In
-          </button>
-        )}
-        {/* <LoginModal /> */}
         {isLoggedIn && (
           <div className="d-flex gap-3 justify-content-between align-items-center">
             <div className="dropdown">
@@ -79,7 +69,6 @@ function Header() {
                     </li>
                   );
                 })}
-                
               </ul>
             </div>
             <div className="dropdown">

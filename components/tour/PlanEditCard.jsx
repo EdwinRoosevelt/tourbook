@@ -43,8 +43,6 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
         dataChangeHandler(mode, day, index);
       }
 
-      
-
       refresh ? setRefresh(false) : setRefresh(true);
     }
 

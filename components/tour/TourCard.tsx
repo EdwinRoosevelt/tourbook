@@ -14,7 +14,25 @@ import {
 
 
 export default function TourCard({ tourId, cardData }) {
-  const { image, title, description, days, tourTags } = cardData;
+  const { image, title, description, days, tourTags, dates } = cardData;
+
+  function remainingDays () {
+
+    var today = new Date()
+    var tourDate = new Date(dates[0])
+
+    var remainingDays = Math.round((tourDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+
+    if (remainingDays < 31 ) return `${remainingDays} days to go !`
+    else {
+      var remainingMonths = Math.round(remainingDays/30);
+      return `${remainingMonths} month to go !`;
+
+    }
+
+  }
+
+
   return (
     <Card withBorder radius="md" p="md" my="lg">
       <Card.Section>
@@ -26,8 +44,9 @@ export default function TourCard({ tourId, cardData }) {
           <Text size="lg" weight={500}>
             {title}
           </Text>
-          <Badge size="md">{days}</Badge>
+          <Badge size="md">{remainingDays()}</Badge>
         </Group>
+        <Badge size="md">{dates[0]}</Badge>
         <Text size="sm" mt="xs">
           {description}
         </Text>

@@ -14,20 +14,24 @@ export default function handler(req, res) {
 
   const params = {
     TableName: "tourbook_users",
+    IndexName: "emailId-index",
     Key: {
-      emailId,
+      emailId
+    },
+    KeyConditionExpression: "emailId = :hkey",
+    ExpressionAttributeValues: {
+      ":hkey": emailId,
     },
   };
 
-  docClient.scan(params, function (err, data) {
-    const Item  = data;
+  docClient.query(params, function (err, data) {
     if (err) {
       console.log(err);
       res.json({ success: false, message: err });
     } else {
-      if (Object.keys(data).length === 0)
-        res.status(404).json({ success: false, message: "User not found!" });
-      else res.status(200).json({ success: true, Item });
+      if (data.Count === 0)
+        res.status(404).json({ success: false, message: "No User with such an emailId found!" });
+      else res.status(200).json({ success: true, Item: data.Items[0] });
     }
   });
 }

@@ -1,82 +1,80 @@
-import React from 'react'
-import { useGoogleLogin } from 'react-google-login';
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+
+import { Modal, Box, Group, Button, Divider, TextInput, PasswordInput } from "@mantine/core";
 // import firebase from 'firebase';
 
-
-
-import googleIcon from '../../public/google.png';
-
+import googleIcon from "../../public/google.png";
 
 import { login, logout } from "../../store/UserSlice";
+import { ShieldLock } from "tabler-icons-react";
 
-
-function LoginModal() {
+function LoginModal({ loginModalState, setIsLoginModalOpen }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  function signIn () {
+  function signIn() {
     dispatch(login());
-    router.push('/')
+    setIsLoginModalOpen(false);
+    router.push("/");
   }
 
-  function signOut() {
-    dispatch(logout());
-  }
-
-//   const onSuccess = (res) => {
-//     console.log(res.profileObj);
-//   }
-
-//   const onFailure = (res) => {
-//     console.log(res);
-//   }
-
-//   const { signIn } = useGoogleLogin({
-//     onSuccess,
-//     onFailure,
-//     clientId: process.env.GOOGLE_CLIENT_ID,
-//     isSignedIn: true,
-//     accessType: 'offline'
-//   });
-
-
-
- 
   return (
-    <div
-      className="modal fade"
-      id="loginModal"
-      tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
+    <Modal
+      centered
+      opened={loginModalState}
+      onClose={() => setIsLoginModalOpen(false)}
+      overlayOpacity={0.55}
+      transition="fade"
+      transitionDuration={600}
     >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
-              Login / Signup
-            </h5>
-          </div>
-          <div className="modal-body flex justify-content-center">
-            Email and password
-          </div>
-          <div className="modal-footer flex justify-content-center">
-            {/* <button
-              className="btn btn-outline-primary flex align-items-center gap-2"
-              type="button"
-              onClick={signIn}
-            >
-              <Image src={googleIcon} height="20rem" width="20rem"></Image>
-              <p>Sign in with Google</p>
-            </button> */}
-          </div>
-        </div>
+      <div className="flex gap-2 text-primary justify-content-center">
+        <ShieldLock size={50} strokeWidth={1} />
+        <div className="fs-2 mb-5"> Sign In</div>
       </div>
-    </div>
+
+      <Box sx={{ maxWidth: 340 }} mx="auto">
+        {/* <form onSubmit={form.onSubmit((values) => console.log(values))}> */}
+        <TextInput
+          disabled
+          required
+          label="Email"
+          placeholder="your@email.com"
+          // {...form.getInputProps("email")}
+        />
+
+        <PasswordInput
+          mt="sm"
+          disabled
+          label="Password"
+          placeholder="Password"
+          // {...form.getInputProps("password")}
+        />
+
+        <Group position="right" mt="md">
+          <button type="button" className="btn btn-primary btn-sm px-3 py-2 disabled">
+            Login{" "}
+          </button>
+        </Group>
+        {/* </form> */}
+      </Box>
+
+      <Divider my="xl" label="or" labelPosition="center" />
+
+      <div className="flex justify-content-center mb-4">
+        <button
+          className="btn btn-outline-primary flex align-items-center gap-2"
+          type="button"
+          onClick={signIn}
+        >
+          <Image src={googleIcon} height="20rem" width="20rem"></Image>
+          <p>Sign in with Google</p>
+        </button>
+      </div>
+    </Modal>
   );
 }
 
-export default LoginModal
+export default LoginModal;

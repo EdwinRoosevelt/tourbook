@@ -10,39 +10,22 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 var accessToken;
-var userId;
+var user;
 var userData
 
 if (typeof window !== "undefined") {
-  accessToken = localStorage.getItem('tourbook_access_token')
-  userId = localStorage.getItem('tourbook_userId')
+  // accessToken = localStorage.getItem('tourbook_access_token')
+  user = localStorage.getItem("tourbook_user");
   // if (userId) {
   //   userData = await loadUser(res.user.email);
   // }
 }
 
-// const DUMMY_USER_DATA = {
-//   userId: "b.edwinroosevelt@gmail.com",
-//   displayName: "Edwin Roosevelt",
-//   friendsList: ["banupriya@gmail.com", "anandhan@gmail.com"],
-//   notifications: [
-//     {
-//       id: "AD46",
-//       title: "Friend Request",
-//       description: "Banu Priya wants to be friends with you!",
-//     },
-//     {
-//       id: "AD45",
-//       title: "Tour Invite",
-//       description: "Banu invited you to join - Paris 2022",
-//     },
-//   ],
-// };
-
 const INITIAL_STATE = {
-  isLoggedIn: accessToken ? true : false,
-  accessToken: accessToken,
-  userData: {userId}, // ...DUMMY_USER_DATA
+  isLoggedIn: user ? true : false,
+  currentUser: user
+  // accessToken: accessToken,
+  // userData: { userId }, // ...DUMMY_USER_DATA
 };
 
 const UserSlice = createSlice({
@@ -52,14 +35,14 @@ const UserSlice = createSlice({
         login(state, {payload}) {
           state.accessToken = payload.accessToken
           state.isLoggedIn = true
-          localStorage.setItem('tourbook_access_token', payload.accessToken)
+          state.currentUser = payload.tourbook_user
+          localStorage.setItem("tourbook_user", payload.tourbook_user);
           
         },
         logout (state) {
           state.isLoggedIn = false;
           state.accessToken = "";
-          localStorage.removeItem("tourbook_access_token");
-          localStorage.removeItem("tourbook_userId")
+          localStorage.removeItem("tourbook_user");
         },
         loadUserData (state, {payload}) {
           state.userData = payload.userData
@@ -81,8 +64,8 @@ export const login = () => async (dispatch) => {
     const res = await signInWithPopup(auth, provider);
     console.log(res);
     const userData = await loadUser(res.user.email);
-    dispatch(UserSlice.actions.login({ accessToken: "qwerty12345" }));
-    dispatch(UserSlice.actions.loadUserData({userData: {...userData}}))
+    dispatch(UserSlice.actions.login({ "tourbook_user": userData.userName }));
+    // dispatch(UserSlice.actions.loadUserData({userData: {...userData}}))
     
 
   } catch (err) {
@@ -92,7 +75,7 @@ export const login = () => async (dispatch) => {
 
 const loadUser = async (userId) => {
   try {
-    const response = await fetch(`/api/user/${userId}`);
+    const response = await fetch(`/api/user/emailId/${userId}`);
     const responseData = await response.json();
     return responseData.Item;    
 
