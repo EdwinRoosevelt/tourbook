@@ -12,11 +12,14 @@ import {
 } from "tabler-icons-react";
 import { TextInput, NumberInput } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
+
+import { useSelector } from "react-redux";
+
 import DateRangeCard from "../common/DateRangeCard";
 
 
 
-function TourDetails({ data, planData, formState, setFormState, dataChangeHandler }) {
+function TourDetails({ data, currentUser, formState, setFormState, dataChangeHandler }) {
   const [refresh, setRefresh] = useState(false);
   // var date1, date2;
   useEffect(() => {
@@ -53,7 +56,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
               All the specifics about this trip!
             </p>
           </div>
-          {formState === "VIEW" && (
+          {formState === "VIEW" && currentUser === data.organizers && (
             <div>
               {/* <button
                 className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
@@ -86,6 +89,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
             <User size={30} color="#F8B400" />
             {formState !== "VIEW" && (
               <TextInput
+                disabled
                 size="md"
                 placeholder="organizers"
                 id="organizers"
@@ -94,7 +98,7 @@ function TourDetails({ data, planData, formState, setFormState, dataChangeHandle
                 required
               />
             )}
-            {formState === "VIEW" && <div>Edwin Roosevelt</div>}
+            {formState === "VIEW" && <div>{data.organizers}</div>}
           </div>
 
           {/* Venue */}

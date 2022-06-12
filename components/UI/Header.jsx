@@ -9,31 +9,40 @@ import tourbook from "../../public/tourbook_white.svg";
 import LoginModal from './LoginModal';
 import NotificationCard from '../common/NotificationCard';
 
-import { logout } from '../../store/UserSlice';
+import { asynclogout } from "../../store/UserSlice";
+import { useRouter } from 'next/router';
 
 
 function Header() {
+    const router = useRouter();
     const dispatch = useDispatch();
+    const isNewUser = useSelector(state => state.isNewUser)
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const currentUser = useSelector(state => state.currentUser)
+    const userData = useSelector((state) => state.user);
 
     const [notification, setNotification] = useState([]);
 
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     const response = await fetch(
+    //       `/api/user/edwin_roosevelt`
+    //     );
+    //     const responseData = await response.json();
+    //     // setUserData(response.Item)
+    //     setNotification(responseData.Item.notifications);
+    //   }
+    //   fetchData()
+    // }, [userData]);
+
+    console.log(userData)
+
     useEffect(() => {
-
-      const fetchData = async () => {
-        const response = await fetch(
-          `/api/user/edwin_roosevelt`
-        );
-        const responseData = await response.json();
-        setNotification(responseData.Item.notifications);
-      }
-      fetchData()
-
-    }, []);
+      if (isNewUser) router.push("/profile/create");
+    }, [isNewUser]);
 
     function signOut () {
-      dispatch(logout());
+      dispatch(asynclogout());
     }
 
   return (
@@ -80,13 +89,13 @@ function Header() {
                 aria-expanded="false"
               >
                 <img
-                  src="https://github.com/mdo.png"
+                  src={userData.photoURL}
                   alt="mdo"
                   width="32"
                   height="32"
                   className="rounded-circle"
                 />
-                Edwin Roosevelt
+                {userData.displayName}
               </button>
               <ul
                 className="dropdown-menu"

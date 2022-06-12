@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["tour-with-eddy.s3.ap-south-1.amazonaws.com"],
+    domains: [
+      "tour-with-eddy.s3.ap-south-1.amazonaws.com",
+      "lh3.googleusercontent.com",
+    ],
   },
   env: {
     DUMMY_KEY: "1234",

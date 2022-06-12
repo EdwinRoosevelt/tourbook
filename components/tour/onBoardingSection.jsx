@@ -5,23 +5,19 @@ import { Select, Loader } from "@mantine/core";
 import { Notification } from "@mantine/core";
 import { Check } from "tabler-icons-react";
 
+
 import postToDB from '../functions/postToDB'
 
 // const allUsers = [ "Angular", "Svelte Roosevelt", "Vue"]
 const allUsers = {userNames: [], displayNames: []}
 
-function OnboardersSection({ 
-  formState, allUserData, tourData, dataChangeHandler, formSubmitHandler,
-}) {
-
+function OnboardersSection({ formState, allUserData, tourData, currentUser }) {
   const router = useRouter();
+
   const [errorNotification, setErrorNotification] = useState(false);
   const [inviteSent, setInviteSent] = useState(false);
   const [reload, setReload] = useState(false);
   const [invitee, setInvitee] = useState();
-
-  const currentUser = "edwin_roosevelt";
-
 
   useEffect(() => {
     allUsers.userNames = allUserData.map((user) => {
@@ -31,7 +27,6 @@ function OnboardersSection({
       return user.displayName;
     });
   }, []);
- 
 
   useEffect(() => {
     if (invitee) setErrorNotification(false);
@@ -39,7 +34,7 @@ function OnboardersSection({
 
   const sendInvite = async () => {
     if (invitee) {
-      var inviteAlreadyExists = false
+      var inviteAlreadyExists = false;
       // inviteAlreadyExists = tourData.onboarders.map((item) => {
       //   if (item.userName === invitee) inviteAlreadyExists = true;
       // });
@@ -52,7 +47,6 @@ function OnboardersSection({
           if (userName === invitee) userIndex = index;
         });
 
-
         // Send Invitation
         const newTourData = JSON.parse(JSON.stringify(tourData));
         newTourData.onboarders.push({
@@ -62,7 +56,6 @@ function OnboardersSection({
           status: "INVITED",
         });
         await postToDB("/api/tour/edit", newTourData);
-
 
         // Send Notification
         const notification = {
@@ -75,7 +68,6 @@ function OnboardersSection({
 
         router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
       }
-      
 
       setTimeout(() => {
         setInviteSent(false);
@@ -101,7 +93,6 @@ function OnboardersSection({
 
       await postToDB("/api/tour/edit", tourData);
       router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
-          
     }
   };
 
@@ -119,8 +110,6 @@ function OnboardersSection({
       await postToDB("/api/tour/edit", tourData);
       router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
     }
-    
-
   };
 
   return (
@@ -133,32 +122,35 @@ function OnboardersSection({
         <h1 className="display-4">Onboarders</h1>
         <p className="text-muted mb-4">The people you will be touring with!</p>
 
-        <div className="flex gap-3 mb-4">
-          <Select
-            placeholder="Pick your tour buddy"
-            data={allUsers.userNames}
-            value={invitee}
-            onChange={setInvitee}
-            searchable
-            clearable
-            maxDropdownHeight={200}
-            nothingFound="No such User"
-          />
-          <button
-            type="button"
-            className={`flex border btn btn-outline-success ${
-              inviteSent && "disabled"
-            }`}
-            onClick={sendInvite}
-          >
-            {!inviteSent && "Send Invite"}
-            {inviteSent && (
-              <>
-                <Check /> &nbsp; Sent
-              </>
-            )}
-          </button>
-        </div>
+        {currentUser === tourData.details.organizers && (
+          <div className="flex gap-3 mb-4">
+            <Select
+              placeholder="Pick your tour buddy"
+              data={allUsers.userNames}
+              value={invitee}
+              onChange={setInvitee}
+              searchable
+              clearable
+              maxDropdownHeight={200}
+              nothingFound="No such User"
+            />
+            <button
+              type="button"
+              className={`flex border btn btn-outline-success ${
+                inviteSent && "disabled"
+              }`}
+              onClick={sendInvite}
+            >
+              {!inviteSent && "Send Invite"}
+              {inviteSent && (
+                <>
+                  <Check /> &nbsp; Sent
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         {errorNotification && (
           <Notification disallowClose color="red" title="You cant't do that">
             You need to select someone before sending an invite!

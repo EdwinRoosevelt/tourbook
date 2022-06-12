@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Users } from 'tabler-icons-react';
 
 var budget = 0;
-var expenseData = []
+var expenseData = [];
 
 
 function ExpensesSection({ data, total, dataChangeHandler, formState }) {
   const [refresh, setRefresh] = useState(false);
 
-
-  useEffect(() => {  
+  useEffect(() => {
+    budget = 0
+    expenseData = []  
     data.map((dayPlan) => {
       dayPlan.map((plan) => {
         if (plan.isCost) {
@@ -17,10 +18,17 @@ function ExpensesSection({ data, total, dataChangeHandler, formState }) {
           expenseData.push(plan)
         }
       });
+      
     });
-
     dataChangeHandler("details", "budget", budget);
-  }, [refresh]);
+  }, []);
+
+  
+    // useEffect(() => () => {
+    //     for (var i in expenseData) delete expenseData[i]
+    //     budget = 0;
+    // }, [])
+    
 
   
 

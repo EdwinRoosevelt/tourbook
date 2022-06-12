@@ -52,16 +52,18 @@ export default function TourCard({ tourId, cardData }) {
         </Text>
       </Card.Section>
 
-      <Card.Section p="sm">
-        <Text mt="md" color="dimmed">
-          Perfect for you, if you enjoy
-        </Text>
-        <Group spacing={7} mt={5}>
-          {tourTags.map((tag, index) => {
-            return <Badge key={index}>{tag}</Badge>;
-          })}
-        </Group>
-      </Card.Section>
+      {tourTags.length !== 0 && (
+        <Card.Section p="sm">
+          <Text mt="md" color="dimmed">
+            Perfect for you, if you enjoy
+          </Text>
+          <Group spacing={7} mt={5}>
+            {tourTags.map((tag, index) => {
+              return <Badge key={index}>{tag}</Badge>;
+            })}
+          </Group>
+        </Card.Section>
+      )}
 
       <Group mt="xs">
         <Link href={`/tour/${tourId}`}>

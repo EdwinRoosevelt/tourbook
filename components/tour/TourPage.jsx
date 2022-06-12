@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 import LandingSection from "./LandingSection";
 import TourPlan from "./TourPlan";
@@ -13,6 +14,7 @@ var initiallData;
 function TourPage({ originalData, originalFormState, allUserData }) {
 
   const router = useRouter();
+  const currentUser = useSelector((state) => state.currentUser);
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
   const [isChangesMade, setIsChangesMade] = useState(false);
@@ -95,7 +97,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
               <div className="container-md">
                 <TourDetails
                   data={data.details}
-                  planData={data.plan}
+                  currentUser={currentUser}
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                   setFormState={setFormState}
@@ -115,6 +117,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 {formState === "VIEW" && (
                   <OnboardingSection
                     tourData={data}
+                    currentUser={currentUser}
                     allUserData={allUserData}
                     dataChangeHandler={dataChangeHandler}
                     formState={formState}

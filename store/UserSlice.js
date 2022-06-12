@@ -9,82 +9,90 @@ initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
-var accessToken;
 var user;
-var userData
 
 if (typeof window !== "undefined") {
-  // accessToken = localStorage.getItem('tourbook_access_token')
-  user = localStorage.getItem("tourbook_user");
-  // if (userId) {
-  //   userData = await loadUser(res.user.email);
-  // }
+  user = JSON.parse(localStorage.getItem("tourbook_user"));
 }
 
 const INITIAL_STATE = {
   isLoggedIn: user ? true : false,
-  currentUser: user
+  currentUser: user ? user.userName: "",
+  isNewUser: false,
+  user
   // accessToken: accessToken,
   // userData: { userId }, // ...DUMMY_USER_DATA
 };
 
 const UserSlice = createSlice({
-    name: "User State",
-    initialState: INITIAL_STATE,
-    reducers: {
-        login(state, {payload}) {
-          state.accessToken = payload.accessToken
-          state.isLoggedIn = true
-          state.currentUser = payload.tourbook_user
-          localStorage.setItem("tourbook_user", payload.tourbook_user);
-          
-        },
-        logout (state) {
-          state.isLoggedIn = false;
-          state.accessToken = "";
-          localStorage.removeItem("tourbook_user");
-        },
-        loadUserData (state, {payload}) {
-          state.userData = payload.userData
-          localStorage.setItem("tourbook_userId", payload.userData.userId);
-        },
-        updateUserData(state, {payload}) {
-          //
-        }
-    }
-
-})
+  name: "User State",
+  initialState: INITIAL_STATE,
+  reducers: {
+    login(state, { payload }) {
+      state.user = payload;
+      state.isLoggedIn = true;
+      state.isNewUser = false
+      state.currentUser = payload.userName;
+      localStorage.setItem("tourbook_user", JSON.stringify(payload));
+    },
+    logout(state) {
+      state.isLoggedIn = false;
+      localStorage.removeItem("tourbook_user");
+    },
+    newUser(state, { payload }) {
+      state.isNewUser = true;
+    },
+  },
+});
 
 export default UserSlice
 
-// export const { login, logout } = UserSlice.actions;
+export const { login, logout } = UserSlice.actions;
 
-export const login = () => async (dispatch) => {
+export const asyncLoadUser = () => async (dispatch) => {
   try {
-    const res = await signInWithPopup(auth, provider);
-    console.log(res);
-    const userData = await loadUser(res.user.email);
-    dispatch(UserSlice.actions.login({ "tourbook_user": userData.userName }));
-    // dispatch(UserSlice.actions.loadUserData({userData: {...userData}}))
-    
+    const authenticatedUser = await signInWithPopup(auth, provider);
+
+    const response = await loadUser({
+      key: "emailId",
+      emailId: authenticatedUser.user.email,
+    });
+
+    if (response.success) {
+      dispatch(UserSlice.actions.login(response.Item));
+      console.log("Existing User logged In")
+
+    } else {
+      const user = {
+        userName: authenticatedUser.user.email.split("@")[0],
+        emailId: authenticatedUser.user.email,
+        displayName: authenticatedUser.user.displayName,
+        photoURL: authenticatedUser.user.photoURL,
+      };
+      dispatch(UserSlice.actions.login(user));
+      dispatch(UserSlice.actions.newUser());
+      console.log("New User logged In");
+    }
 
   } catch (err) {
     console.log(err);
   }
 }
 
-const loadUser = async (userId) => {
+const loadUser = async (prop) => {
   try {
-    const response = await fetch(`/api/user/emailId/${userId}`);
+    var response;
+    if (prop.key === "emailId") response = await fetch(`/api/user/emailId/${prop.emailId}`);
+    if (prop.key === "userName") response = await fetch(`/api/user/${prop.userName}`)
     const responseData = await response.json();
-    return responseData.Item;    
+    return responseData
 
   } catch (err) {
     console.log(err);
   }
 };
 
-export const logout = () => async (dispatch) => {
+export const asynclogout = () => async (dispatch) => {
   try {
     const res = await signOut(auth);
     console.log(res);

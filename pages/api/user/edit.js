@@ -28,7 +28,7 @@ export default function handler(req, res) {
         console.log(data);
         res.status(200).json({
           success: true,
-          userId: Item.userId,
+          Item,
           message: "User editted successfully",
         });
       }

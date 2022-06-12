@@ -8,7 +8,7 @@ import { Modal, Box, Group, Button, Divider, TextInput, PasswordInput } from "@m
 
 import googleIcon from "../../public/google.png";
 
-import { login, logout } from "../../store/UserSlice";
+import { asyncLoadUser } from "../../store/UserSlice";
 import { ShieldLock } from "tabler-icons-react";
 
 function LoginModal({ loginModalState, setIsLoginModalOpen }) {
@@ -16,7 +16,7 @@ function LoginModal({ loginModalState, setIsLoginModalOpen }) {
   const router = useRouter();
 
   function signIn() {
-    dispatch(login());
+    dispatch(asyncLoadUser());
     setIsLoginModalOpen(false);
     router.push("/");
   }
