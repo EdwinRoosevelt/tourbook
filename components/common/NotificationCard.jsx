@@ -1,25 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import Link from 'next/Link'
 
-function NotificationCard({data}) {
+import { Avatar } from "@mantine/core";
+import { Notification } from "@mantine/core";
+import { Check, X } from "tabler-icons-react";
+import postToDB from '../functions/postToDB';
+
+function NotificationCard({ currentUser, data, reload, setReload }) {
+  async function discardNotification() {
+    const response = await postToDB("/api/notification/del", {
+      user: currentUser,
+      tourId: data.tourId,
+      inviteType: data.inviteType,
+    });
+    console.log(response);
+    setReload(!reload);
+  }
+
+  useEffect(() => {}, [data]);
 
   return (
-    <div className="card m-2" style={{  width: "20rem" }}>
-      <div className="card-body">
-        <h5 className="card-title">
-          <strong>{data.type === "TourInvite" && "TOUR Invitation"}</strong>
-        </h5>
-        {data.type === "TourInvite" && (
-          <p className="card-text mb-2">
-            edwin_roosevelt has invited you join 
-            {data.tourTitle}
-          </p>
-        )}
-        <div className="mt-3 flex gap-3 justify-content-end">
-          <button className="btn px-2 btn-success btn-sm" >Success</button>
-          <button className="btn btn-danger btn-sm">Ignore</button>
-        </div>
-      </div>
-    </div>
+    <Notification
+      style={{ width: "20rem" }}
+      icon={<Avatar src={data.inviter.photoURL} radius="xl" size="lg" />}
+      title="Tour Invitation"
+      px="md"
+      onClose={discardNotification}
+    >
+      {data.inviter.displayName} has invited you to join &nbsp;
+      <Link href={`/tour/${data.tourId}`}>
+        <a className="badge bg-dark px-2" href="">
+          {data.tourTitle}
+        </a>
+      </Link>
+    </Notification>
   );
 }
 

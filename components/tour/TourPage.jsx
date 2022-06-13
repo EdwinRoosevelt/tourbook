@@ -15,6 +15,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
 
   const router = useRouter();
   const currentUser = useSelector((state) => state.currentUser);
+  const user = useSelector((state) => state.user);
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
   const [isChangesMade, setIsChangesMade] = useState(false);
@@ -117,6 +118,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 {formState === "VIEW" && (
                   <OnboardingSection
                     tourData={data}
+                    user={user}
                     currentUser={currentUser}
                     allUserData={allUserData}
                     dataChangeHandler={dataChangeHandler}

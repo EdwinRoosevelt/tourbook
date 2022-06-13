@@ -11,7 +11,7 @@ import postToDB from '../functions/postToDB'
 // const allUsers = [ "Angular", "Svelte Roosevelt", "Vue"]
 const allUsers = {userNames: [], displayNames: []}
 
-function OnboardersSection({ formState, allUserData, tourData, currentUser }) {
+function OnboardersSection({ formState, allUserData, tourData, user, currentUser }) {
   const router = useRouter();
 
   const [errorNotification, setErrorNotification] = useState(false);
@@ -21,12 +21,13 @@ function OnboardersSection({ formState, allUserData, tourData, currentUser }) {
 
   useEffect(() => {
     allUsers.userNames = allUserData.map((user) => {
+      // tourData.onboarders.map();
       return user.userName;
     });
     allUsers.displayNames = allUserData.map((user) => {
       return user.displayName;
     });
-  }, []);
+  }, [inviteSent]);
 
   useEffect(() => {
     if (invitee) setErrorNotification(false);
@@ -34,40 +35,33 @@ function OnboardersSection({ formState, allUserData, tourData, currentUser }) {
 
   const sendInvite = async () => {
     if (invitee) {
-      var inviteAlreadyExists = false;
-      // inviteAlreadyExists = tourData.onboarders.map((item) => {
-      //   if (item.userName === invitee) inviteAlreadyExists = true;
-      // });
+      setInviteSent(true);
+      var userIndex = 0;
+      allUsers.userNames.map((userName, index) => {
+        if (userName === invitee) userIndex = index;
+      });
 
-      if (!inviteAlreadyExists) {
-        setInviteSent(true);
+      // Send Invitation
+      const newTourData = JSON.parse(JSON.stringify(tourData));
+      newTourData.onboarders.push({
+        userName: invitee,
+        displayName: allUsers.displayNames[userIndex],
+        status: "INVITED",
+      });
+      await postToDB("/api/tour/edit", newTourData);
 
-        var userIndex = 0;
-        allUsers.userNames.map((userName, index) => {
-          if (userName === invitee) userIndex = index;
-        });
+      // Send Notification
+      const notification = {
+        // inviter: {userName: currentUser, }
+        inviter: {userName: user.userName, photoURL: user.photoURL, displayName: user.displayName},
+        invitee,
+        inviteType: "TourInvite",
+        tourId: tourData.tourId,
+        tourTitle: tourData.details.title,
+      };
+      await postToDB("/api/notification/add", notification);
 
-        // Send Invitation
-        const newTourData = JSON.parse(JSON.stringify(tourData));
-        newTourData.onboarders.push({
-          userName: invitee,
-          displayName: allUsers.displayNames[userIndex],
-
-          status: "INVITED",
-        });
-        await postToDB("/api/tour/edit", newTourData);
-
-        // Send Notification
-        const notification = {
-          inviter: currentUser,
-          userName: invitee,
-          actionType: "ADD",
-          tourId: "ZXC123",
-        };
-        await postToDB("/api/notification", notification);
-
-        router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
-      }
+      router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
 
       setTimeout(() => {
         setInviteSent(false);

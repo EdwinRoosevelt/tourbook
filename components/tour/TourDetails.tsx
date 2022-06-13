@@ -56,24 +56,26 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
               All the specifics about this trip!
             </p>
           </div>
-          {formState === "VIEW" && currentUser === data.organizers && (
+          {formState === "VIEW" && (
             <div>
               {/* <button
                 className={`btn btn-outline-success active mr-2 d-inline-flex gap-1`}
               >
                 <Check size={25} /> <div>I'm IN</div>
               </button> */}
-              <button className={`btn btn-outline-danger active mr-2`}>
+              <button className={`btn btn-outline-danger mr-2`}>
                 <Heart size={25} />
               </button>
 
-              <button
-                title="Edit Tour plan"
-                className="btn btn-outline-secondary"
-                onClick={() => setFormState("EDIT")}
-              >
-                <Edit size={25} />
-              </button>
+              {currentUser === data.organizers && (
+                <button
+                  title="Edit Tour plan"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setFormState("EDIT")}
+                >
+                  <Edit size={25} />
+                </button>
+              )}
             </div>
           )}
         </div>

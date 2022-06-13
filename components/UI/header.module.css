@@ -1,0 +1,30 @@
+.notificationDropdown {
+
+    left: -5rem !important;
+    width: 18rem;
+    /* right: 15rem !important; */
+}
+
+/* .notificationDropdown {
+    left: -7rem !important;
+    width: 20rem;
+
+} */
+
+.profileDropdown {
+    left: -4rem !important;
+    width: 13rem;
+    /* right: -5rem !important; */
+}
+
+/* @media screen and (max-width:800px) {
+    .notificationDropdown {
+        width: 15rem;
+    }
+} */
+
+/* .centerDropdown:after {
+   left: auto !important;
+   right: auto
+   !important;
+} */

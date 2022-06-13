@@ -20,13 +20,19 @@ const bgImages = {
 function PlanViewCard({ plan, index }) {
   return (
     <div>
-      <Card mt="sm" mb="sm" shadow="xl" className="border p-0">
+      <Card
+        mt="sm"
+        mb="sm"
+        shadow="xl"
+        className="border p-0"
+        style={{ backgroundColor: "#F9F9F9" }}
+      >
         {/* Row 1 */}
         <div className="row align-items-center p-2">
           <div className="col-3 text-center">
             <span
               title={`This ${plan.type} is FREE`}
-              className="d-inline-flex gap-1 badge rounded-pill bg-light text-dark p-2"
+              className="d-inline-flex gap-1 badge rounded-pill bg-dark text-light p-2"
             >
               {/* <Gift color="#198754" size="13" /> */}
               <div>{index + 1}</div>
@@ -81,7 +87,7 @@ function PlanViewCard({ plan, index }) {
                   return (
                     <span
                       key={tag}
-                      className="d-inline-flex gap-1 badge bg-light text-dark p-2 mr-2"
+                      className="d-inline-flex gap-1 badge bg-dark text-light p-2 mr-2"
                     >
                       {tag}
                     </span>
@@ -100,7 +106,7 @@ function PlanViewCard({ plan, index }) {
                   return (
                     <span
                       key={tag}
-                      className="d-inline-flex gap-1 badge bg-light text-dark p-2 mr-2"
+                      className="d-inline-flex gap-1 badge bg-dark text-light p-2 mr-2"
                     >
                       {tag}
                     </span>
