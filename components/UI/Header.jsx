@@ -42,25 +42,6 @@ function Header() {
       fetchData()
     }, [reload]);
 
-    async function discardNotification ({ tourId }) {
-      const newNotifications = notifications.map(item => {
-        if (item.tourId !== tourId) return item
-      })
-
-      console.log(newNotifications)
-      console.log(notifications)
-
-      // const response = await fetch(`/api/user/${currentUser}`);
-      // const responseData = await response.json();
-
-      // responseData.Item.notifications = newNotifications;
-      // await postToDB('/api/user/edit', responseData.Item)
-      // router.push('/')
-    }
-
-    // console.log(userData)
-
-
 
     function signOut () {
       dispatch(asynclogout());

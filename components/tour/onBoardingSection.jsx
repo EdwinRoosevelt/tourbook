@@ -8,26 +8,46 @@ import { Check } from "tabler-icons-react";
 
 import postToDB from '../functions/postToDB'
 
-// const allUsers = [ "Angular", "Svelte Roosevelt", "Vue"]
-const allUsers = {userNames: [], displayNames: []}
+const availableInvitees = {userNames: [], displayNames: []}
 
-function OnboardersSection({ formState, allUserData, tourData, user, currentUser }) {
+function OnboardersSection({ formState, allUserData, tourData, user, currentUser, setData }) {
   const router = useRouter();
 
   const [errorNotification, setErrorNotification] = useState(false);
   const [inviteSent, setInviteSent] = useState(false);
-  const [reload, setReload] = useState(false);
   const [invitee, setInvitee] = useState();
 
   useEffect(() => {
-    allUsers.userNames = allUserData.map((user) => {
-      // tourData.onboarders.map();
+
+    // Extracting userName and displayNames from allUserData and
+    // filtering out the confirm and invited users from the available invitees
+
+    availableInvitees.userNames = allUserData.map((user) => {
       return user.userName;
     });
-    allUsers.displayNames = allUserData.map((user) => {
+
+    availableInvitees.userNames = availableInvitees.userNames.filter((user) => {
+      var validUser = true;
+      tourData.onboarders.map((onBoarder) => {
+        if (user === onBoarder.userName) validUser = false;
+      });
+      return validUser;
+    });
+
+    availableInvitees.displayNames = allUserData.map((user) => {
       return user.displayName;
     });
-  }, [inviteSent]);
+
+    availableInvitees.displayNames = availableInvitees.displayNames.filter(
+      (user) => {
+        var validUser = true;
+        tourData.onboarders.map((onBoarder) => {
+          if (user === onBoarder.displayName) validUser = false;
+        });
+        return validUser;
+      }
+    );
+  });
 
   useEffect(() => {
     if (invitee) setErrorNotification(false);
@@ -37,23 +57,18 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
     if (invitee) {
       setInviteSent(true);
       var userIndex = 0;
-      allUsers.userNames.map((userName, index) => {
+      availableInvitees.userNames.map((userName, index) => {
         if (userName === invitee) userIndex = index;
       });
-
-      // Send Invitation
-      const newTourData = JSON.parse(JSON.stringify(tourData));
-      newTourData.onboarders.push({
-        userName: invitee,
-        displayName: allUsers.displayNames[userIndex],
-        status: "INVITED",
-      });
-      await postToDB("/api/tour/edit", newTourData);
 
       // Send Notification
       const notification = {
         // inviter: {userName: currentUser, }
-        inviter: {userName: user.userName, photoURL: user.photoURL, displayName: user.displayName},
+        inviter: {
+          userName: user.userName,
+          photoURL: user.photoURL,
+          displayName: user.displayName,
+        },
         invitee,
         inviteType: "TourInvite",
         tourId: tourData.tourId,
@@ -61,10 +76,21 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
       };
       await postToDB("/api/notification/add", notification);
 
-      router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
+      // Send Invitation
+      const newTourData = JSON.parse(JSON.stringify(tourData));
+      newTourData.onboarders.push({
+        userName: invitee,
+        displayName: availableInvitees.displayNames[userIndex],
+        status: "INVITED",
+      });
+      setData(newTourData);
+      await postToDB("/api/tour/edit", newTourData);
+
+      
 
       setTimeout(() => {
         setInviteSent(false);
+        setInvitee("");
       }, 2000);
     } else {
       setErrorNotification(true);
@@ -120,7 +146,7 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
           <div className="flex gap-3 mb-4">
             <Select
               placeholder="Pick your tour buddy"
-              data={allUsers.userNames}
+              data={availableInvitees.userNames}
               value={invitee}
               onChange={setInvitee}
               searchable

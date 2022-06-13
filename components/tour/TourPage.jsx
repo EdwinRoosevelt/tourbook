@@ -121,9 +121,8 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                     user={user}
                     currentUser={currentUser}
                     allUserData={allUserData}
-                    dataChangeHandler={dataChangeHandler}
+                    setData={setData}
                     formState={formState}
-                    formSubmitHandler={formSubmitHandler}
                   />
                 )}
               </div>
