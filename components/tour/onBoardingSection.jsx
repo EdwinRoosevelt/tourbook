@@ -8,7 +8,7 @@ import { Check } from "tabler-icons-react";
 
 import postToDB from '../functions/postToDB'
 
-const availableInvitees = {userNames: [], displayNames: []}
+// const availableInvitees = {userNames: [], displayNames: []}
 
 function OnboardersSection({ formState, allUserData, tourData, user, currentUser, setData }) {
   const router = useRouter();
@@ -16,17 +16,19 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
   const [errorNotification, setErrorNotification] = useState(false);
   const [inviteSent, setInviteSent] = useState(false);
   const [invitee, setInvitee] = useState();
+  const [availableInvitees, setAvailableInvitees] = useState({
+    userNames: [],
+    displayNames: [],
+  });
 
   useEffect(() => {
-
     // Extracting userName and displayNames from allUserData and
     // filtering out the confirm and invited users from the available invitees
 
-    availableInvitees.userNames = allUserData.map((user) => {
+    const mappedUserNames = allUserData.map((user) => {
       return user.userName;
     });
-
-    availableInvitees.userNames = availableInvitees.userNames.filter((user) => {
+    const filteredUserNames = mappedUserNames.filter((user) => {
       var validUser = true;
       tourData.onboarders.map((onBoarder) => {
         if (user === onBoarder.userName) validUser = false;
@@ -34,20 +36,22 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
       return validUser;
     });
 
-    availableInvitees.displayNames = allUserData.map((user) => {
+    const mappedDisplayNames = allUserData.map((user) => {
       return user.displayName;
     });
+    const filteredDisplayNames = mappedDisplayNames.filter((user) => {
+      var validUser = true;
+      tourData.onboarders.map((onBoarder) => {
+        if (user === onBoarder.displayName) validUser = false;
+      });
+      return validUser;
+    });
+    setAvailableInvitees({
+      userNames: filteredUserNames,
+      displayNames: filteredDisplayNames,
+    });
+  }, [inviteSent]);
 
-    availableInvitees.displayNames = availableInvitees.displayNames.filter(
-      (user) => {
-        var validUser = true;
-        tourData.onboarders.map((onBoarder) => {
-          if (user === onBoarder.displayName) validUser = false;
-        });
-        return validUser;
-      }
-    );
-  });
 
   useEffect(() => {
     if (invitee) setErrorNotification(false);
@@ -108,7 +112,6 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
         }
         return item;
       });
-
       tourData.onboarders = newOnboardersData;
 
       await postToDB("/api/tour/edit", tourData);

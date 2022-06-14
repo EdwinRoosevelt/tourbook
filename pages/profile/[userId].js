@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 import ProfilePage from '../../components/profile/ProfilePage';
 
@@ -6,6 +8,14 @@ import ProfilePage from '../../components/profile/ProfilePage';
 
 const formState = "EDIT";
 function profileViewPage({responseData}) {
+    const router = useRouter();
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
+    const isNewUser = useSelector((state) => state.isNewUser);
+
+    useEffect(() => {
+      if (!isLoggedIn) router.push("/", null, { shallow: true });
+      if (isNewUser) router.push("/profile/create", null, { shallow: true });
+    });
 
   
   return (

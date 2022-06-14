@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+
 import Script from "next/script";
 import addthis from "addthis-snippet"
 
@@ -14,6 +16,11 @@ import { useWindowScroll } from "@mantine/hooks";
 function TourViewPage({ tourData, allUserData }) {
 
   const router = useRouter();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+
+  useEffect(() => {
+    if (!isLoggedIn) router.push("/", null, { shallow: true });
+  })
 
   // useEffect(() => {
   //   console.log("mounting")

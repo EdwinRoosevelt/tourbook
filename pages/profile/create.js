@@ -4,10 +4,19 @@ import { useRouter } from "next/router";
 
 import ProfileContent from "../../components/profile/ProfileContent";
 import SaveChanges from "../../components/common/SaveChanges";
-
+import postToDB from '../../components/functions/postToDB'
 import { login } from "../../store/UserSlice";
 
-const formState = "NEW"
+const EMPTY_PROFILE = {
+  userName: "",
+  displayName: "",
+  photoURL: null,
+  mobile: "",
+  notifications: [],
+  myTours: []
+}
+
+const formState = "NEW";
 
 function createProfile() {
 
@@ -17,15 +26,19 @@ function createProfile() {
 
     const [isFormReady, setIsFormReady] = useState(true)
     const [formLoader, setFormLoader] = useState(false)
+    const [userData, setUserData] = useState(EMPTY_PROFILE);
+
     const isNewUser = useSelector((state) => state.isNewUser);
-    const [userData, setUserData] = useState(
-      useSelector((state) => state.user)
-    );
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
+    const userSliceData = useSelector((state) => state.user);
+
+    console.log(userData);
 
 
     useEffect(() => {
-      if (!isNewUser) router.replace("/");
-    }, []);
+      if (!isNewUser || !isLoggedIn) router.replace("/");
+      setUserData({ ...userData, ...userSliceData });
+    }, [isNewUser, isLoggedIn]);
 
     function dataChangeHandler(key, value) {
       const newUserData = { ...userData };
@@ -37,29 +50,14 @@ function createProfile() {
         event.preventDefault();
         setFormLoader(true);
         setIsFormReady(false);
-        var confirmationAnswer = window.confirm("Are you sure hehe ?");
+        var confirmationAnswer = window.confirm("Are you sure ?");
 
         if (confirmationAnswer) {
-            try {
-                var response = await fetch("/api/user/edit", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
-                });
-
-                response = await response.json();
-
-                if(response.success) {
-                    dispatch(login(response.Item));
-                    router.push("/");
-                }
-
-            } catch (err) {
-                console.log(err);
-            }
+          const response = await postToDB("/api/user/edit", userData);
+          if (response.success) {
+            dispatch(login(response.Item));
+            router.push("/");
+          }
         }
         setIsFormReady(true);
         setFormLoader(false)

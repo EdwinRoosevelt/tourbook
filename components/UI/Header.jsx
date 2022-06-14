@@ -36,8 +36,7 @@ function Header() {
         const response = await fetch(`/api/user/${currentUser}`);
         const responseData = await response.json();
         // setUserData(response.Item)
-
-        setNotifications(responseData.Item.notifications);
+        if (response.success) setNotifications(responseData.Item.notifications);
       }
       fetchData()
     }, [reload]);

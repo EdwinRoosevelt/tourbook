@@ -13,24 +13,23 @@ import { Photo, Search } from "tabler-icons-react";
 
 import { TOUR_TAGS } from './tagOptions'
 
-const INITIALPHOTOS = [
-  {
-    alt: "Photo of Woman Sitting on Boat Spreading Her Arms",
-    src: "https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
-  },
-  {
-    alt: "Person Holding Compass",
-    src: "https://images.pexels.com/photos/691637/pexels-photo-691637.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
-  },
-];
+// const INITIALPHOTOS = [
+//   {
+//     alt: "Photo of Woman Sitting on Boat Spreading Her Arms",
+//     src: "https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+//   },
+//   {
+//     alt: "Person Holding Compass",
+//     src: "https://images.pexels.com/photos/691637/pexels-photo-691637.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+//   },
+// ];
 
 function LandingSection({ data, formState, dataChangeHandler }) {
-  const [refresh, setRefresh] = useState(false);
   const [opened, setOpened] = useState(false);
   const [loader, setLoader] = useState(false)
 
   const [imagequery, setImagequery] = useState("tour");
-  const [photos, setPhotos] = useState(INITIALPHOTOS);
+  const [photos, setPhotos] = useState([]);
   const [selectedImage, setSelectedImage] = useState(data.image)
 
 
@@ -69,7 +68,7 @@ function LandingSection({ data, formState, dataChangeHandler }) {
       <section
         id="landingSection"
         style={{
-          backgroundImage: `url(${selectedImage})`,
+          backgroundImage: `url(${data.image})`,
           backgroundSize: "cover",
         }}
       >
@@ -167,9 +166,8 @@ function LandingSection({ data, formState, dataChangeHandler }) {
                   placeholder="Search for images - tour, mountains, Paris, etc "
                   value={imagequery}
                   onChange={(event) => setImagequery(event.currentTarget.value)}
-                  rightSection={
-                    (loader && <Loader size="xs" />) || (!loader && <Search />)
-                  }
+                  icon={<Search />}
+                  rightSection={loader && <Loader size="xs" />}
                   required
                 />
                 <section
@@ -205,27 +203,39 @@ function LandingSection({ data, formState, dataChangeHandler }) {
                   </div>
                 </section>
 
-                <Group position="center">
-                  {photos.map((photo, index) => {
-                    return (
-                      <div key={index} className="m-3">
-                        <Card shadow="sm" p="lg">
-                          <Card.Section
-                            component="button"
-                            target="_blank"
-                            onClick={() => setSelectedImage(photo.src)}
-                          >
-                            <Image
-                              src={photo.src}
-                              height={160}
-                              alt={photo.alt}
-                            />
-                          </Card.Section>
-                        </Card>
-                      </div>
-                    );
-                  })}
-                </Group>
+                <div className="border">
+                  <p className="ml-5 py-2">
+                    <strong>SELECT</strong> an image to set as background image
+                  </p>
+                  <Group position="center">
+                    {photos.map((photo, index) => {
+                      return (
+                        <div key={index} className="m-3">
+                          <Card shadow="sm" p="lg">
+                            <Card.Section
+                              component="button"
+                              target="_blank"
+                              onClick={() => {
+                                setSelectedImage(photo.src);
+                                dataChangeHandler(
+                                  "details",
+                                  "image",
+                                  photo.src
+                                );
+                              }}
+                            >
+                              <Image
+                                src={photo.src}
+                                height={160}
+                                alt={photo.alt}
+                              />
+                            </Card.Section>
+                          </Card>
+                        </div>
+                      );
+                    })}
+                  </Group>
+                </div>
               </Modal>
             </>
           )}

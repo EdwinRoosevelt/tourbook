@@ -92,12 +92,15 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
 
           <div className="row">
             <div className="col-md-4 px-4 mb-3">
-              <Image
-                src={userData.photoURL}
-                width={"10"}
-                height={"10"}
-                layout="responsive"
-              />
+              {userData.photoURL !== null && (
+                <Image
+                  src={userData.photoURL}
+                  width={"10"}
+                  height={"10"}
+                  layout="responsive"
+                />
+              )}
+
               <div className="d-grid mb-3">
                 <button className="btn btn-outline-dark btn-sm disabled mt-3 px-4">
                   Set Avatar

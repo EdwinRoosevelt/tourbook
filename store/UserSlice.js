@@ -10,15 +10,16 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 var user;
-
+var isNewUser = false;
 if (typeof window !== "undefined") {
   user = JSON.parse(localStorage.getItem("tourbook_user"));
+  isNewUser = localStorage.getItem("tourbook_isNewUser");
 }
 
 const INITIAL_STATE = {
   isLoggedIn: user ? true : false,
   currentUser: user ? user.userName: "",
-  isNewUser: false,
+  isNewUser,
   user
   // accessToken: accessToken,
   // userData: { userId }, // ...DUMMY_USER_DATA
@@ -38,9 +39,11 @@ const UserSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false;
       localStorage.removeItem("tourbook_user");
+      localStorage.removeItem("tourbook_isNewUser");
     },
     newUser(state, { payload }) {
       state.isNewUser = true;
+      localStorage.setItem("tourbook_isNewUser", true);
     },
   },
 });
@@ -75,7 +78,7 @@ export const asyncLoadUser = () => async (dispatch) => {
     }
 
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 }
 
@@ -88,17 +91,15 @@ const loadUser = async (prop) => {
     return responseData
 
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 };
 
 export const asynclogout = () => async (dispatch) => {
   try {
     const res = await signOut(auth);
-    console.log(res);
-    console.log(auth);
     dispatch(UserSlice.actions.logout());
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 };

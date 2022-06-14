@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Link from 'next/Link'
+import Link from 'next/link'
 
 import { Avatar } from "@mantine/core";
 import { Notification } from "@mantine/core";
