@@ -29,7 +29,7 @@ function Header() {
 
     useEffect(() => {
       if (isNewUser) router.push("/profile/create");
-    }, [isNewUser]);
+    }, [isNewUser, router]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -37,9 +37,9 @@ function Header() {
         const responseData = await response.json();
         // setUserData(response.Item)
         if (response.success) setNotifications(responseData.Item.notifications);
-      }
-      fetchData()
-    }, [reload]);
+      };
+      fetchData();
+    }, [reload, currentUser]);
 
 
     function signOut () {
@@ -97,7 +97,7 @@ function Header() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <img
+                <Image
                   src={userData.photoURL}
                   alt="mdo"
                   width="32"

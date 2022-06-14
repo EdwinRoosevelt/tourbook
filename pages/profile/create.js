@@ -18,7 +18,7 @@ const EMPTY_PROFILE = {
 
 const formState = "NEW";
 
-function createProfile() {
+function CreateProfile() {
 
     // const userData = useSelector(state => state.user)
     const router = useRouter();
@@ -82,4 +82,4 @@ function createProfile() {
     );
 }
 
-export default createProfile;
+export default CreateProfile;

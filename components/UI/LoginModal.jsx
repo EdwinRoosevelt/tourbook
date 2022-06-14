@@ -69,7 +69,7 @@ function LoginModal({ loginModalState, setIsLoginModalOpen }) {
           type="button"
           onClick={signIn}
         >
-          <Image src={googleIcon} height="20rem" width="20rem"></Image>
+          <Image src={googleIcon} height="20rem" width="20rem" alt="google icon"></Image>
           <p>Sign in with Google</p>
         </button>
       </div>

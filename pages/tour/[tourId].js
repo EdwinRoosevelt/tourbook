@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
@@ -51,19 +52,44 @@ function TourViewPage({ tourData, allUserData }) {
   
 
   return (
-    <>
-      <TourPage
-        originalFormState={"VIEW"}
-        originalData={tourData}
-        allUserData={allUserData.Items}
-      />
+    <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
+      {tourData.success && (
+        <>
+          <Head>
+            <title>{tourData.Item.details.title}</title>
+            <meta
+              name="description"
+              content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
+            />
+          </Head>
+          <TourPage
+            originalFormState={"VIEW"}
+            originalData={tourData}
+            allUserData={allUserData.Items}
+          />
 
-      {/* <Script
+          {/* <Script
         type="text/javascript"
         src="//s7.addthis.com/js/300/addthis_widget.js#pubid="
         onLoad={handleAddThisLoaded}
       /> */}
-    </>
+        </>
+      )}
+
+      {!tourData.success && (
+        <>
+          <Head>
+            <title>404 | Tour not found</title>
+          </Head>
+          <p
+            className="flex justify-content-center align-items-center"
+            style={{ fontSize: "1.5rem", height: "80vh" }}
+          >
+            <strong>404</strong> &nbsp; | {tourData.message}
+          </p>
+        </>
+      )}
+    </div>
   );
 }
 

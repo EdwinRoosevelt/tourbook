@@ -53,7 +53,7 @@ const data = {
     "Plan a tour, add your friends and make all your every tour memorable! ",
 };
 
-export default function createTourBanner() {
+export default function CreateTourBanner() {
   const { classes, cx } = useStyles();
   const theme = useMantineTheme();
     

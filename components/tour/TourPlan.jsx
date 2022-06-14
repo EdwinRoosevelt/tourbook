@@ -29,9 +29,9 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
     }
 
     // dataChangeHandler("plan", null, newPlanData);
-    setRefresh(!refresh)
+    // setRefresh(!refresh)
 
-  }, [details.dates]);
+  }, [details.dates, newPlanData]);
 
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
@@ -7,7 +8,7 @@ import ProfilePage from '../../components/profile/ProfilePage';
 
 
 const formState = "EDIT";
-function profileViewPage({responseData}) {
+function ProfileViewPage({responseData}) {
     const router = useRouter();
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const isNewUser = useSelector((state) => state.isNewUser);
@@ -21,19 +22,33 @@ function profileViewPage({responseData}) {
   return (
     <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
       {responseData.success && (
-        <ProfilePage
-          initialUserData={responseData.Item}
-          formState={formState}
-        />
+        <>
+          <Head>
+            <title>{responseData.Item.displayName}</title>
+            {/* <meta
+              name="description"
+              content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
+            /> */}
+          </Head>
+          <ProfilePage
+            initialUserData={responseData.Item}
+            formState={formState}
+          />
+        </>
       )}
 
       {!responseData.success && (
-        <p
-          className="flex justify-content-center align-items-center"
-          style={{ fontSize: "1.5rem", height: "80vh" }}
-        >
-          <strong>404</strong> &nbsp; | {responseData.message}
-        </p>
+        <>
+          <Head>
+            <title>404 | User not found</title>
+          </Head>
+          <p
+            className="flex justify-content-center align-items-center"
+            style={{ fontSize: "1.5rem", height: "80vh" }}
+          >
+            <strong>404</strong> &nbsp; | {responseData.message}
+          </p>
+        </>
       )}
     </div>
   );
@@ -47,4 +62,4 @@ export async function getServerSideProps(context) {
   return { props: { responseData } };
 }
 
-export default profileViewPage
+export default ProfileViewPage
