@@ -6,9 +6,6 @@ import { useSelector } from "react-redux";
 import Script from "next/script";
 import addthis from "addthis-snippet"
 
-const AWS = require("aws-sdk");
-const uuid = require("uuidV4");
-
 import TourPage from "../../components/tour/TourPage"
 import { ChevronsDownLeft } from "tabler-icons-react";
 import { useWindowScroll } from "@mantine/hooks";

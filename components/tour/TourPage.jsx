@@ -26,10 +26,6 @@ function TourPage({ originalData, originalFormState, allUserData }) {
     }
   }, []);
 
-  useEffect(() => {
-
-  }, [data])
-
   function dataChangeHandler(category, key, value) {
     const newData = JSON.parse(JSON.stringify(data));
 
