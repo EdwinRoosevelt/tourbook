@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-const uuid = require("uuidV4");
+const uuid = require("uuidv4");
 
 const tourId = uuid.uuid().slice(0, 8);
 
