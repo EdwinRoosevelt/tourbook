@@ -55,11 +55,3 @@ export async function getServerSideProps() {
 
   return { props: { tourData: responseData.Items } };
 }
-
-const userItem = {
-  email: "b.edwinroosevelt@gmail.com",
-  name: "Edwin Roosevelt",
-  tourStats: [{ tourId: "ADF87954", status: "CONFIRM" }],
-  likedTours: ["ADF87954", ],
-  tourPartners: ["anandhan@gmail.com", ]
-};

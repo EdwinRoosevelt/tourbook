@@ -2,9 +2,9 @@ const AWS = require("aws-sdk");
 
 
 const awsTourbookUser = {
-  accessKeyId: process.env.AWS_ACCESS_ID,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: process.env.AWS_REGION,
+  accessKeyId: process.env.TOURBOOK_AWS_ACCESS_ID,
+  secretAccessKey: process.env.TOURBOOK_AWS_SECRET_KEY,
+  region: process.env.TOURBOOK_AWS_REGION,
 };
 
 export default function handler(req, res) {
