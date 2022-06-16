@@ -93,10 +93,10 @@ function TourViewPage({ tourData, allUserData }) {
 export async function getServerSideProps(context) {
 
   const tourId = context.params.tourId
-  const tourDataResponse = await fetch(`http:localhost:3000/api/tour/${tourId}`)
+  const tourDataResponse = await fetch(`http:${process.env.API_URL}/api/tour/${tourId}`)
   const tourData = await tourDataResponse.json();
 
-  const allUserDataResponse = await fetch(`http:localhost:3000/api/user/all`);
+  const allUserDataResponse = await fetch(`http:${process.env.API_URL}/api/user/all`);
   const allUserData = await allUserDataResponse.json();
   
 

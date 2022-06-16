@@ -61,8 +61,8 @@ function CreateTour({ allUserData }) {
   );
 }
 
-export async function getServerSideProps(t) {
-  const allUserDataResponse = await fetch(`http:localhost:3000/api/user/all`);
+export async function getServerSideProps() {
+  const allUserDataResponse = await fetch(`http:${process.env.API_URL}/api/user/all`);
   const allUserData = await allUserDataResponse.json();
 
   return { props: { allUserData } };

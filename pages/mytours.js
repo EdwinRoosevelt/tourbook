@@ -50,7 +50,7 @@ export default function MyTours({ tourData }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch(`http:localhost:3000/api/tour`);
+  const response = await fetch(`http:${process.env.API_URL}/api/tour`);
   const responseData = await response.json();
 
   return { props: { tourData: responseData.Items } };

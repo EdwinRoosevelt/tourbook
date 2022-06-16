@@ -56,7 +56,7 @@ function ProfileViewPage({responseData}) {
 
 export async function getServerSideProps(context) {
   const userId = context.params.userId;
-  const response = await fetch(`http:localhost:3000/api/user/${userId}`);
+  const response = await fetch(`http:${process.env.API_URL}/api/user/${userId}`);
   const responseData = await response.json();
 
   return { props: { responseData } };
