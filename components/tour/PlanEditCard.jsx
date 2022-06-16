@@ -9,17 +9,9 @@ import {
 import { TrashX } from "tabler-icons-react";
 
 import { DEFAULT_TAG_OPTIONS } from "./tagOptions"
+import { TIME_OPTIONS } from "./tagOptions";
 
-const PLAN_OPTIONS = ["TRAVEL", "STAY", "VISIT", "ACTIVITY", "OTHERS"];
-
-const WHEN_OPTIONS = [
-  "✨ Night",
-  "🌻 Morning",
-  "☀️ Afternoon",
-  "🌥️ Evening",
-  "🕘 9 am",
-  "12 pm",
-];
+const PLAN_OPTIONS = ["TRAVEL", "STAY", "VISIT", "ACTIVITY"]; // "OTHERS"
 
 
 function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
@@ -30,14 +22,15 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
     
     const localDataChangeHandler = (mode, label, value) => {
+      const newPlan = plan
       if(mode === "EDIT") {
-        if (label === "type") plan.details = {}
+        if (label === "type") newPlan.details = {};
         if (label === "totalCost" && value[0] && value[1]) {
-          plan["perHead"] = Math.floor(value[0] / value[1]);
+          newPlan["perHead"] = Math.floor(value[0] / value[1]);
         }
 
-        plan[label] = value;
-        dataChangeHandler(mode, day, index, plan);
+        newPlan[label] = value;
+        dataChangeHandler(mode, day, index, newPlan);
       }
       else if(mode === "DEL") {
         dataChangeHandler(mode, day, index);
@@ -48,11 +41,10 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
     useEffect(() => {
       var completion = 0;
-      if (plan.type != null) completion += 25
-      if (plan.details != null) completion += 25;
-      if (plan.when != null) completion += 25;
+      if (plan.details.length != 0) completion += 50;
+      if (plan.time.length != 0) completion += 50;
       setProgress(completion)
-    }, [refresh, plan.details])
+    }, [refresh, plan])
     
     // dayList = Array(days).fill(0).map((_, index) => `Day ${index}`)
     
@@ -105,9 +97,10 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
         <MultiSelect
           label="Time"
           placeholder="Choose Time Tags "
-          data={WHEN_OPTIONS}
+          data={TIME_OPTIONS}
           value={plan.time}
           onChange={(value) => localDataChangeHandler("EDIT", "time", value)}
+          getCreateLabel={(query) => `+ Add "${query}"`}
           creatable
           searchable
         />

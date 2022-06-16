@@ -3,11 +3,12 @@ const uuid = require("uuidv4");
 
 const tourId = uuid.uuid().slice(0, 8);
 
-const awsTourbookUser = {
-  accessKeyId: process.env.AWS_ACCESS_ID,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: process.env.AWS_REGION,
-};
+import { awsTourbookUser } from "../../../constants"
+// const awsTourbookUser = {
+//   accessKeyId: process.env.TOURBOOK_AWS_ACCESS_ID,
+//   secretAccessKey: process.env.TOURBOOK_AWS_SECRET_KEY,
+//   region: process.env.TOURBOOK_AWS_REGION,
+// };
 
 export default function handler(req, res) {
 

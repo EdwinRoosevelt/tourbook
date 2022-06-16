@@ -18,3 +18,18 @@ export const TOUR_TAGS = [
   "⛰️ Mountain",
   "🏕️ Camping",
 ];
+
+export const TIME_OPTIONS = [
+  "✨ Night",
+  "🌻 Morning",
+  "☀️ Afternoon",
+  "🌥️ Evening",
+  "🕘 9 am",
+  "🕘 12 pm",
+  "🕘 3 pm",
+  "🕘 6 pm",
+  "🕘 9 pm",
+  "🕘 12 am",
+  "🕘 3 am",
+  "🕘 6 am",
+];

@@ -111,7 +111,7 @@ function Header() {
                 aria-labelledby="dropdownMenuButton2"
               >
                 <li>
-                  <Link href="/createTour">
+                  <Link href="/tour/create">
                     <a className="dropdown-item flex gap-2 mb-2">
                       <PlaylistAdd color="#198754" />
                       <p>New Tour</p>

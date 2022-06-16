@@ -5,6 +5,14 @@ import { Plus } from "tabler-icons-react";
 import PlanEditCard from "./PlanEditCard";
 import PlanViewCard from "./PlanViewCard";
 
+const EMPTY_PLAN_CARD = {
+  type: "STAY",
+  details: [],
+  time: [],
+  cost: false,
+  totalCost: [0, 0],
+};
+
 function TourPlan({ data, details, formState, dataChangeHandler }) {
 
   const [refresh, setRefresh] = useState(false);
@@ -36,7 +44,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;
 
-    if (mode === "ADDPLAN") newData[day].push({type: "STAY", cost: false, totalCost: [0, 0]});
+    if (mode === "ADDPLAN") newData[day].push(EMPTY_PLAN_CARD);
     else if (mode === "EDIT") newData[day][key] = target;
     else if (mode === "DEL") newData[day].splice(key, 1);
 

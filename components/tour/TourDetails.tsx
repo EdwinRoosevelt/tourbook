@@ -112,7 +112,7 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
             {formState !== "VIEW" && (
               <TextInput
                 size="md"
-                placeholder="venue"
+                placeholder="destination"
                 value={data.venue}
                 id="venue"
                 onChange={localDataChangeHandler}
@@ -177,7 +177,7 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
             {formState !== "VIEW" && (
               <TextInput
                 size="md"
-                placeholder="budget"
+                placeholder="will be filled automatically"
                 required
                 id="budget"
                 value={data.budget}

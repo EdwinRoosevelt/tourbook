@@ -18,11 +18,17 @@ function TourPage({ originalData, originalFormState, allUserData }) {
   const user = useSelector((state) => state.user);
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
+
   const [isChangesMade, setIsChangesMade] = useState(false);
+  const [isFormReady, setIsFormReady] = useState(true);
+  const [formLoader, setFormLoader] = useState(false);
 
   useEffect(() => {
     if (originalData.success) {
       initiallData = JSON.parse(JSON.stringify(originalData.Item));
+    }
+    if (originalFormState == "NEW") {
+      dataChangeHandler("details", "organizers", currentUser)
     }
   }, []);
 
@@ -38,7 +44,9 @@ function TourPage({ originalData, originalFormState, allUserData }) {
 
   async function formSubmitHandler(event) {
     event.preventDefault();
-    var confirmationAnswer = window.confirm("Are you sure hehe ?");
+    setFormLoader(true);
+    setIsFormReady(false);
+    var confirmationAnswer = window.confirm("Are you sure ?");
 
     if (confirmationAnswer) {
       try {
@@ -57,13 +65,17 @@ function TourPage({ originalData, originalFormState, allUserData }) {
         response = await response.json();
 
         if (response.success) {
-          router.push(`/tour/${response.tourId}`);
           setFormState("VIEW");
+          // setData(response.Item);
+          console.log(response)
+          if (formState === "EDIT") router.reload();
         }
       } catch (err) {
         console.log(err);
       }
     }
+    setIsFormReady(true);
+    setFormLoader(false);
   }
 
   function formDiscardHandler() {
@@ -127,6 +139,8 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 formState={formState}
                 setFormState={setFormState}
                 formDiscardHandler={formDiscardHandler}
+                isFormReady={isFormReady}
+                formLoader={formLoader}
               />
             </form>
           </>

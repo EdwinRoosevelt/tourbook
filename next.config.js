@@ -19,6 +19,7 @@ const nextConfig = {
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
     PEXELS_API_KEY: process.env.PEXELS_API_KEY,
+    API_URL: process.env.API_URL,
   },
 };
 
