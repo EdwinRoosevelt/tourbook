@@ -63,7 +63,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
   return (
     <section id="tour-plan">
       <div
-        className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
+        className={`container ${formState !== "EDIT" && "mt-5"} p-sm-5 py-4 bg-white`}
       >
         <div className="flex justify-content-between align-items-start">
           <div>
@@ -99,7 +99,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
               <div className="card-header">
                 <strong>Day 0{day} </strong>- {returnNextDates(day)}
               </div>
-              <div className="card-body">
+              <div className="card-body p-0">
                 <div
                   className="container-fluid"
                   style={{ overflowX: "scroll" }}
@@ -110,7 +110,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
                         return (
                           <div
                             key={index}
-                            className="col-8 col-sm-8 col-md-6 col-lg-4 col-xl-3 "
+                            className="col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3 "
                           >
                             <PlanViewCard
                               day={day}

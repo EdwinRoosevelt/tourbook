@@ -10,7 +10,7 @@ function SaveChanges({ formState, isFormReady, formLoader, formDiscardHandler })
     <>
       {(formState === "EDIT" || formState === "NEW") && (
         <div className="fixed-bottom" style={{ zIndex: "10" }}>
-          <div className="card p-3 m-4 shadow">
+          <div className="card p-3 m-sm-4 m-2 shadow">
             <div className="flex gap-3 justify-content-end">
               {formState !== "NEW" && (
                 <button

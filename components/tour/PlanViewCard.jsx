@@ -21,8 +21,7 @@ function PlanViewCard({ plan, index }) {
   return (
     <div>
       <Card
-        mt="sm"
-        mb="sm"
+        my="sm"
         shadow="xl"
         className="border p-0"
         style={{ backgroundColor: "#F9F9F9" }}

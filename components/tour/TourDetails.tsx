@@ -46,7 +46,7 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
   return (
     <section id="tourdetails">
       <div
-        className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
+        className={`container ${formState !== "EDIT" && "mt-5"} p-sm-5 py-4 bg-white`}
       >
         {/* Section TITLE */}
         <div className="flex justify-content-between">
@@ -63,14 +63,14 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
               >
                 <Check size={25} /> <div>I'm IN</div>
               </button> */}
-              <button className={`btn btn-outline-danger mr-2`}>
+              <button className={`btn btn-outline-danger mr-2 btn-sm`}>
                 <Heart size={25} />
               </button>
 
               {currentUser === data.organizers && (
                 <button
                   title="Edit Tour plan"
-                  className="btn btn-outline-secondary"
+                  className="btn btn-outline-secondary btn-sm"
                   onClick={() => setFormState("EDIT")}
                 >
                   <Edit size={25} />

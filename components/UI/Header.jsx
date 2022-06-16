@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { BellRinging, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
+import { Avatar } from "@mantine/core";
 
-import tourbook from "../../public/tourbook_white.svg";
+import tourbook from "../../public/tourbook-home-icon.png";
 import LoginModal from './LoginModal';
 import NotificationCard from '../common/NotificationCard';
 import styles from './header.module.css'
@@ -47,9 +48,9 @@ function Header() {
     }
 
   return (
-    <header className="py-3 mb-3 bg-dark border-bottom">
-      <div className="container-fluid d-flex gap-3 justify-content-between align-items-center">
-        <div className="col-4 col-md-2 col-lg-1 p-2 mx-2">
+    <header className="py-sm-3 bg-dark border-bottom">
+      <div className="container-fluid d-flex gap-4 p-2 justify-content-between align-items-center">
+        <div className="col-4 col-md-2 col-lg-1 mx-2">
           <Link href="/">
             <a>
               <Image src={tourbook} alt="tourbook logo" />
@@ -91,19 +92,20 @@ function Header() {
             </div>
             <div className="dropdown">
               <button
-                className="btn btn-dark d-flex align-items-center gap-2 mb-1"
+                className="btn btn-dark d-flex align-items-center gap-2 text-start"
                 type="button"
                 id="dropdownMenuButton2"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <Image
+                {/* <Image
                   src={userData.photoURL}
                   alt="mdo"
                   width="32"
                   height="32"
                   className="rounded-circle"
-                />
+                /> */}
+                <Avatar src={userData.photoURL} alt="user logo" radius="xl" />
                 {userData.displayName}
               </button>
               <ul

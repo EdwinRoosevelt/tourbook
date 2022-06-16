@@ -140,7 +140,7 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
       <div
         className={`container ${
           formState !== "EDIT" && "mt-5"
-        } p-5 mb-5 bg-white`}
+        } p-sm-5 py-4 mb-5 bg-white`}
       >
         <h1 className="display-4">Onboarders</h1>
         <p className="text-muted mb-4">The people you will be touring with!</p>

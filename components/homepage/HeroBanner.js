@@ -78,7 +78,7 @@ export function HeroBanner() {
         setIsLoginModalOpen={setIsLoginModalOpen}
       />
       <div
-        className="row flex justify-content-center align-items-center"
+        className="row flex justify-content-center align-items-center m-0"
         style={{ height: "80vh" }}
       >
         <div
@@ -113,7 +113,7 @@ export function HeroBanner() {
               >
                 About us
               </Button>
-              
+
               <Button
                 variant="default"
                 radius="xl"
@@ -123,7 +123,6 @@ export function HeroBanner() {
               >
                 Login
               </Button>
-              
             </Group>
           </div>
         </div>

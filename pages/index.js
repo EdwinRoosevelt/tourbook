@@ -112,7 +112,7 @@ export default function Home({ tourData }) {
           name="description"
           content="Tourbook - one place to manage all your tours!"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/tourbook_icon.svg" />
       </Head>
 
       {loggedInUser && (

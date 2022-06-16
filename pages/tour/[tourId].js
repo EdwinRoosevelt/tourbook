@@ -49,7 +49,7 @@ function TourViewPage({ tourData, allUserData }) {
   
 
   return (
-    <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
+    <div className="mt-3" style={{ backgroundColor: "#EEEEEE" }}>
       {tourData.success && (
         <>
           <Head>

@@ -36,7 +36,7 @@ function ExpensesSection({ data, total, dataChangeHandler, formState }) {
   return (
     <section id="expenses">
       <div
-        className={`container ${formState !== "EDIT" && "mt-5"} p-5 bg-white`}
+        className={`container ${formState !== "EDIT" && "mt-5"} p-sm-5 py-4 bg-white`}
       >
         <div className="flex justify-content-between align-items-start">
           <div>

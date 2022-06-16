@@ -41,8 +41,8 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
     useEffect(() => {
       var completion = 0;
-      if (plan.details.length != 0) completion += 50;
-      if (plan.time.length != 0) completion += 50;
+      if ((plan.details != null && plan.details.length) != 0) completion += 50;
+      if (plan.time != null && plan.time.length != 0) completion += 50;
       setProgress(completion)
     }, [refresh, plan])
     
