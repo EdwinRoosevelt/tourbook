@@ -25,7 +25,10 @@ function About() {
           <h1 className="display-6 mt-sm-5 mt-3">Me</h1>
           <div className="flex flex-wrap justify-content-between gap-3 py-3">
             <a href="https://www.edwinroosevelt.com" target="_blank">
-              <div className={`card mb-3 shadow ${styles.custom}`} style={{ maxWidth: "540px" }}>
+              <div
+                className={`card mb-3 shadow ${styles.custom}`}
+                style={{ maxWidth: "540px" }}
+              >
                 <Image src={edwinPage} />
               </div>
             </a>
@@ -41,7 +44,7 @@ function About() {
             technologies.
           </p>
           <p className="text-muted fs-5 mb-4">
-            It's designed to help plan tours, share them with friends and family
+            It&apos;s designed to help plan tours, share them with friends and family
             and make the whole process of tour planning a fun.
           </p>
           <p className="text-muted fs-5 mb-4">
@@ -148,6 +151,7 @@ function About() {
               className="text-primary"
               href="https://freepik.com"
               target="_blank"
+              rel="noreferrer"
             >
               {" "}
               freepik{" "}
@@ -159,6 +163,7 @@ function About() {
               className="text-primary"
               href="https://mantine.dev"
               target="_blank"
+              rel="noreferrer"
             >
               {" "}
               Mantine{" "}
@@ -170,6 +175,7 @@ function About() {
               className="text-primary"
               href="https://pexels.com"
               target="_blank"
+              rel="noreferrer"
             >
               {" "}
               Pexels{" "}
