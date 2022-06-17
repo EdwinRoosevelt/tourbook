@@ -9,7 +9,7 @@ import AmazonDynamoDB from '../public/icons/AmazonDynamoDB.png'
 import bootstrap from "../public/icons/bootstrap.png";
 import redux from "../public/icons/redux.svg";
 import git from "../public/icons/git.svg";
-import edwinPage from '../public/images/edwinroosevelt_page.png'
+import edwinPage from '../public/images/edwin_page.png'
 
 
 function About() {
