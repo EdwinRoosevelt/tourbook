@@ -93,7 +93,7 @@ function Header() {
             <div className="dropdown">
               <button
                 // style={{minWidth: "12rem"}}
-                className="btn btn-dark d-flex align-items-center gap-2 text-start"
+                className="btn btn-dark d-flex align-items-center gap-2 text-start  dropdown-toggle"
                 type="button"
                 id="dropdownMenuButton2"
                 data-bs-toggle="dropdown"
@@ -107,7 +107,7 @@ function Header() {
                   className="rounded-circle"
                 /> */}
                 <Avatar src={userData.photoURL} alt="user logo" radius="xl" />
-                {userData.displayName.split(" ")[0]}
+                {/* {userData.displayName.split(" ")[0]} */}
               </button>
               <ul
                 className={`dropdown-menu ${styles.profileDropdown}`}

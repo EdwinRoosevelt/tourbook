@@ -55,7 +55,7 @@ function ProfilePage({initialUserData, formState}) {
             console.log(response);
 
             if (response.success) {
-                router.push(`/profile/${response.userId}`);
+                router.push("/", null, {shallow: true});
             }
             } catch (err) {
             console.log(err);
