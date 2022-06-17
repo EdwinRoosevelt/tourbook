@@ -24,7 +24,7 @@ function About() {
           <h1 className="display-4">ABOUT</h1>
           <h1 className="display-6 mt-sm-5 mt-3">Me</h1>
           <div className="flex flex-wrap justify-content-between gap-3 py-3">
-            <a href="https://www.edwinroosevelt.com" target="_blank">
+            <a href="https://www.edwinroosevelt.com" target="_blank" rel="noreferrer">
               <div
                 className={`card mb-3 shadow ${styles.custom}`}
                 style={{ maxWidth: "540px" }}
