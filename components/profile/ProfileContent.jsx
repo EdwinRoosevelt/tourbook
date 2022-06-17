@@ -68,7 +68,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
           <i className="bi bi-exclamation-triangle-fill mx-2" />
           <strong>Disabled</strong> functionalities are yet to be implemented.
         </div>
-        <div className={`container mt-5 p-5 bg-white`}>
+        <div className={`container mt-sm-5 p-sm-5 py-3 bg-white`}>
           {/* Section TITLE */}
           <div className="flex justify-content-between flex-wrap">
             <div>
@@ -112,10 +112,10 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
             </div>
             <div className="col-md-8 px-4">
               {/* Section CONTENT */}
-              <div className="flex gap-3 flex-wrap">
+              <div className="flex gap-3 flex-wrap mb-5">
                 <TextInput
                   required
-                  style={{ minWidth: "20rem" }}
+                  style={{ minWidth: "18rem" }}
                   label="User Name"
                   icon={<Accessible size={14} />}
                   value={userData.userName}
@@ -127,7 +127,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
                 />
 
                 <TextInput
-                  style={{ minWidth: "20rem" }}
+                  style={{ minWidth: "18rem" }}
                   label="Your email"
                   placeholder="Your email"
                   disabled
@@ -141,7 +141,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
 
                 <TextInput
                   required
-                  style={{ minWidth: "20rem" }}
+                  style={{ minWidth: "18rem" }}
                   label="Full Name"
                   icon={<User size={14} />}
                   value={userData.displayName}
@@ -152,7 +152,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
 
                 <NumberInput
                   required
-                  style={{ minWidth: "20rem" }}
+                  style={{ minWidth: "18rem" }}
                   label="Mobile no."
                   icon={<DeviceMobile size={14} />}
                   value={Number(userData.mobile)}

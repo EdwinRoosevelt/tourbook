@@ -66,7 +66,7 @@ function ProfilePage({initialUserData, formState}) {
     }
 
   return (
-    <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
+    <div className="p-sm-4 " style={{ backgroundColor: "#EEEEEE" }}>
       <form onSubmit={formSubmitHandler}>
         <ProfileContent
           userData={userData}

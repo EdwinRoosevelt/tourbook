@@ -1,7 +1,7 @@
 .notificationDropdown {
 
     left: -5rem !important;
-    width: 18rem;
+    width: 16rem;
     /* right: 15rem !important; */
 }
 
@@ -13,7 +13,7 @@
 
 .profileDropdown {
     left: -4rem !important;
-    width: 13rem;
+    width: 10rem;
     /* right: -5rem !important; */
 }
 

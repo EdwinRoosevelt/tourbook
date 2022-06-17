@@ -86,7 +86,7 @@ export function HeroBanner() {
           // style={{ height: "80vh" }}
         >
           <div className="mb-5">
-            <h1 className={classes.bigtitle}>Welcome to Tourbook</h1>
+            {/* <h1 className={classes.bigtitle}>Welcome to Tourbook</h1> */}
           </div>
           <div
             className="col-lg-6 justify-content-center"
@@ -105,14 +105,16 @@ export function HeroBanner() {
               hooks to cover you in any situation
             </Text>
             <Group mt={30}>
-              <Button
-                variant="default"
-                radius="xl"
-                size="md"
-                className={classes.control}
-              >
-                About us
-              </Button>
+              <Link href="/about">
+                <Button
+                  variant="default"
+                  radius="xl"
+                  size="md"
+                  className={classes.control}
+                >
+                  About us
+                </Button>
+              </Link>
 
               <Button
                 variant="default"

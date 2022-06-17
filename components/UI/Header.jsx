@@ -49,7 +49,7 @@ function Header() {
 
   return (
     <header className="py-sm-3 bg-dark border-bottom">
-      <div className="container-fluid d-flex gap-4 p-2 justify-content-between align-items-center">
+      <div className="container-fluid d-flex wrap gap-4 p-2 justify-content-between align-items-center">
         <div className="col-4 col-md-2 col-lg-1 mx-2">
           <Link href="/">
             <a>
@@ -92,6 +92,7 @@ function Header() {
             </div>
             <div className="dropdown">
               <button
+                // style={{minWidth: "12rem"}}
                 className="btn btn-dark d-flex align-items-center gap-2 text-start"
                 type="button"
                 id="dropdownMenuButton2"
@@ -106,7 +107,7 @@ function Header() {
                   className="rounded-circle"
                 /> */}
                 <Avatar src={userData.photoURL} alt="user logo" radius="xl" />
-                {userData.displayName}
+                {userData.displayName.split(" ")[0]}
               </button>
               <ul
                 className={`dropdown-menu ${styles.profileDropdown}`}
