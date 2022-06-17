@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import styles from '../styles/About.module.css'
 import firebase from '../public/icons/google_firebase.png'
-import Nextjs from '../public/icons/Nextjs.svg'
+import Nextjs from '../public/icons/nextjs.svg'
 import AmazonDynamoDB from '../public/icons/AmazonDynamoDB.png'
 import bootstrap from "../public/icons/bootstrap.png";
 import redux from "../public/icons/redux.svg";
