@@ -27,7 +27,7 @@ function About() {
             <div className="flex align-items-center gap-4">
               <Link href="/">
                 <a className={`p-3 ${styles.backbtn}`}>
-                  <i class="bi bi-arrow-return-left"></i>
+                  <i className="bi bi-arrow-return-left"></i>
                 </a>
               </Link>
 
