@@ -1,3 +1,15 @@
+.backbtn {
+    border-radius: 10rem;
+    background: #EEEE;
+    
+    
+}
+
+.backbtn:hover {
+    text-decoration: none;
+    color: inherit;
+    background: rgba(206, 203, 203, 0.933);
+}
 
 .custom:hover {
     transform: rotate(-1deg);

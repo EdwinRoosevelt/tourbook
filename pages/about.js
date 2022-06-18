@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import styles from '../styles/About.module.css'
 import firebase from '../public/icons/google_firebase.png'
@@ -10,6 +11,7 @@ import bootstrap from "../public/icons/bootstrap.png";
 import redux from "../public/icons/redux.svg";
 import git from "../public/icons/git.svg";
 import edwinPage from '../public/images/edwin_page.png'
+import tourbooklogo from '../public/icons/tourbook-2.png'
 
 
 function About() {
@@ -21,10 +23,31 @@ function About() {
       </Head>
       <section id="tourdetails">
         <div className="container p-sm-5 py-4 bg-white">
-          <h1 className="display-4">ABOUT</h1>
+          <div className="flex justify-content-between align-items-center">
+            <div className="flex align-items-center gap-4">
+              <Link href="/">
+                <a className={`p-3 ${styles.backbtn}`}>
+                  <i class="bi bi-arrow-return-left"></i>
+                </a>
+              </Link>
+
+              <h1 className="display-4">ABOUT</h1>
+            </div>
+            <div
+              className="flex align-items-center"
+              style={{ maxWidth: "10rem" }}
+            >
+              <Image src={tourbooklogo} />
+            </div>
+          </div>
+
           <h1 className="display-6 mt-sm-5 mt-3">Me</h1>
           <div className="flex flex-wrap justify-content-between gap-3 py-3">
-            <a href="https://www.edwinroosevelt.com" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.edwinroosevelt.com"
+              target="_blank"
+              rel="noreferrer"
+            >
               <div
                 className={`card mb-3 shadow ${styles.custom}`}
                 style={{ maxWidth: "540px" }}
@@ -44,8 +67,8 @@ function About() {
             technologies.
           </p>
           <p className="text-muted fs-5 mb-4">
-            It&apos;s designed to help plan tours, share them with friends and family
-            and make the whole process of tour planning a fun.
+            It&apos;s designed to help plan tours, share them with friends and
+            family and make the whole process of tour planning a fun.
           </p>
           <p className="text-muted fs-5 mb-4">
             This minimum viable product is undergoing continous developemnt.

@@ -13,29 +13,9 @@ import {
 import LoginModal from "../UI/LoginModal";
 
 import image from "../../public/images/tourbookHero.svg";
+import tourbookLogo from "../../public/icons/tourbook-2.png";
 
 const useStyles = createStyles((theme) => ({
-  inner: {
-    display: "flex",
-    justifyContent: "space-between",
-    paddingTop: theme.spacing.xl * 4,
-    paddingBottom: theme.spacing.xl * 4,
-  },
-
-  content: {
-    maxWidth: 480,
-    marginRight: theme.spacing.xl * 3,
-
-    [theme.fn.smallerThan("md")]: {
-      maxWidth: "100%",
-      marginRight: 0,
-    },
-  },
-
-  bigtitle: {
-    fontSize: 70,
-    textAlign: "center",
-  },
 
   title: {
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
@@ -43,17 +23,8 @@ const useStyles = createStyles((theme) => ({
     fontSize: 44,
     lineHeight: 1.2,
     fontWeight: 900,
-
-    [theme.fn.smallerThan("xs")]: {
-      fontSize: 28,
-    },
   },
 
-  control: {
-    [theme.fn.smallerThan("xs")]: {
-      flex: 1,
-    },
-  },
 
   highlight: {
     position: "relative",
@@ -79,37 +50,21 @@ export function HeroBanner() {
       />
       <div
         className="row flex justify-content-center align-items-center m-0"
-        style={{ height: "80vh" }}
+        style={{ height: "88vh" }}
       >
-        <div
-          className="row flex justify-content-center align-items-center"
-          // style={{ height: "80vh" }}
-        >
-          <div className="mb-5">
-            {/* <h1 className={classes.bigtitle}>Welcome to Tourbook</h1> */}
+        <div className="row flex mt-5 justify-content-center align-items-center">
+          <div className="col-lg-6 justify-content-center">
+            <Image src={tourbookLogo.src} />
           </div>
-          <div
-            className="col-lg-6 justify-content-center"
-            style={{ maxWidth: "500px" }}
-          >
-            <Image src={image.src} />
-          </div>
-          <div className="col-lg-6 p-5" style={{ maxWidth: "600px" }}>
+          <div className="col-lg-6 p-5">
             <Title className={classes.title}>
               <span className={classes.highlight}>One Place to </span>
               <span className={classes.highlight}>manage all Tours</span>
             </Title>
-            <Text color="dimmed" mt="md">
-              Build fully functional accessible web applications faster than
-              ever – Mantine includes more than 120 customizable components and
-              hooks to cover you in any situation
-            </Text>
             <Group mt={30}>
               <Link href="/about">
                 <Button
-                  variant="default"
-                  radius="xl"
-                  size="md"
+                  variant="default" radius="xl" size="md"
                   className={classes.control}
                 >
                   About us
@@ -117,9 +72,7 @@ export function HeroBanner() {
               </Link>
 
               <Button
-                variant="default"
-                radius="xl"
-                size="md"
+                variant="default" radius="xl" size="md"
                 className={classes.control}
                 onClick={() => setIsLoginModalOpen(true)}
               >
