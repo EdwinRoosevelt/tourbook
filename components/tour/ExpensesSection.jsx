@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Users } from 'tabler-icons-react';
 
 
-function ExpensesSection({ data, total, dataChangeHandler, formState }) {
-  const [refresh, setRefresh] = useState(false);
-
-  console.log(data);
-
+function ExpensesSection({ data, total, formState }) {
 
   return (
     <section id="expenses">
@@ -22,23 +18,8 @@ function ExpensesSection({ data, total, dataChangeHandler, formState }) {
               Close approximation for the total expenses.
             </p>
           </div>
-          {formState !== "VIEW" && (
-            <div>
-              <button
-                title="Refresh Tour plan"
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => setRefresh(!refresh)}
-              >
-                <i className="bi bi-arrow-clockwise"></i>
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* <p class="text-muted text-right">
-          [Total calculated for 1 individuals.]
-        </p> */}
         <table className="table table-striped table-hover">
           <thead className="thead-dark">
             <tr>

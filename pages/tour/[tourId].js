@@ -16,9 +16,6 @@ function TourViewPage({ tourData, allUserData }) {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
-  useEffect(() => {
-    if (!isLoggedIn) router.push("/", null, { shallow: true });
-  }, [isLoggedIn])
 
   
 

@@ -22,7 +22,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
 
     
     const localDataChangeHandler = (mode, label, value) => {
-      const newPlan = plan
+      const newPlan = {...plan}
       if(mode === "EDIT") {
         if (label === "type") newPlan.details = {};
         if (label === "totalCost" && value[0] && value[1]) {
@@ -36,7 +36,7 @@ function PlanEditCard({ day, index, plan, dataChangeHandler, formState }) {
         dataChangeHandler(mode, day, index);
       }
 
-      refresh ? setRefresh(false) : setRefresh(true);
+      // refresh ? setRefresh(false) : setRefresh(true);
     }
 
     useEffect(() => {

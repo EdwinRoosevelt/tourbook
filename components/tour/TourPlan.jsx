@@ -15,7 +15,7 @@ const EMPTY_PLAN_CARD = {
 
 function TourPlan({ data, details, formState, dataChangeHandler }) {
 
-  const [refresh, setRefresh] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
   const newPlanData = data;
 
   const localDataChangeHandler = (mode, day, key, target) => {
@@ -26,7 +26,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
     else if (mode === "DEL") newData[day].splice(key, 1);
 
     dataChangeHandler("plan", null, newData);
-    setRefresh(!refresh)
+    // setRefresh(!refresh)
   }
 
   function returnNextDates(day) {
@@ -49,18 +49,6 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
               Here is the complete agenda for the trip
             </p>
           </div>
-          {formState !== "VIEW" && (
-            <div>
-              <button
-                title="Refresh Tour plan"
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => setRefresh(!refresh)}
-              >
-                <i className="bi bi-arrow-clockwise"></i>
-              </button>
-            </div>
-          )}
         </div>
 
         <div className="alert alert-danger mb-4">

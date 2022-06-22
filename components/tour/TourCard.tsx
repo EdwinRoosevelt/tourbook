@@ -23,10 +23,13 @@ export default function TourCard({ tourId, cardData }) {
 
     var remainingDays = Math.round((tourDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 
-    if (remainingDays < 31 ) return `${remainingDays} days to go !`
+    if (remainingDays < -1) return "Expired!" 
+    else if (remainingDays == -1) return "Today"
+    else if (remainingDays == 0) return "Tomorrow"
+    else if (remainingDays < 31) return `${remainingDays} more days`
     else {
       var remainingMonths = Math.round(remainingDays/30);
-      return `${remainingMonths} month to go !`;
+      return `${remainingMonths} more month`;
 
     }
 

@@ -39,15 +39,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function HeroBanner() {
-
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { classes } = useStyles();
   return (
     <>
-      <LoginModal
-        loginModalState={isLoginModalOpen}
-        setIsLoginModalOpen={setIsLoginModalOpen}
-      />
+      
       <div
         className="row flex justify-content-center align-items-center m-0"
         style={{ height: "90vh" }}
@@ -64,6 +59,7 @@ export function HeroBanner() {
             <Group mt={30}>
               <Link href="/about">
                 <Button
+                  type="button"
                   variant="default"
                   radius="xl"
                   size="md"
@@ -72,16 +68,16 @@ export function HeroBanner() {
                   About us
                 </Button>
               </Link>
-
-              <Button
-                variant="default"
-                radius="xl"
-                size="md"
-                className={classes.control}
-                onClick={() => setIsLoginModalOpen(true)}
-              >
-                Login
-              </Button>
+              <Link href="/tours">
+                <Button
+                  variant="default"
+                  radius="xl"
+                  size="md"
+                  className={classes.control}
+                >
+                  Take me in!
+                </Button>
+              </Link>
             </Group>
           </div>
         </div>

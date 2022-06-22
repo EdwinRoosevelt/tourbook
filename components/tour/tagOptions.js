@@ -1,8 +1,8 @@
 export const DEFAULT_TAG_OPTIONS = {
   TRAVEL: [
-    "🏍️ Bike - R1",
-    "🚗 Car - Verna",
-    "🚆 Train - Yercaud Exp",
+    "🏍️ Bike",
+    "🚗 Car",
+    "🚆 Train",
     "✈️ Airplane",
   ],
   STAY: ["OYO", "ITC Chola", "L'Amby Bay", "Rock Fort Inn"],

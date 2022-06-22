@@ -26,14 +26,14 @@ const emptyTour = {
     // plan: [[<day 00>], [<day 01>], [<day 02>], ...]
     plan: [
       [
-        {
-          type: "STAY",
-          details: ["OYO 30456"],
-          time: ["✨ Night"],
-          isCost: true,
-          totalCost: [10000, 5],
-          perHead: 1000,
-        },
+        // {
+        //   type: "STAY",
+        //   details: ["OYO 30456"],
+        //   time: ["✨ Night"],
+        //   isCost: true,
+        //   totalCost: [10000, 5],
+        //   perHead: 1000,
+        // },
       ],
       [],
       [],

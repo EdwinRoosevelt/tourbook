@@ -205,7 +205,7 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
                 required
               />
             )}
-            {formState === "VIEW" && <div>2 / {data.maximumHead}</div>}
+            {formState === "VIEW" && <div>{data.maximumHead}</div>}
           </div>
         </div>
       </div>

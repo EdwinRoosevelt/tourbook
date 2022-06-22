@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
             <Header />
           </ClientOnly>
           <Component {...pageProps} />
-          <Footer/>
+          {/* <Footer/> */}
         </Provider>
       </ModalsProvider>
     </MantineProvider>
