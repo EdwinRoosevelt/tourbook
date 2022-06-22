@@ -32,8 +32,6 @@ function LandingSection({ data, formState, dataChangeHandler }) {
   const [photos, setPhotos] = useState([]);
   const [selectedImage, setSelectedImage] = useState(data.image)
 
-
-
   useEffect(() => {
     setLoader(true)
     const timer = setTimeout(() => {

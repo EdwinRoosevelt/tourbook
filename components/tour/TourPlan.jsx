@@ -18,29 +18,6 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
   const [refresh, setRefresh] = useState(false);
   const newPlanData = data;
 
-  useEffect(() => {
-
-    var date1 = new Date(details.dates[0]);
-    var date2 = new Date(details.dates[1]);
-
-    var requiredPlanArrSize = date2.getDate() - date1.getDate() + 1;
-    var currentPlanArrSize = newPlanData.length;
-
-    while (currentPlanArrSize < requiredPlanArrSize) {
-      newPlanData.push([]);
-      currentPlanArrSize++;
-    }
-
-    while (currentPlanArrSize > requiredPlanArrSize) {
-      newPlanData.pop();
-      currentPlanArrSize--;
-    }
-
-    // dataChangeHandler("plan", null, newPlanData);
-    // setRefresh(!refresh)
-
-  }, [details.dates, newPlanData]);
-
   const localDataChangeHandler = (mode, day, key, target) => {
     const newData = data;
 

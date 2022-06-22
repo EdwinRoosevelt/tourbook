@@ -32,10 +32,10 @@ function Header() {
       if (isNewUser) router.push("/profile/create");
     }, [isNewUser, router]);
 
-    useEffect(() => {
-      if (router)
-      console.log(router)
-    }, [router])
+    // useEffect(() => {
+    //   if (router)
+    //   console.log(router)
+    // }, [router])
 
     useEffect(() => {
       const fetchData = async () => {
@@ -43,9 +43,12 @@ function Header() {
         const responseData = await response.json();
         // setUserData(response.Item)
         if (response.success) setNotifications(responseData.Item.notifications);
+        console.log(responseData.Item);
       };
       fetchData();
-    }, [reload, currentUser]);
+    }, [currentUser]);
+
+    
 
 
     function signOut () {

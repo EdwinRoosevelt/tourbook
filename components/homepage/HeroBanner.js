@@ -50,13 +50,13 @@ export function HeroBanner() {
       />
       <div
         className="row flex justify-content-center align-items-center m-0"
-        style={{ height: "88vh" }}
+        style={{ height: "90vh" }}
       >
-        <div className="row flex mt-5 justify-content-center align-items-center">
+        <div className="row flex my-5 justify-content-center align-items-center mb-5">
           <div className="col-lg-6 justify-content-center">
-            <Image src={tourbookLogo.src} />
+            <Image src={tourbookLogo.src} placeholder="blur" />
           </div>
-          <div className="col-lg-6 p-5">
+          <div className="col-lg-6 p-5 ">
             <Title className={classes.title}>
               <span className={classes.highlight}>One Place to </span>
               <span className={classes.highlight}>manage all Tours</span>
@@ -64,7 +64,9 @@ export function HeroBanner() {
             <Group mt={30}>
               <Link href="/about">
                 <Button
-                  variant="default" radius="xl" size="md"
+                  variant="default"
+                  radius="xl"
+                  size="md"
                   className={classes.control}
                 >
                   About us
@@ -72,7 +74,9 @@ export function HeroBanner() {
               </Link>
 
               <Button
-                variant="default" radius="xl" size="md"
+                variant="default"
+                radius="xl"
+                size="md"
                 className={classes.control}
                 onClick={() => setIsLoginModalOpen(true)}
               >

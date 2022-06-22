@@ -38,15 +38,15 @@ const emptyTour = {
       [],
       [],
     ],
-    expenses: [
-      // {
-      //   id: 14,
-      //   title: "Stay",
-      //   description: "OYO 30546",
-      //   total: [10000, 5],
-      //   perHead: 2000,
-      // },
-    ],
+    // expenses: [
+    //   {
+    //     id: 14,
+    //     title: "Stay",
+    //     description: "OYO 30546",
+    //     totalCost: [10000, 5],
+    //     perHead: 2000,
+    //   },
+    // ],
     onboarders: [],
   },
 };

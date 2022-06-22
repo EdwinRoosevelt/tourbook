@@ -23,6 +23,8 @@ function TourPage({ originalData, originalFormState, allUserData }) {
   const [isFormReady, setIsFormReady] = useState(true);
   const [formLoader, setFormLoader] = useState(false);
 
+  const [expenseData, setExpenseData] = useState([]);
+
   useEffect(() => {
     if (originalData.success) {
       initiallData = JSON.parse(JSON.stringify(originalData.Item));
@@ -30,13 +32,58 @@ function TourPage({ originalData, originalFormState, allUserData }) {
     if (originalFormState == "NEW") {
       dataChangeHandler("details", "organizers", currentUser)
     }
+    var newExpenseData = [];
+    data.plan.map((dayPlan) => {
+      dayPlan.map((plan) => {
+        if (plan.isCost) {
+          newExpenseData.push(plan);
+        }
+      });
+    });
+    setExpenseData(newExpenseData);
+    console.log(newExpenseData);
   }, []);
+
 
   function dataChangeHandler(category, key, value) {
     const newData = JSON.parse(JSON.stringify(data));
 
     if (category === "details") newData[category][key] = value;
+    else if (category === "plan") {
+      // Calculating Budget
+      newData[category] = value;
+      var budget = 0;
+      var newExpenseData = [];
+      newData.plan.map((dayPlan) => {
+        dayPlan.map((plan) => {
+          if (plan.isCost) {
+            budget += plan.perHead;
+            newExpenseData.push(plan);
+          }
+        });
+      });
+      setExpenseData(newExpenseData);
+      newData.details.budget = budget;
+    }
     else newData[category] = value;
+
+    if (key === "dates") {
+       var date1 = new Date(value[0]);
+       var date2 = new Date(value[1]);
+
+       var requiredPlanArrSize = date2.getDate() - date1.getDate() + 1;
+       var currentPlanArrSize = newData.plan.length;
+
+       while (currentPlanArrSize < requiredPlanArrSize) {
+         newData.plan.push([]);
+         currentPlanArrSize++;
+       }
+
+       while (currentPlanArrSize > requiredPlanArrSize) {
+         newData.plan.pop();
+         currentPlanArrSize--;
+       }
+    }
 
     setData(newData);
     setIsChangesMade(true);
@@ -118,7 +165,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                   formState={formState}
                 />
                 <ExpenseSection
-                  data={data.plan}
+                  data={expenseData}
                   total={data.details.budget}
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}

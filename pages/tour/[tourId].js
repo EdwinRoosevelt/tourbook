@@ -18,33 +18,7 @@ function TourViewPage({ tourData, allUserData }) {
 
   useEffect(() => {
     if (!isLoggedIn) router.push("/", null, { shallow: true });
-  })
-
-  // useEffect(() => {
-  //   console.log("mounting")
-  // }, [])
-
-  //   useEffect(() => () => {
-  //     // for (var member in window.addthis) delete window.addthis[member]
-  //   }, []);
-
-  // var config = {
-  //   pubid: "ra-62a1b1c075a2468a"
-  // }
-
-  // var share = {
-  //   passthrough : {
-  //     twitter: {
-  //       via: "TWITTER USERNAME"
-  //     }
-  //   }
-  // };
-
-  // if (typeof window !== "undefined") {
-  //   addthis(config, share, function (a) {
-  //   });
-  //   console.log(window.addthis)
-  // }
+  }, [isLoggedIn])
 
   
 

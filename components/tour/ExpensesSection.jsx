@@ -1,42 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Users } from 'tabler-icons-react';
 
-var budget = 0;
-var expenseData = [];
-
 
 function ExpensesSection({ data, total, dataChangeHandler, formState }) {
   const [refresh, setRefresh] = useState(false);
 
-  useEffect(() => {
-    budget = 0
-    expenseData = []  
-    data.map((dayPlan) => {
-      dayPlan.map((plan) => {
-        if (plan.isCost) {
-          budget += plan.perHead;
-          expenseData.push(plan)
-        }
-      });
-      
-    });
-    dataChangeHandler("details", "budget", budget);
-  }, []);
-
-  
-    // useEffect(() => () => {
-    //     for (var i in expenseData) delete expenseData[i]
-    //     budget = 0;
-    // }, [])
-    
-
-  
+  console.log(data);
 
 
   return (
     <section id="expenses">
       <div
-        className={`container ${formState !== "EDIT" && "mt-5"} p-sm-5 py-4 bg-white`}
+        className={`container ${
+          formState !== "EDIT" && "mt-5"
+        } p-sm-5 py-4 bg-white`}
       >
         <div className="flex justify-content-between align-items-start">
           <div>
@@ -72,7 +49,7 @@ function ExpensesSection({ data, total, dataChangeHandler, formState }) {
             </tr>
           </thead>
           <tbody>
-            {expenseData.map((item, index) => {
+            {data.map((item, index) => {
               return (
                 <tr key={index}>
                   <td scope="row">{index + 1}</td>
@@ -98,7 +75,7 @@ function ExpensesSection({ data, total, dataChangeHandler, formState }) {
               </td>
               <td></td>
               <td className="text-center">
-                <strong>₹{budget}</strong>
+                <strong>₹{total}</strong>
               </td>
             </tr>
           </tbody>
