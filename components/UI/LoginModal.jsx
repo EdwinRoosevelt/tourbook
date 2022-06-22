@@ -18,8 +18,9 @@ function LoginModal({ loginModalState, setIsLoginModalOpen }) {
   function signIn() {
     dispatch(asyncLoadUser());
     setIsLoginModalOpen(false);
-    router.push("/");
   }
+
+
 
   return (
     <Modal

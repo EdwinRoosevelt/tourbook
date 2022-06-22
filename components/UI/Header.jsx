@@ -33,10 +33,9 @@ function Header() {
       if (isNewUser) router.push("/profile/create");
     }, [isNewUser, router]);
 
-    // useEffect(() => {
-    //   if (router)
-    //   console.log(router)
-    // }, [router])
+    useEffect(() => () => {
+      router.reload();
+    }, [isLoggedIn]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -53,9 +52,7 @@ function Header() {
 
 
     function signOut () {
-      router.push('/')
       dispatch(asynclogout());
-
     }
 
   return (

@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-
-import styles from "../styles/Home.module.css";
-import { Container } from "@mantine/core";
 import { useSelector } from "react-redux";
 
 import TourCard from "../components/tour/TourCard";

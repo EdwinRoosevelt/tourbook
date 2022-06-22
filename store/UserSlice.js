@@ -35,6 +35,7 @@ const UserSlice = createSlice({
       state.isNewUser = false
       state.currentUser = payload.userName;
       localStorage.setItem("tourbook_user", JSON.stringify(payload));
+      
     },
     logout(state) {
       state.isLoggedIn = false;

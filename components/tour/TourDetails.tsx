@@ -63,7 +63,7 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
               >
                 <Check size={25} /> <div>I'm IN</div>
               </button> */}
-              <button className={`btn btn-outline-danger mr-2 btn-sm`}>
+              <button type="button" className={`btn btn-outline-danger mr-2 btn-sm`}>
                 <Heart size={25} />
               </button>
 

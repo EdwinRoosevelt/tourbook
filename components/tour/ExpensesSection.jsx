@@ -36,7 +36,12 @@ function ExpensesSection({ data, total, formState }) {
                   <td scope="row">{index + 1}</td>
                   <td>
                     <strong>{item.type}</strong>
-                    <p className="text-muted">{item.details}</p>
+                    <p className="text-muted">
+                      {item.details.map((subItem, index) => {
+                        if (index === 0) return subItem
+                        else return ` - ${subItem}`} )}
+                      {/* {item.details[0]} - {item.details[1]} */}
+                    </p>
                   </td>
                   <td className="text-center">
                     <p>₹{item.totalCost[0]}</p>

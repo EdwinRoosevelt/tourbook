@@ -75,7 +75,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
                         return (
                           <div
                             key={index}
-                            className="col-10 col-sm-8 col-md-6 col-lg-4 col-xl-3 "
+                            className="col-9 col-xs-8 col-sm-8 col-md-6 col-lg-4 col-xl-4 "
                           >
                             <PlanViewCard
                               day={day}
@@ -92,7 +92,7 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
                         return (
                           <div
                             key={index}
-                            className="col-10 col-xs-8 col-sm-8 col-md-6 col-lg-5 col-xl-4 "
+                            className="col-9 col-xs-8 col-sm-8 col-md-6 col-lg-5 col-xl-4 "
                           >
                             <PlanEditCard
                               day={day}
