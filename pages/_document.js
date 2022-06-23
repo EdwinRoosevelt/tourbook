@@ -9,23 +9,13 @@ export default function Document() {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
         ></link>
-        <link
+        {/* <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossOrigin="anonymous"
-        ></link>
+        ></link> */}
 
-        {/* <script
-          async
-          src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"
-        ></script>
-
-        <link
-          type="text/css"
-          rel="stylesheet"
-          href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css"
-        /> */}
       </Head>
       <body>
         <Main />

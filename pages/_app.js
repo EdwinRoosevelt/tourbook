@@ -10,6 +10,8 @@ import ClientOnly from '../components/ClientOnly'
 
 import store from '../store/index.js'
 import "../styles/globals.css";
+// import "../styles/main.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 
 function MyApp({ Component, pageProps }) {

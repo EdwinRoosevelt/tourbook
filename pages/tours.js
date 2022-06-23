@@ -45,9 +45,10 @@ export default function Tours({ tourData }) {
   );
 }
 
-export async function getServerSideProps() {
-  const response = await fetch(`http:${process.env.API_URL}/api/tour`);
+export async function getStaticProps() {
+  const response = await fetch(`http://tourbook.edwinroosevelt.com//api/tour`);
   const responseData = await response.json();
 
-  return { props: { tourData: responseData.Items } };
+  return { props: { tourData: responseData.Items }, 
+                    revalidate: 60 };
 }
