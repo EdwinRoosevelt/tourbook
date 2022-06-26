@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { Dialog, Notification, Drawer } from "@mantine/core";
+import { Dialog, Notification, Drawer, Group } from "@mantine/core";
+import { InlineShareButtons } from "sharethis-reactjs";
 
 import { Check } from "tabler-icons-react";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+} from "react-share";
 
 import LandingSection from "./LandingSection";
 import TourPlan from "./TourPlan";
@@ -199,6 +206,66 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 formLoader={formLoader}
               />
             </form>
+            <Drawer
+              opened={shareButton}
+              position="bottom"
+              onClose={() => setShareButton(false)}
+              title="Share"
+              padding="xl"
+              size="auto"
+            >
+              {/* <Group>
+                <FacebookShareButton
+                  url={"http://www.camperstribe.com"}
+                  quote={"CampersTribe - World is yours to explore"}
+                  hashtag="#camperstribe"
+                  // className={classes.socialMediaButton}
+                >
+                  <FacebookIcon size={36} />
+                </FacebookShareButton>
+                <WhatsappShareButton
+                  title={`Join me on this tour - ${data.details.title} - ${data.details.description}`}
+                  description={data.details.description}
+                  url={`http://www.tourbook.edwinroosevelt.com/${data.tourId}`}
+                  separator=":: "
+                >
+                  <WhatsappIcon size={36} />
+                </WhatsappShareButton>
+              </Group> */}
+
+                <InlineShareButtons
+                  config={{
+                    alignment: "center", // alignment of buttons (left, center, right)
+                    color: "social", // set the color of buttons (social, white)
+                    enabled: true, // show/hide buttons (true, false)
+                    font_size: 16, // font size for the buttons
+                    labels: "cta", // button labels (cta, counts, null)
+                    language: "en", // which language to use (see LANGUAGES)
+                    networks: [
+                      // which networks to include (see SHARING NETWORKS)
+                      "whatsapp",
+                      "messenger",
+                      "facebook",
+                      "twitter",
+                      "email",
+                    ],
+                    padding: 12, // padding within buttons (INTEGER)
+                    radius: 25, // the corner radius on each button (INTEGER)
+                    // show_total: true,
+                    size: 40, // the size of each button (INTEGER)
+
+                    // OPTIONAL PARAMETERS
+                    // url: "https://www.sharethis.com", // (defaults to current url)
+                    image: "https://bit.ly/2CMhCMC", // (defaults to og:image or twitter:image)
+                    description: "custom text", // (defaults to og:description or twitter:description)
+                    title: "custom title", // (defaults to og:title or twitter:title)
+                    message: "custom email text", // (only for email sharing)
+                    subject: "custom email subject", // (only for email sharing)
+                    username: "custom twitter handle", // (only for twitter sharing)
+                  }}
+                />
+
+            </Drawer>
           </>
         )}
       </div>
@@ -220,16 +287,6 @@ function TourPage({ originalData, originalFormState, allUserData }) {
           Tour has been created successfully!
         </Notification>
       </Dialog>
-      <Drawer
-        opened={shareButton}
-        position="bottom"
-        onClose={() => setShareButton(false)}
-        title="Register"
-        padding="xl"
-        size="xl"
-      >
-        {/* Drawer content */}
-      </Drawer>
     </>
   );
 }

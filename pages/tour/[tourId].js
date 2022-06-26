@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-
-import Script from "next/script";
-import addthis from "addthis-snippet"
+import Script from 'next/script'
+import { Helmet } from 'react-helmet'
 
 import TourPage from "../../components/tour/TourPage"
-import { ChevronsDownLeft } from "tabler-icons-react";
-import { useWindowScroll } from "@mantine/hooks";
+
 
 
 function TourViewPage({ tourData, allUserData }) {
@@ -29,6 +27,16 @@ function TourViewPage({ tourData, allUserData }) {
               name="description"
               content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
             />
+            <meta property="og:site_name" content="San Roque 2014 Pollos" />
+            <meta property="og:title" content="San Roque 2014 Pollos" />
+            <meta property="og:description" content="Programa de fiestas" />
+            <meta
+              property="og:image"
+              itemprop="image"
+              content="http://pollosweb.wesped.es/programa_pollos/play.png"
+            />
+            <meta property="og:type" content="website" />
+            <meta property="og:updated_time" content="1440432930" />
           </Head>
           <TourPage
             originalFormState={"VIEW"}
@@ -36,11 +44,10 @@ function TourViewPage({ tourData, allUserData }) {
             allUserData={allUserData.Items}
           />
 
-          {/* <Script
+          <Script
         type="text/javascript"
         src="//s7.addthis.com/js/300/addthis_widget.js#pubid="
-        onLoad={handleAddThisLoaded}
-      /> */}
+      />
         </>
       )}
 
