@@ -7,8 +7,7 @@ import {
   User,
   Edit,
   Users,
-  Heart,
-  Check
+  Share
 } from "tabler-icons-react";
 import { TextInput, NumberInput } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
@@ -19,7 +18,7 @@ import DateRangeCard from "../common/DateRangeCard";
 
 
 
-function TourDetails({ data, currentUser, formState, setFormState, dataChangeHandler }) {
+function TourDetails({ data, currentUser, formState, setFormState, dataChangeHandler, setShareButton }) {
   const [refresh, setRefresh] = useState(false);
   // var date1, date2;
   useEffect(() => {
@@ -63,8 +62,8 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
               >
                 <Check size={25} /> <div>I'm IN</div>
               </button> */}
-              <button type="button" className={`btn btn-outline-danger mr-2 btn-sm`}>
-                <Heart size={25} />
+              <button type="button" className={`btn btn-outline-secondary mr-2 btn-sm`} onClick={() => {setShareButton(true)}}>
+                <Share size={25} />
               </button>
 
               {currentUser === data.organizers && (

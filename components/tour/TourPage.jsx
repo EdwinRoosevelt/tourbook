@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import { Dialog, Notification, Drawer } from "@mantine/core";
+
+import { Check } from "tabler-icons-react";
 
 import LandingSection from "./LandingSection";
 import TourPlan from "./TourPlan";
@@ -24,6 +27,9 @@ function TourPage({ originalData, originalFormState, allUserData }) {
   const [formLoader, setFormLoader] = useState(false);
 
   const [expenseData, setExpenseData] = useState([]);
+  const [notification, setNotification] = useState(false);
+
+  const [shareButton, setShareButton] = useState(false)
 
   useEffect(() => {
     if (originalData.success) {
@@ -112,9 +118,11 @@ function TourPage({ originalData, originalFormState, allUserData }) {
         response = await response.json();
 
         if (response.success) {
+
           setFormState("VIEW");
           // setData(response.Item);
-          console.log(response)
+
+          if (formState === "NEW") setNotification(true);
           if (formState === "EDIT") router.reload();
         }
       } catch (err) {
@@ -157,6 +165,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                   setFormState={setFormState}
+                  setShareButton={setShareButton}
                 />
                 <TourPlan
                   data={data.plan}
@@ -201,6 +210,26 @@ function TourPage({ originalData, originalFormState, allUserData }) {
           <strong>404</strong> | {originalData.message}
         </div>
       )}
+      <Dialog opened={notification} className="p-0">
+        <Notification
+          icon={<Check size={18} />}
+          color="teal"
+          title="Tour created!"
+          onClose={() => setNotification(false)}
+        >
+          Tour has been created successfully!
+        </Notification>
+      </Dialog>
+      <Drawer
+        opened={shareButton}
+        position="bottom"
+        onClose={() => setShareButton(false)}
+        title="Register"
+        padding="xl"
+        size="xl"
+      >
+        {/* Drawer content */}
+      </Drawer>
     </>
   );
 }
