@@ -31,7 +31,7 @@ function TourViewPage({ tourData, allUserData }) {
             />
             <meta
               property="og:image"
-              itemprop="image"
+              // itemprop="image"
               content={tourData.Item.details.title.image}
             />
             <meta property="og:type" content="website" />
