@@ -29,7 +29,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
 
   const [expenseData, setExpenseData] = useState([]);
   const [notification, setNotification] = useState(false);
-  const [notificationText, setNotificationText] = useState("");
+  const [notificationText, setNotificationText] = useState({});
 
   const [shareButton, setShareButton] = useState(false)
 
@@ -120,20 +120,18 @@ function TourPage({ originalData, originalFormState, allUserData }) {
         response = await response.json();
 
         if (response.success) {
-
-          setFormState("VIEW");
-          // setData(response.Item);
-
           if (formState === "NEW") {
+            
+            setNotificationText({title: "Tour Created!", body: "Tour has been created successfully!"});
             setNotification(true);
-            setNotificationText("Tour has been created successfully!");
+            
           }
           if (formState === "EDIT") {
+            setNotificationText({title: "Tour Edited!", body: "Tour has been edited successfully!"});
             setNotification(true);
-            setNotificationText("Tour has been editted successfully!");
-            
             router.reload();
           }
+          setFormState("VIEW");
         }
       } catch (err) {
         console.log(err);
@@ -169,7 +167,6 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 formState={formState}
               />
               <div className="container-md">
-
                 <TourDetails
                   data={data.details}
                   currentUser={currentUser}
@@ -284,10 +281,10 @@ function TourPage({ originalData, originalFormState, allUserData }) {
         <Notification
           icon={<Check size={18} />}
           color="teal"
-          title="Tour created!"
+          title={notificationText.title}
           onClose={() => setNotification(false)}
         >
-          {notificationText}
+          {notificationText.body}
         </Notification>
       </Dialog>
     </>
