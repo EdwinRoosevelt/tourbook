@@ -1,6 +1,6 @@
 # TourBook
 
-[![Tourbook](https://tour-book.s3.ap-south-1.amazonaws.com/tourbook.jpg =400x250)]
+![Tourbook](https://tour-book.s3.ap-south-1.amazonaws.com/tourbook-400x300.jpg)
 
 One place to manage all the tours!
 
