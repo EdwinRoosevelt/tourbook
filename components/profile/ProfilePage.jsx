@@ -41,24 +41,20 @@ function ProfilePage({initialUserData, formState}) {
         var confirmationAnswer = window.confirm("Are you sure hehe ?");
 
         if (confirmationAnswer) {
-            try {
             var response = await fetch("/api/user/edit", {
-                method: "POST",
-                headers: {
+              method: "POST",
+              headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                },
-                body: JSON.stringify(userData),
+              },
+              body: JSON.stringify(userData),
             });
 
             response = await response.json();
             console.log(response);
 
             if (response.success) {
-                router.push("/", null, {shallow: true});
-            }
-            } catch (err) {
-            console.log(err);
+              router.push("/", null, { shallow: true });
             }
         }
         setIsFormReady(true);

@@ -102,9 +102,9 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
               )}
 
               <div className="d-grid mb-3">
-                <button className="btn btn-outline-dark btn-sm disabled mt-3 px-4">
+                {/* <button className="btn btn-outline-dark btn-sm disabled mt-3 px-4">
                   Set Avatar
-                </button>
+                </button> */}
                 <button className="btn btn-outline-dark btn-sm  disabled mt-3 px-4">
                   Upload
                 </button>

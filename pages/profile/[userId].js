@@ -25,10 +25,10 @@ function ProfileViewPage({responseData}) {
         <>
           <Head>
             <title>{responseData.Item.displayName}</title>
-            {/* <meta
+            <meta
               name="description"
-              content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
-            /> */}
+              content={`${responseData.Item.displayName}'s profile`}
+            />
           </Head>
           <ProfilePage
             initialUserData={responseData.Item}

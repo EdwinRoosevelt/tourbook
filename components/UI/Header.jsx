@@ -17,44 +17,45 @@ import postToDB from '../functions/postToDB';
 
 
 function Header() {
-    const router = useRouter();
-    const dispatch = useDispatch();
-    const [reload, setReload] = useState(false)
-    
-    const isNewUser = useSelector(state => state.isNewUser)
-    const isLoggedIn = useSelector(state => state.isLoggedIn);
-    const currentUser = useSelector(state => state.currentUser)
-    const userData = useSelector((state) => state.user);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [reload, setReload] = useState(false);
 
-    const [notifications, setNotifications] = useState([]);
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [drawer, setDrawer] = useState(false)
+  const isNewUser = useSelector((state) => state.isNewUser);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const currentUser = useSelector((state) => state.currentUser);
+  const userData = useSelector((state) => state.user);
 
-    useEffect(() => {
-      if (isNewUser) router.push("/profile/create");
-    }, [isNewUser, router]);
+  const [notifications, setNotifications] = useState([]);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [drawer, setDrawer] = useState(false);
 
-    useEffect(() => () => {
-      router.reload();
-    }, [isLoggedIn]);
+  useEffect(() => {
+    if (isNewUser) router.push("/profile/create");
+  }, [isNewUser]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        const response = await fetch(`/api/user/${currentUser}`);
-        const responseData = await response.json();
-        // setUserData(response.Item)
-        if (response.success) setNotifications(responseData.Item.notifications);
-        // console.log(responseData.Item);
-      };
-      fetchData();
-    }, [currentUser]);
+  // useEffect(() => {
+  //   if (!isNewUser || !isLoggedIn) router.replace("/");
+  // }, [isNewUser, isLoggedIn]);
 
-    
+  useEffect(() => () => {
+    router.reload();
+  }, [isLoggedIn]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/user/${currentUser}`);
+      const responseData = await response.json();
+      // setUserData(response.Item)
+      if (response.success) setNotifications(responseData.Item.notifications);
+      // console.log(responseData.Item);
+    };
+    fetchData();
+  }, [currentUser]);
 
-    function signOut () {
-      dispatch(asynclogout());
-    }
+  function signOut() {
+    dispatch(asynclogout());
+  }
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Head from "next/head";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -28,17 +29,13 @@ function CreateProfile() {
     const [formLoader, setFormLoader] = useState(false)
     const [userData, setUserData] = useState(EMPTY_PROFILE);
 
-    const isNewUser = useSelector((state) => state.isNewUser);
-    const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const userSliceData = useSelector((state) => state.user);
 
-    console.log(userData);
-
-
     useEffect(() => {
-      if (!isNewUser || !isLoggedIn) router.replace("/");
       setUserData({ ...userData, ...userSliceData });
-    }, [isNewUser, isLoggedIn]);
+    }, []);
+    
+
 
     function dataChangeHandler(key, value) {
       const newUserData = { ...userData };
@@ -63,8 +60,13 @@ function CreateProfile() {
         setFormLoader(false)
     }
 
+    console.log("printing");
+
     return (
       <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
+        <Head>
+          <title>New Profile</title>
+        </Head>
         <form onSubmit={formSubmitHandler}>
           <ProfileContent
             userData={userData}
