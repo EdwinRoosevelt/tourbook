@@ -4,16 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { BellRinging, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
-import { Avatar, Drawer } from "@mantine/core";
+import { Avatar, Drawer, Menu } from "@mantine/core";
 
 import tourbook from "../../public/icons/tourbook-2.png";
 import LoginModal from './LoginModal';
-import NotificationCard from '../common/NotificationCard';
-import styles from './header.module.css'
+
 
 import { asynclogout } from "../../store/UserSlice";
 import { useRouter } from 'next/router';
-import postToDB from '../functions/postToDB';
+import Notifications from './Notifications';
 
 
 function Header() {
@@ -26,13 +25,20 @@ function Header() {
   const currentUser = useSelector((state) => state.currentUser);
   const userData = useSelector((state) => state.user);
 
-  const [notifications, setNotifications] = useState([]);
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [drawer, setDrawer] = useState(false);
+  const [profileDrawer, setProfileDrawer] = useState(false);
+  const [notificationDrawer, setNotificationDrawer] = useState(false);
+
 
   useEffect(() => {
     if (isNewUser) router.push("/profile/create");
   }, [isNewUser]);
+
+  useEffect(() => {
+    setNotificationDrawer(false);
+    setProfileDrawer(false);
+  }, [router])
 
   // useEffect(() => {
   //   if (!isNewUser || !isLoggedIn) router.replace("/");
@@ -42,16 +48,9 @@ function Header() {
     router.reload();
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/api/user/${currentUser}`);
-      const responseData = await response.json();
-      // setUserData(response.Item)
-      if (response.success) setNotifications(responseData.Item.notifications);
-      // console.log(responseData.Item);
-    };
-    fetchData();
-  }, [currentUser]);
+
+
+  console.log('rendering')
 
   function signOut() {
     dispatch(asynclogout());
@@ -72,59 +71,42 @@ function Header() {
           <div className="d-flex mx-sm-4 gap-3 justify-content-between align-items-center">
             {isLoggedIn && (
               <>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-dark p-2"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ borderRadius: "200px" }}
-                  >
-                    <BellRinging />
-                  </button>
-                  <ul
-                    className={`dropdown-menu ${styles.notificationDropdown}`}
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    {Object.keys(notifications).length === 0 && (
-                      <li className="p-3">No new Notifications!</li>
-                    )}
-                    {notifications.map((row, index) => {
-                      return (
-                        <li key={index} className="py-1">
-                          <NotificationCard
-                            data={row}
-                            currentUser={currentUser}
-                            reload={reload}
-                            setReload={setReload}
-                          />
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-                <div className="dropdown">
-                  <button
-                    // style={{minWidth: "12rem"}}
-                    className="btn btn-dark d-flex align-items-center gap-2 text-start p-2"
-                    type="button"
-                    style={{ borderRadius: "200px" }}
-                    onClick={() => {
-                      setDrawer(true);
-                    }}
-                  >
-                    <Avatar
-                      src={userData.photoURL}
-                      alt="user logo"
-                      radius="xl"
-                    />
-                    {/* {userData.displayName.split(" ")[0]} */}
-                  </button>
-                </div>
+                <button
+                  className="btn btn-dark p-2"
+                  type="button"
+                  onClick={() => {
+                    setNotificationDrawer(true);
+                  }}
+                  style={{ borderRadius: "200px" }}
+                >
+                  <BellRinging />
+                </button>
                 <Drawer
-                  opened={drawer}
-                  onClose={() => setDrawer(false)}
+                  opened={notificationDrawer}
+                  onClose={() => setNotificationDrawer(false)}
+                  title="Notifications"
+                  padding="xl"
+                  size="xl"
+                >
+                  <Notifications currentUser={currentUser} />
+                </Drawer>
+
+                <button
+                  // style={{minWidth: "12rem"}}
+                  className="btn btn-dark d-flex align-items-center gap-2 text-start p-2"
+                  type="button"
+                  style={{ borderRadius: "200px" }}
+                  onClick={() => {
+                    setProfileDrawer(true);
+                  }}
+                >
+                  <Avatar src={userData.photoURL} alt="user logo" radius="xl" />
+                  {/* {userData.displayName.split(" ")[0]} */}
+                </button>
+
+                <Drawer
+                  opened={profileDrawer}
+                  onClose={() => setProfileDrawer(false)}
                   title={
                     <div className="col-3">
                       <Link href="/tours">
@@ -163,7 +145,10 @@ function Header() {
 
                   <ul className="fs-5 py-3 ">
                     <li>
-                      <Link href="/tour/create">
+                      <Link
+                        href="/tour/create"
+  
+                      >
                         <a className="dropdown-item flex gap-4 mb-2">
                           <PlaylistAdd size="30" color="#198754" />
                           <p className="fs-5">New Tour</p>
@@ -172,6 +157,7 @@ function Header() {
                     </li>
                     <li>
                       <Link
+                        
                         href={`/profile/${encodeURIComponent(currentUser)}`}
                       >
                         <a className="dropdown-item flex gap-4 mb-2">

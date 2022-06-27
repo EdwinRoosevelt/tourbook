@@ -20,68 +20,69 @@ const EMPTY_PROFILE = {
 const formState = "NEW";
 
 function CreateProfile() {
+  // const userData = useSelector(state => state.user)
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const isNewUser = useSelector((state) => state.isNewUser);
 
-    // const userData = useSelector(state => state.user)
-    const router = useRouter();
-    const dispatch = useDispatch();
+  const [isFormReady, setIsFormReady] = useState(true);
+  const [formLoader, setFormLoader] = useState(false);
+  const [userData, setUserData] = useState(EMPTY_PROFILE);
 
-    const [isFormReady, setIsFormReady] = useState(true)
-    const [formLoader, setFormLoader] = useState(false)
-    const [userData, setUserData] = useState(EMPTY_PROFILE);
+  const userSliceData = useSelector((state) => state.user);
 
-    const userSliceData = useSelector((state) => state.user);
+  useEffect(() => {
+    setUserData({ ...userData, ...userSliceData });
+  }, []);
 
-    useEffect(() => {
-      setUserData({ ...userData, ...userSliceData });
-    }, []);
-    
+  useEffect(() => {
+    if (!isNewUser || !isLoggedIn) router.replace("/");
+  }, [isLoggedIn]);
 
+  function dataChangeHandler(key, value) {
+    const newUserData = { ...userData };
+    newUserData[key] = value;
+    setUserData(newUserData);
+  }
 
-    function dataChangeHandler(key, value) {
-      const newUserData = { ...userData };
-      newUserData[key] = value;
-      setUserData(newUserData);
+  async function formSubmitHandler(event) {
+    event.preventDefault();
+    setFormLoader(true);
+    setIsFormReady(false);
+    var confirmationAnswer = window.confirm("Are you sure ?");
+
+    if (confirmationAnswer) {
+      const response = await postToDB("/api/user/edit", userData);
+      if (response.success) {
+        dispatch(login(response.Item));
+        router.push("/");
+      }
     }
+    setIsFormReady(true);
+    setFormLoader(false);
+  }
 
-    async function formSubmitHandler(event) {
-        event.preventDefault();
-        setFormLoader(true);
-        setIsFormReady(false);
-        var confirmationAnswer = window.confirm("Are you sure ?");
-
-        if (confirmationAnswer) {
-          const response = await postToDB("/api/user/edit", userData);
-          if (response.success) {
-            dispatch(login(response.Item));
-            router.push("/");
-          }
-        }
-        setIsFormReady(true);
-        setFormLoader(false)
-    }
-
-    console.log("printing");
-
-    return (
-      <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
-        <Head>
-          <title>New Profile</title>
-        </Head>
-        <form onSubmit={formSubmitHandler}>
-          <ProfileContent
-            userData={userData}
-            dataChangeHandler={dataChangeHandler}
-            formState={formState}
-            setIsFormReady={setIsFormReady}
-          />
-          <SaveChanges
-            formState={formState}
-            isFormReady={isFormReady}
-            formLoader={formLoader}
-          />
-        </form>
-      </div>
-    );
+  return (
+    <div className="p-4" style={{ backgroundColor: "#EEEEEE", height: "80vw" }}>
+      <Head>
+        <title>New Profile</title>
+      </Head>
+      <form onSubmit={formSubmitHandler}>
+        <ProfileContent
+          userData={userData}
+          dataChangeHandler={dataChangeHandler}
+          formState={formState}
+          setIsFormReady={setIsFormReady}
+        />
+        <SaveChanges
+          formState={formState}
+          isFormReady={isFormReady}
+          formLoader={formLoader}
+        />
+      </form>
+    </div>
+  );
 }
 
 export default CreateProfile;

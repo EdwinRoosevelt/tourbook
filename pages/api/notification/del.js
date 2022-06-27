@@ -14,6 +14,8 @@ export default function handler(req, res) {
 
   const { user, tourId, inviteType } = req.body;
 
+  console.log(user, tourId)
+
   const params = {
     TableName: "tourbook_users",
     Key: {
@@ -25,7 +27,8 @@ export default function handler(req, res) {
 
   docClient.get(params, function (err, data) {
     if (err) {
-      res.json({ success: false, message: err });
+      console.log(err)
+      res.status(500).json({ success: false, message: err });
     } else {
 
         var userData = data.Item;
