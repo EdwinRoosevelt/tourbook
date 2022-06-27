@@ -5,12 +5,6 @@ import { Dialog, Notification, Drawer, Group } from "@mantine/core";
 import { InlineShareButtons, InlineReactionButtons } from "sharethis-reactjs";
 
 import { Check } from "tabler-icons-react";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  WhatsappShareButton,
-  WhatsappIcon,
-} from "react-share";
 
 import LandingSection from "./LandingSection";
 import TourPlan from "./TourPlan";
@@ -35,6 +29,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
 
   const [expenseData, setExpenseData] = useState([]);
   const [notification, setNotification] = useState(false);
+  const [notificationText, setNotificationText] = useState("");
 
   const [shareButton, setShareButton] = useState(false)
 
@@ -129,8 +124,16 @@ function TourPage({ originalData, originalFormState, allUserData }) {
           setFormState("VIEW");
           // setData(response.Item);
 
-          if (formState === "NEW") setNotification(true);
-          if (formState === "EDIT") router.reload();
+          if (formState === "NEW") {
+            setNotification(true);
+            setNotificationText("Tour has been created successfully!");
+          }
+          if (formState === "EDIT") {
+            setNotification(true);
+            setNotificationText("Tour has been editted successfully!");
+            
+            router.reload();
+          }
         }
       } catch (err) {
         console.log(err);
@@ -166,37 +169,6 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 formState={formState}
               />
               <div className="container-md">
-                {formState === "VIEW" && (
-                  <>
-                    <InlineReactionButtons
-                      config={{
-                        alignment: "center", // alignment of buttons (left, center, right)
-                        enabled: true, // show/hide buttons (true, false)
-                        language: "en", // which language to use (see LANGUAGES)
-                        min_count: 0, // hide react counts less than min_count (INTEGER)
-                        padding: 12, // padding within buttons (INTEGER)
-                        reactions: [
-                          // which reactions to include (see REACTIONS)
-                          "slight_smile",
-                          "heart_eyes",
-                          "laughing",
-                          "astonished",
-                          "sob",
-                          "rage",
-                        ],
-                        size: 48, // the size of each button (INTEGER)
-                        spacing: 8, // the spacing between buttons (INTEGER)
-
-                        // OPTIONAL PARAMETERS
-                        // url: "https://www.sharethis.com", // (defaults to current url)
-                      }}
-                      // onSubmit={(data) => {
-                      //   console.log(data);
-                      // }}
-                      
-                    />
-                  </>
-                )}
 
                 <TourDetails
                   data={data.details}
@@ -315,7 +287,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
           title="Tour created!"
           onClose={() => setNotification(false)}
         >
-          Tour has been created successfully!
+          {notificationText}
         </Notification>
       </Dialog>
     </>

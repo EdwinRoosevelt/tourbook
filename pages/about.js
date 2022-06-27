@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { InlineReactionButtons } from "sharethis-reactjs";
+
 import styles from '../styles/About.module.css'
 import firebase from '../public/icons/google_firebase.png'
 import Nextjs from '../public/icons/nextjs.svg'
@@ -23,21 +25,28 @@ function About() {
       </Head>
       <section id="tourdetails">
         <div className="container p-sm-5 py-4 bg-white">
-          <div className="flex justify-content-between align-items-center">
-            <div className="flex align-items-center gap-4">
-              <Link href="/">
-                <a className={`p-3 ${styles.backbtn}`}>
-                  <i className="bi bi-arrow-return-left"></i>
-                </a>
-              </Link>
-
-              <h1 className="display-4">ABOUT</h1>
-            </div>
-            <div
-              className="flex align-items-center"
-              style={{ maxWidth: "10rem" }}
-            >
-              <Image src={tourbooklogo} />
+          <div className="flex flex-wrap justify-content-between align-items-center">
+            <h1 className="display-4">ABOUT</h1>
+            <div>
+              <p>You can also react to this app</p>
+              <InlineReactionButtons
+                config={{
+                  alignment: "center", // alignment of buttons (left, center, right)
+                  enabled: true, // show/hide buttons (true, false)
+                  language: "en", // which language to use (see LANGUAGES)
+                  min_count: 0, // hide react counts less than min_count (INTEGER)
+                  padding: 12, // padding within buttons (INTEGER)
+                  reactions: [
+                    // which reactions to include (see REACTIONS)
+                    "heart_eyes",
+                    "laughing",
+                    "astonished",
+                    "sob",
+                  ],
+                  size: 50, // the size of each button (INTEGER)
+                  spacing: 4, // the spacing between buttons (INTEGER)
+                }}
+              />
             </div>
           </div>
 
@@ -50,7 +59,7 @@ function About() {
             >
               <div
                 className={`card mb-3 shadow ${styles.custom}`}
-                style={{ maxWidth: "540px" }}
+                style={{ maxWidth: "640px" }}
               >
                 <Image src={edwinPage} />
               </div>

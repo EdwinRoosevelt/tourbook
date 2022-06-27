@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Image from "next/image";
 import Link from "next/link";
 
-import { BellRinging, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
+import { BellRinging, InfoCircle, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
 import { Avatar, Drawer, Menu } from "@mantine/core";
 
 import tourbook from "../../public/icons/tourbook-2.png";
@@ -121,7 +121,7 @@ function Header() {
                 >
                   <div
                     className="card mb-3 p-3 shadow"
-                    style={{ maxWidth: "540px" }}
+                    // style={{ maxWidth: "540px" }}
                   >
                     <div className="row g-0">
                       <div className="col-md-4 col-3 flex justify-content-center align-items-center">
@@ -143,24 +143,20 @@ function Header() {
                     </div>
                   </div>
 
-                  <ul className="fs-5 py-3 ">
+                  <ul className="fs-6 py-3">
                     <li>
-                      <Link
-                        href="/tour/create"
-  
-                      >
-                        <a className="dropdown-item flex gap-4 mb-2">
+                      <Link href="/tour/create">
+                        <a className="dropdown-item flex align-items-center gap-4 mb-2 p-2">
                           <PlaylistAdd size="30" color="#198754" />
-                          <p className="fs-5">New Tour</p>
+                          <p>New Tour</p>
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link
-                        
                         href={`/profile/${encodeURIComponent(currentUser)}`}
                       >
-                        <a className="dropdown-item flex gap-4 mb-2">
+                        <a className="dropdown-item flex align-items-center gap-4 mb-2 p-2">
                           <UserCircle size="30" />
                           <p>Profile</p>
                         </a>
@@ -168,15 +164,16 @@ function Header() {
                     </li>
                     <li>
                       {/* <Link href="/myTours"> */}
-                      <a className="dropdown-item flex gap-4 mb-2 disabled">
+                      <a className="dropdown-item flex align-items-center gap-4 mb-2 p-2 disabled">
                         <List size="30" color="#0dcaf0" />
                         <p>My Tours</p>
                       </a>
                       {/* </Link> */}
                     </li>
+
                     <li>
                       {/* <Link href="/settings"> */}
-                      <a className="dropdown-item flex gap-4 mb-2 disabled">
+                      <a className="dropdown-item flex align-items-center gap-4 mb-2 p-2 disabled">
                         <Settings size="30" color="#fd7e14" />
                         <p>Settings</p>
                       </a>
@@ -185,8 +182,16 @@ function Header() {
 
                     <hr className="dropdown-divider" />
                     <li>
+                      <Link href={`/about`}>
+                        <a className="dropdown-item flex align-items-center gap-4 mb-2 p-2">
+                          <InfoCircle size="30" />
+                          <p>About</p>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
                       <button
-                        className="dropdown-item flex gap-4"
+                        className="dropdown-item flex align-items-center gap-4 mb-2 p-2"
                         onClick={signOut}
                       >
                         <Power size="30" color="#dc3545" />
