@@ -12,7 +12,6 @@ import {
 
 import LoginModal from "../UI/LoginModal";
 
-import image from "../../public/images/tourbookHero.svg";
 import tourbookLogo from "../../public/icons/tourbook-2.png";
 
 const useStyles = createStyles((theme) => ({
