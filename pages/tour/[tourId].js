@@ -30,7 +30,7 @@ function TourViewPage({ tourData, allUserData }) {
               content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
             />
             <meta
-              property="og:image"
+              property="og:image:secure"
               // itemprop="image"
               content={tourData.Item.details.title.image}
             />

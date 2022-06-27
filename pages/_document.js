@@ -5,6 +5,19 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        <meta name="description" content="Tourbook - one place to manage all your tours!"/>
+        <link rel="icon" href="/tourbook_icon.svg" />
+        
+        <meta name="robots" content="all" />
+
+        <meta property="og:title" content="Tourbook"/>
+        <meta property="og:description" content="Tourbook - one place to manage all your tours!"/>
+        <meta property="og:image" content="https://tour-book.s3.ap-south-1.amazonaws.com/tourbook.jpg"/>
+        <meta property="og:image:secure" content="https://tour-book.s3.ap-south-1.amazonaws.com/tourbook.jpg"/>
+        <meta property="og:url" content="https://tourbook.edwinroosevelt.com"/>
+
+        <meta name="keywords" content="learning, courses, education, tutorial, web development"/>
+
         <link rel="preconnect" href="https://cdn.jsdelivr.net"></link>
         <link
           rel="stylesheet"
