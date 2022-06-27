@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { Dialog, Notification, Drawer, Group } from "@mantine/core";
-import { InlineShareButtons } from "sharethis-reactjs";
+import { InlineShareButtons, InlineReactionButtons } from "sharethis-reactjs";
 
 import { Check } from "tabler-icons-react";
 import {
@@ -54,7 +54,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
       });
     });
     setExpenseData(newExpenseData);
-    console.log(newExpenseData);
+    // console.log(newExpenseData);
   }, []);
 
 
@@ -166,6 +166,38 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 formState={formState}
               />
               <div className="container-md">
+                {formState === "VIEW" && (
+                  <>
+                    <InlineReactionButtons
+                      config={{
+                        alignment: "center", // alignment of buttons (left, center, right)
+                        enabled: true, // show/hide buttons (true, false)
+                        language: "en", // which language to use (see LANGUAGES)
+                        min_count: 0, // hide react counts less than min_count (INTEGER)
+                        padding: 12, // padding within buttons (INTEGER)
+                        reactions: [
+                          // which reactions to include (see REACTIONS)
+                          "slight_smile",
+                          "heart_eyes",
+                          "laughing",
+                          "astonished",
+                          "sob",
+                          "rage",
+                        ],
+                        size: 48, // the size of each button (INTEGER)
+                        spacing: 8, // the spacing between buttons (INTEGER)
+
+                        // OPTIONAL PARAMETERS
+                        // url: "https://www.sharethis.com", // (defaults to current url)
+                      }}
+                      // onSubmit={(data) => {
+                      //   console.log(data);
+                      // }}
+                      
+                    />
+                  </>
+                )}
+
                 <TourDetails
                   data={data.details}
                   currentUser={currentUser}
@@ -233,38 +265,37 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 </WhatsappShareButton>
               </Group> */}
 
-                <InlineShareButtons
-                  config={{
-                    alignment: "center", // alignment of buttons (left, center, right)
-                    color: "social", // set the color of buttons (social, white)
-                    enabled: true, // show/hide buttons (true, false)
-                    font_size: 16, // font size for the buttons
-                    labels: "cta", // button labels (cta, counts, null)
-                    language: "en", // which language to use (see LANGUAGES)
-                    networks: [
-                      // which networks to include (see SHARING NETWORKS)
-                      "whatsapp",
-                      "messenger",
-                      "facebook",
-                      "twitter",
-                      "email",
-                    ],
-                    padding: 12, // padding within buttons (INTEGER)
-                    radius: 25, // the corner radius on each button (INTEGER)
-                    // show_total: true,
-                    size: 40, // the size of each button (INTEGER)
+              <InlineShareButtons
+                config={{
+                  alignment: "center", // alignment of buttons (left, center, right)
+                  color: "social", // set the color of buttons (social, white)
+                  enabled: true, // show/hide buttons (true, false)
+                  font_size: 16, // font size for the buttons
+                  labels: "cta", // button labels (cta, counts, null)
+                  language: "en", // which language to use (see LANGUAGES)
+                  networks: [
+                    // which networks to include (see SHARING NETWORKS)
+                    "whatsapp",
+                    "messenger",
+                    "facebook",
+                    "twitter",
+                    "sharethis",
+                  ],
+                  padding: 12, // padding within buttons (INTEGER)
+                  radius: 25, // the corner radius on each button (INTEGER)
+                  // show_total: true,
+                  size: 40, // the size of each button (INTEGER)
 
-                    // OPTIONAL PARAMETERS
-                    // url: "https://www.sharethis.com", // (defaults to current url)
-                    image: "https://bit.ly/2CMhCMC", // (defaults to og:image or twitter:image)
-                    description: "custom text", // (defaults to og:description or twitter:description)
-                    title: "custom title", // (defaults to og:title or twitter:title)
-                    message: "custom email text", // (only for email sharing)
-                    subject: "custom email subject", // (only for email sharing)
-                    username: "custom twitter handle", // (only for twitter sharing)
-                  }}
-                />
-
+                  // OPTIONAL PARAMETERS
+                  // url: "https://www.sharethis.com", // (defaults to current url)
+                  // image: "https://bit.ly/2CMhCMC", // (defaults to og:image or twitter:image)
+                  // description: "custom text", // (defaults to og:description or twitter:description)
+                  // title: "custom title", // (defaults to og:title or twitter:title)
+                  // message: "custom email text", // (only for email sharing)
+                  // subject: "custom email subject", // (only for email sharing)
+                  // username: "custom twitter handle", // (only for twitter sharing)
+                }}
+              />
             </Drawer>
           </>
         )}

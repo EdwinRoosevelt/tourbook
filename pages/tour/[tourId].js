@@ -10,12 +10,8 @@ import TourPage from "../../components/tour/TourPage"
 
 
 function TourViewPage({ tourData, allUserData }) {
-
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
-
-
-  
 
   return (
     <div className="mt-3" style={{ backgroundColor: "#EEEEEE" }}>
@@ -27,27 +23,24 @@ function TourViewPage({ tourData, allUserData }) {
               name="description"
               content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
             />
-            <meta property="og:site_name" content="San Roque 2014 Pollos" />
-            <meta property="og:title" content="San Roque 2014 Pollos" />
-            <meta property="og:description" content="Programa de fiestas" />
+            <meta property="og:site_name" content="Tourbook" />
+            <meta property="og:title" content={tourData.Item.details.title} />
+            <meta
+              property="og:description"
+              content={`${tourData.Item.details.title} - ${tourData.Item.details.description}`}
+            />
             <meta
               property="og:image"
               itemprop="image"
-              content="http://pollosweb.wesped.es/programa_pollos/play.png"
+              content={tourData.Item.details.title.image}
             />
             <meta property="og:type" content="website" />
-            <meta property="og:updated_time" content="1440432930" />
           </Head>
           <TourPage
             originalFormState={"VIEW"}
             originalData={tourData}
             allUserData={allUserData.Items}
           />
-
-          <Script
-        type="text/javascript"
-        src="//s7.addthis.com/js/300/addthis_widget.js#pubid="
-      />
         </>
       )}
 

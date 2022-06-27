@@ -44,7 +44,7 @@ function Header() {
         const responseData = await response.json();
         // setUserData(response.Item)
         if (response.success) setNotifications(responseData.Item.notifications);
-        console.log(responseData.Item);
+        // console.log(responseData.Item);
       };
       fetchData();
     }, [currentUser]);
@@ -156,9 +156,9 @@ function Header() {
         padding="xl"
         size="xl"
       >
-        <div class="card mb-3 p-3 shadow" style={{ maxWidth: "540px" }}>
-          <div class="row g-0">
-            <div class="col-md-4 col-3 flex justify-content-center align-items-center">
+        <div className="card mb-3 p-3 shadow" style={{ maxWidth: "540px" }}>
+          <div className="row g-0">
+            <div className="col-md-4 col-3 flex justify-content-center align-items-center">
               <Avatar
                 src={userData.photoURL}
                 size="xl"
@@ -166,9 +166,9 @@ function Header() {
                 style={{ borderRadius: "100px" }}
               />
             </div>
-            <div class="col-md-8 col-9">
-              <div class="card-body">
-                <h5 class="card-title fs-3">{userData.displayName}</h5>
+            <div className="col-md-8 col-9">
+              <div className="card-body">
+                <h5 className="card-title fs-3">{userData.displayName}</h5>
                 <p>{userData.userName}</p>
               </div>
             </div>
