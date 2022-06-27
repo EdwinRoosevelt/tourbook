@@ -121,17 +121,104 @@ function Header() {
                     {/* {userData.displayName.split(" ")[0]} */}
                   </button>
                 </div>
+                <Drawer
+                  opened={drawer}
+                  onClose={() => setDrawer(false)}
+                  title={
+                    <div className="col-3">
+                      <Link href="/tours">
+                        <a>
+                          <Image src={tourbook} alt="tourbook logo" />
+                        </a>
+                      </Link>
+                    </div>
+                  }
+                  padding="xl"
+                  size="xl"
+                >
+                  <div
+                    className="card mb-3 p-3 shadow"
+                    style={{ maxWidth: "540px" }}
+                  >
+                    <div className="row g-0">
+                      <div className="col-md-4 col-3 flex justify-content-center align-items-center">
+                        <Avatar
+                          src={userData.photoURL}
+                          size="xl"
+                          alt="user logo"
+                          style={{ borderRadius: "100px" }}
+                        />
+                      </div>
+                      <div className="col-md-8 col-9">
+                        <div className="card-body">
+                          <h5 className="card-title fs-3">
+                            {userData.displayName}
+                          </h5>
+                          <p>{userData.userName}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ul className="fs-5 py-3 ">
+                    <li>
+                      <Link href="/tour/create">
+                        <a className="dropdown-item flex gap-4 mb-2">
+                          <PlaylistAdd size="30" color="#198754" />
+                          <p className="fs-5">New Tour</p>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href={`/profile/${encodeURIComponent(currentUser)}`}
+                      >
+                        <a className="dropdown-item flex gap-4 mb-2">
+                          <UserCircle size="30" />
+                          <p>Profile</p>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      {/* <Link href="/myTours"> */}
+                      <a className="dropdown-item flex gap-4 mb-2 disabled">
+                        <List size="30" color="#0dcaf0" />
+                        <p>My Tours</p>
+                      </a>
+                      {/* </Link> */}
+                    </li>
+                    <li>
+                      {/* <Link href="/settings"> */}
+                      <a className="dropdown-item flex gap-4 mb-2 disabled">
+                        <Settings size="30" color="#fd7e14" />
+                        <p>Settings</p>
+                      </a>
+                      {/* </Link> */}
+                    </li>
+
+                    <hr className="dropdown-divider" />
+                    <li>
+                      <button
+                        className="dropdown-item flex gap-4"
+                        onClick={signOut}
+                      >
+                        <Power size="30" color="#dc3545" />
+                        <p>Logout</p>
+                      </button>
+                    </li>
+                  </ul>
+                </Drawer>
               </>
             )}
             {!isLoggedIn && (
               <button
                 type="button"
-                className="btn btn-outline-light flex gap-2"
+                className="btn  bg-warning text-dark flex gap-2"
                 onClick={() => {
                   setIsLoginModalOpen(true);
                 }}
               >
-                <i className="bi bi-box-arrow-in-right"></i>login
+                <i className="bi bi-box-arrow-in-right"></i>login / SignUp
               </button>
             )}
           </div>
@@ -141,83 +228,6 @@ function Header() {
         loginModalState={isLoginModalOpen}
         setIsLoginModalOpen={setIsLoginModalOpen}
       />
-      <Drawer
-        opened={drawer}
-        onClose={() => setDrawer(false)}
-        title={
-          <div className="col-3">
-            <Link href="/tours">
-              <a>
-                <Image src={tourbook} alt="tourbook logo" />
-              </a>
-            </Link>
-          </div>
-        }
-        padding="xl"
-        size="xl"
-      >
-        <div className="card mb-3 p-3 shadow" style={{ maxWidth: "540px" }}>
-          <div className="row g-0">
-            <div className="col-md-4 col-3 flex justify-content-center align-items-center">
-              <Avatar
-                src={userData.photoURL}
-                size="xl"
-                alt="user logo"
-                style={{ borderRadius: "100px" }}
-              />
-            </div>
-            <div className="col-md-8 col-9">
-              <div className="card-body">
-                <h5 className="card-title fs-3">{userData.displayName}</h5>
-                <p>{userData.userName}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <ul className="fs-5 py-3 ">
-          <li>
-            <Link href="/tour/create">
-              <a className="dropdown-item flex gap-4 mb-2">
-                <PlaylistAdd size="30" color="#198754" />
-                <p className="fs-5">New Tour</p>
-              </a>
-            </Link>
-          </li>
-          <li>
-            <Link href={`/profile/${encodeURIComponent(currentUser)}`}>
-              <a className="dropdown-item flex gap-4 mb-2">
-                <UserCircle size="30" />
-                <p>Profile</p>
-              </a>
-            </Link>
-          </li>
-          <li>
-            {/* <Link href="/myTours"> */}
-            <a className="dropdown-item flex gap-4 mb-2 disabled">
-              <List size="30" color="#0dcaf0" />
-              <p>My Tours</p>
-            </a>
-            {/* </Link> */}
-          </li>
-          <li>
-            {/* <Link href="/settings"> */}
-            <a className="dropdown-item flex gap-4 mb-2 disabled">
-              <Settings size="30" color="#fd7e14" />
-              <p>Settings</p>
-            </a>
-            {/* </Link> */}
-          </li>
-
-          <hr className="dropdown-divider" />
-          <li>
-            <button className="dropdown-item flex gap-4" onClick={signOut}>
-              <Power size="30" color="#dc3545" />
-              <p>Logout</p>
-            </button>
-          </li>
-        </ul>
-      </Drawer>
     </>
   );
 }
