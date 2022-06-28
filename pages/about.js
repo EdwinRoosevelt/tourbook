@@ -76,11 +76,14 @@ function About() {
             technologies.
           </p>
           <p className="text-muted fs-5 mb-4">
-            It&apos;s designed to help plan tours, share them with friends and
-            family and make the whole process of tour planning a fun.
+            We all love tours but most of the time, planning it ends up not so fun.
+            Tourbook is designed with the goal of making tour planning - fun.
+            With Tourbook you can plan your tour (commute, stay, places to visit, calculate budget),
+            invite your travel buddies, get notified on the updates, and much more!
           </p>
           <p className="text-muted fs-5 mb-4">
-            This minimum viable product is undergoing continous developemnt.
+            New features will be continously added to this application. Do come
+            back again to check the new cool features!
           </p>
 
           <h1 className="display-6 mt-sm-5 mt-3">Tools</h1>

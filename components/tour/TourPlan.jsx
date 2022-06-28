@@ -40,7 +40,9 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
   return (
     <section id="tour-plan">
       <div
-        className={`container ${formState !== "EDIT" && "mt-5"} p-sm-5 py-4 bg-white`}
+        className={`container ${
+          formState !== "EDIT" && "mt-5"
+        } p-sm-5 py-4 bg-white`}
       >
         <div className="flex justify-content-between align-items-start">
           <div>
@@ -51,12 +53,14 @@ function TourPlan({ data, details, formState, dataChangeHandler }) {
           </div>
         </div>
 
-        <div className="alert alert-danger mb-4">
-          <i className="bi bi-exclamation-triangle-fill mx-2" />
-          Reducing <strong>Tour dates</strong> range will truncate the extra
-          tour plan. In case of losing the tour plan, kindly discard the changes
-          and set the dates again.
-        </div>
+        {formState !== "VIEW" && (
+          <div className="alert alert-danger mb-4">
+            <i className="bi bi-exclamation-triangle-fill mx-2" />
+            Reducing <strong>Tour dates</strong> range will truncate the extra
+            tour plan. In case of losing the tour plan, kindly discard the
+            changes and set the dates again.
+          </div>
+        )}
 
         {newPlanData.map((dayPlan, day) => {
           return (

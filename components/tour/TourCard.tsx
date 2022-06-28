@@ -74,7 +74,7 @@ export default function TourCard({ tourId, cardData }) {
             Show details
           </Button>
         </Link>
-        <ActionIcon variant="default" radius="md" size={36}>
+        <ActionIcon variant="default" radius="md" size={36} disabled>
           <Heart color="#dc3545" size={18} />
         </ActionIcon>
       </Group>

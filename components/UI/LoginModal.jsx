@@ -11,16 +11,15 @@ import googleIcon from "../../public/google.png";
 import { asyncLoadUser } from "../../store/UserSlice";
 import { ShieldLock } from "tabler-icons-react";
 
-function LoginModal({ loginModalState, setIsLoginModalOpen }) {
+function LoginModal({ loginModalState, setIsLoginModalOpen, setIsLoading }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
   function signIn() {
+    setIsLoading(true);
     dispatch(asyncLoadUser());
     setIsLoginModalOpen(false);
   }
-
-
 
   return (
     <Modal
@@ -55,7 +54,10 @@ function LoginModal({ loginModalState, setIsLoginModalOpen }) {
         />
 
         <Group position="right" mt="md">
-          <button type="button" className="btn btn-primary btn-sm px-3 py-2 disabled">
+          <button
+            type="button"
+            className="btn btn-primary btn-sm px-3 py-2 disabled"
+          >
             Login{" "}
           </button>
         </Group>
@@ -70,7 +72,12 @@ function LoginModal({ loginModalState, setIsLoginModalOpen }) {
           type="button"
           onClick={signIn}
         >
-          <Image src={googleIcon} height="20rem" width="20rem" alt="google icon"></Image>
+          <Image
+            src={googleIcon}
+            height="20rem"
+            width="20rem"
+            alt="google icon"
+          ></Image>
           <p>Sign in with Google</p>
         </button>
       </div>

@@ -40,6 +40,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
   }, [userData.userName])
 
   async function checkUserName (userName) {
+
     if (formState === "EDIT" && userName === currentUser ) {
       setUserNameError(false);
       setIsFormReady(true);
@@ -56,7 +57,11 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
       }  
     }
     setUserNameLoading(false);
-    
+  }
+
+  const userNameChangeHandler = (inputUserName) => {
+    const newUserName = inputUserName.toLowerCase().replace(" ", "_");
+    dataChangeHandler("userName", newUserName);
   }
 
   if (userNameLoading) rightSection = <Loader size="xs" />;
@@ -120,7 +125,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
                   icon={<Accessible size={14} />}
                   value={userData.userName}
                   onChange={(event) =>
-                    dataChangeHandler("userName", event.target.value)
+                    userNameChangeHandler(event.target.value)
                   }
                   rightSection={rightSection}
                   error={userNameError && `${userNameErrorMessage}`}

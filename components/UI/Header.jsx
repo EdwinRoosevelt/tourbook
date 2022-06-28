@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { BellRinging, InfoCircle, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
-import { Avatar, Drawer, Menu } from "@mantine/core";
+import { Avatar, Drawer, LoadingOverlay } from "@mantine/core";
 
 import tourbook from "../../public/icons/tourbook-2.png";
 import LoginModal from './LoginModal';
@@ -30,10 +30,16 @@ function Header() {
   const [profileDrawer, setProfileDrawer] = useState(false);
   const [notificationDrawer, setNotificationDrawer] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     if (isNewUser) router.push("/profile/create");
   }, [isNewUser]);
+
+  useEffect(() => {
+    if (isLoggedIn) setIsLoading(false);
+  }, [isLoggedIn])
 
   useEffect(() => {
     setNotificationDrawer(false);
@@ -58,6 +64,7 @@ function Header() {
 
   return (
     <>
+      <LoadingOverlay visible={isLoading} />
       <header className="py-sm-3 bg-dark border-bottom">
         <div className="container-fluid d-flex wrap gap-4 p-2 justify-content-between align-items-center">
           <div className="col-3 col-md-2 col-lg-1 ml-4">
@@ -219,6 +226,7 @@ function Header() {
       <LoginModal
         loginModalState={isLoginModalOpen}
         setIsLoginModalOpen={setIsLoginModalOpen}
+        setIsLoading={setIsLoading}
       />
     </>
   );
