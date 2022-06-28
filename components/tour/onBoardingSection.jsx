@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { v4 as uuid_v4 } from "uuid";
 
 import { Select, Loader } from "@mantine/core";
 import { Notification } from "@mantine/core";
@@ -65,20 +66,25 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
         if (userName === invitee) userIndex = index;
       });
 
-      // Send Notification
+      // Dispatching Notification to invitee
       const notification = {
-        // inviter: {userName: currentUser, }
-        inviter: {
+        id: uuid_v4().slice(0, 3),
+        method: "ADD",
+        sender: {
           userName: user.userName,
           photoURL: user.photoURL,
           displayName: user.displayName,
         },
-        invitee,
-        inviteType: "TourInvite",
-        tourId: tourData.tourId,
-        tourTitle: tourData.details.title,
-      };
-      await postToDB("/api/notification/add", notification);
+        recipient: invitee,
+        notificationType: "TOURINVITE", 
+        payload: {
+          title: "Tour Invitation",
+          tourId: tourData.tourId,
+          tourTitle: tourData.details.title
+        },
+        time_sent: Date.now(),
+      }
+      await postToDB("/api/notification/", notification);
 
       // Send Invitation
       const newTourData = JSON.parse(JSON.stringify(tourData));
@@ -105,6 +111,32 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
     var confirmationAnswer = window.confirm("Are you sure ?");
 
     if (confirmationAnswer) {
+
+      // Dispatching Notification to all CONFIRMers
+      tourData.onboarders.map(async (onboarder) => {
+        if (onboarder.status === "CONFIRM") {
+          const notification = {
+            id: uuid_v4().slice(0, 3),
+            method: "ADD",
+            sender: {
+              userName: user.userName,
+              photoURL: user.photoURL,
+              displayName: user.displayName,
+            },
+            recipient: onboarder.userName,
+            notificationType: "NEWONBOARDER",
+            payload: {
+              title: "New Onboarder",
+              tourId: tourData.tourId,
+              tourTitle: tourData.details.title,
+            },
+            is_read: false,
+            time_sent: Date.now(),
+          };
+          await postToDB("/api/notification/", notification);
+        }
+      })
+
       const newOnboardersData = JSON.parse(JSON.stringify(tourData.onboarders));
       newOnboardersData.map((item) => {
         if (item.userName === currentUser) {
@@ -113,7 +145,6 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
         return item;
       });
       tourData.onboarders = newOnboardersData;
-
       await postToDB("/api/tour/edit", tourData);
       router.push(`/tour/${tourData.tourId}`, null, { shallow: true });
     }

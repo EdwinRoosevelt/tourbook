@@ -11,7 +11,6 @@ function Notifications({ currentUser }) {
   const [notifications, setNotifications] = useState([]);
   const [loader, setLoader] = useState(true);
 
-
   useEffect(() => {
     getNotification();
   }, []);
@@ -24,16 +23,12 @@ function Notifications({ currentUser }) {
     setLoader(false);
   }
 
-    async function discardNotification(data) {
-        setLoader(true)
-        const response = await postToDB("/api/notification/del", {
-          user: currentUser,
-          tourId: data.tourId,
-          inviteType: data.inviteType,
-        }).then(() => {
-          getNotification();
-          console.log(response);
-        });
+  async function discardNotification(notification) {
+      setLoader(true)
+      notification.method = "DEL"
+      await postToDB("/api/notification/", notification).then(() => {
+        getNotification();
+      });
     }
 
   return (
@@ -50,11 +45,11 @@ function Notifications({ currentUser }) {
             </div>
           )}
           <ul>
-            {notifications.map((row, index) => {
+            {notifications.map((data, index) => {
               return (
                 <li key={index} className="py-1">
                   <NotificationCard
-                    data={row}
+                    notification={data}
                     discardNotification={discardNotification}
                   />
                 </li>
