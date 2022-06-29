@@ -11,7 +11,13 @@ import postToDB from '../functions/postToDB'
 
 // const availableInvitees = {userNames: [], displayNames: []}
 
-function OnboardersSection({ formState, allUserData, tourData, user, currentUser, setData }) {
+function OnboardersSection({
+  formState,
+  allUserData,
+  tourData,
+  tourbookUser,
+  setData,
+}) {
   const router = useRouter();
 
   const [errorNotification, setErrorNotification] = useState(false);
@@ -25,7 +31,6 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
   useEffect(() => {
     // Extracting userName and displayNames from allUserData and
     // filtering out the confirm and invited users from the available invitees
-
     const mappedUserNames = allUserData.map((user) => {
       return user.userName;
     });
@@ -53,13 +58,11 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
     });
   }, [inviteSent]);
 
-
   useEffect(() => {
     if (invitee) setErrorNotification(false);
   }, [invitee]);
 
-
-  // SEND invitation 
+  // SEND invitation
 
   const sendInvite = async () => {
     if (invitee) {
@@ -74,9 +77,9 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
         id: uuid_v4().slice(0, 3),
         method: "ADD",
         sender: {
-          userName: user.userName,
-          photoURL: user.photoURL,
-          displayName: user.displayName,
+          userName: tourbookUser.userName,
+          photoURL: tourbookUser.photoURL,
+          displayName: tourbookUser.displayName,
         },
         recipient: invitee,
         notificationType: "TOURINVITE",
@@ -109,14 +112,12 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
     }
   };
 
-  
   // ACCEPT invitation method
 
   const acceptInvite = async () => {
     var confirmationAnswer = window.confirm("Are you sure ?");
 
     if (confirmationAnswer) {
-
       // Dispatching Notification to all CONFIRMers
       tourData.onboarders.map(async (onboarder) => {
         if (onboarder.status === "CONFIRM") {
@@ -124,9 +125,9 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
             id: uuid_v4().slice(0, 3),
             method: "ADD",
             sender: {
-              userName: user.userName,
-              photoURL: user.photoURL,
-              displayName: user.displayName,
+              userName: tourbookUser.userName,
+              photoURL: tourbookUser.photoURL,
+              displayName: tourbookUser.displayName,
             },
             recipient: onboarder.userName,
             notificationType: "NEWONBOARDER",
@@ -140,11 +141,11 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
           };
           await postToDB("/api/notification/", notification);
         }
-      })
+      });
 
       const newOnboardersData = JSON.parse(JSON.stringify(tourData.onboarders));
       newOnboardersData.map((item) => {
-        if (item.userName === currentUser) {
+        if (item.userName === tourbookUser.userName) {
           item.status = "CONFIRM";
         }
         return item;
@@ -161,7 +162,7 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
     if (confirmationAnswer) {
       var newOnboardersData = JSON.parse(JSON.stringify(tourData.onboarders));
       newOnboardersData = newOnboardersData.filter((item) => {
-        return item.userName !== currentUser;
+        return item.userName !== tourbookUser.userName;
       });
 
       tourData.onboarders = newOnboardersData;
@@ -181,7 +182,7 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
         <h1 className="display-4">Onboarders</h1>
         <p className="text-muted mb-4">The people you will be touring with!</p>
 
-        {currentUser === tourData.details.organizers && (
+        {tourbookUser && tourbookUser.userName === tourData.details.organizers && (
           <div className="flex gap-3 mb-4">
             <Select
               placeholder="Pick your tour buddy"
@@ -259,7 +260,7 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
                     </a>
                   </div>
 
-                  {row.userName === currentUser && (
+                  {row.userName === tourbookUser.userName && (
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -278,7 +279,7 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
                     </div>
                   )}
 
-                  {row.userName !== currentUser && (
+                  {row.userName !== tourbookUser.userName && (
                     <span className="badge rounded-pill bg-warning">
                       {row.status}
                     </span>

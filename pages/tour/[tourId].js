@@ -11,7 +11,6 @@ import TourPage from "../../components/tour/TourPage"
 
 function TourViewPage({ tourData, allUserData }) {
   const router = useRouter();
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
   return (
     <div className="mt-3" style={{ backgroundColor: "#EEEEEE" }}>

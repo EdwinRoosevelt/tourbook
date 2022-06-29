@@ -18,7 +18,7 @@ import DateRangeCard from "../common/DateRangeCard";
 
 
 
-function TourDetails({ data, currentUser, formState, setFormState, dataChangeHandler, setShareButton }) {
+function TourDetails({ data, tourbookUser, formState, setFormState, dataChangeHandler, setShareButton }) {
   const [refresh, setRefresh] = useState(false);
   // var date1, date2;
   useEffect(() => {
@@ -45,7 +45,9 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
   return (
     <section id="tourdetails">
       <div
-        className={`container ${formState !== "EDIT" && "mt-5"} p-sm-5 py-4 bg-white`}
+        className={`container ${
+          formState !== "EDIT" && "mt-5"
+        } p-sm-5 py-4 bg-white`}
       >
         {/* Section TITLE */}
         <div className="flex justify-content-between">
@@ -62,11 +64,17 @@ function TourDetails({ data, currentUser, formState, setFormState, dataChangeHan
               >
                 <Check size={25} /> <div>I'm IN</div>
               </button> */}
-              <button type="button" className={`btn btn-outline-secondary mr-2 btn-sm`} onClick={() => {setShareButton(true)}}>
+              <button
+                type="button"
+                className={`btn btn-outline-secondary mr-2 btn-sm`}
+                onClick={() => {
+                  setShareButton(true);
+                }}
+              >
                 <Share size={25} />
               </button>
 
-              {currentUser === data.organizers && (
+              {tourbookUser && tourbookUser.userName === data.organizers && (
                 <button
                   title="Edit Tour plan"
                   className="btn btn-outline-secondary btn-sm"

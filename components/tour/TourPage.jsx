@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { Dialog, Notification, Drawer, Group } from "@mantine/core";
-import { InlineShareButtons, InlineReactionButtons } from "sharethis-reactjs";
+import { Drawer} from "@mantine/core";
+import { InlineShareButtons } from "sharethis-reactjs";
 
-import { Check } from "tabler-icons-react";
+import { useNotify } from "../notification/Notify";
+import { useAuth } from "../authentication/Auth"
 
 import LandingSection from "./LandingSection";
 import TourPlan from "./TourPlan";
@@ -18,19 +18,16 @@ var initiallData;
 function TourPage({ originalData, originalFormState, allUserData }) {
 
   const router = useRouter();
-  const currentUser = useSelector((state) => state.currentUser);
-  const user = useSelector((state) => state.user);
+  const { addNotification } = useNotify();
+  const { tourbookUser } = useAuth();
+
   const [data, setData] = useState(originalData.Item);
   const [formState, setFormState] = useState(originalFormState);
 
   const [isChangesMade, setIsChangesMade] = useState(false);
   const [isFormReady, setIsFormReady] = useState(true);
   const [formLoader, setFormLoader] = useState(false);
-
   const [expenseData, setExpenseData] = useState([]);
-  const [notification, setNotification] = useState(false);
-  const [notificationText, setNotificationText] = useState({});
-
   const [shareButton, setShareButton] = useState(false)
 
   useEffect(() => {
@@ -121,14 +118,10 @@ function TourPage({ originalData, originalFormState, allUserData }) {
 
         if (response.success) {
           if (formState === "NEW") {
-            
-            setNotificationText({title: "Tour Created!", body: "Tour has been created successfully!"});
-            setNotification(true);
-            
+            addNotification({title: "Tour Created successfully!", message: ""});
           }
           if (formState === "EDIT") {
-            setNotificationText({title: "Tour Edited!", body: "Tour has been edited successfully!"});
-            setNotification(true);
+            addNotification({title: "Tour Edited successfully!", message: ""});
             router.reload();
           }
           setFormState("VIEW");
@@ -169,7 +162,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
               <div className="container-md">
                 <TourDetails
                   data={data.details}
-                  currentUser={currentUser}
+                  tourbookUser={tourbookUser}
                   dataChangeHandler={dataChangeHandler}
                   formState={formState}
                   setFormState={setFormState}
@@ -190,8 +183,7 @@ function TourPage({ originalData, originalFormState, allUserData }) {
                 {formState === "VIEW" && (
                   <OnboardingSection
                     tourData={data}
-                    user={user}
-                    currentUser={currentUser}
+                    tourbookUser={tourbookUser}
                     allUserData={allUserData}
                     setData={setData}
                     formState={formState}
@@ -277,16 +269,6 @@ function TourPage({ originalData, originalFormState, allUserData }) {
           <strong>404</strong> | {originalData.message}
         </div>
       )}
-      <Dialog opened={notification} className="p-0">
-        <Notification
-          icon={<Check size={18} />}
-          color="teal"
-          title={notificationText.title}
-          onClose={() => setNotification(false)}
-        >
-          {notificationText.body}
-        </Notification>
-      </Dialog>
     </>
   );
 }
