@@ -4,20 +4,19 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 import { Modal, Box, Group, Button, Divider, TextInput, PasswordInput } from "@mantine/core";
-// import firebase from 'firebase';
-
 import googleIcon from "../../public/google.png";
-
-import { asyncLoadUser } from "../../store/UserSlice";
 import { ShieldLock } from "tabler-icons-react";
 
-function LoginModal({ loginModalState, setIsLoginModalOpen, setIsLoading }) {
-  const dispatch = useDispatch();
+import { useAuth } from "../authentication/Auth";
+
+
+
+function LoginModal({ loginModalState, setIsLoginModalOpen }) {
+  const { googleLogin } = useAuth();
   const router = useRouter();
 
   function signIn() {
-    setIsLoading(true);
-    dispatch(asyncLoadUser());
+    googleLogin();
     setIsLoginModalOpen(false);
   }
 
@@ -68,7 +67,7 @@ function LoginModal({ loginModalState, setIsLoginModalOpen, setIsLoading }) {
 
       <div className="flex justify-content-center mb-4">
         <button
-          className="btn btn-outline-primary flex align-items-center gap-2"
+          className="btn btn-outline-primary flex justify-content-center align-items-center gap-2 w-100"
           type="button"
           onClick={signIn}
         >
@@ -78,7 +77,7 @@ function LoginModal({ loginModalState, setIsLoginModalOpen, setIsLoading }) {
             width="20rem"
             alt="google icon"
           ></Image>
-          <p>Sign in with Google</p>
+          <p>Continue with Google</p>
         </button>
       </div>
     </Modal>

@@ -58,6 +58,9 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
     if (invitee) setErrorNotification(false);
   }, [invitee]);
 
+
+  // SEND invitation 
+
   const sendInvite = async () => {
     if (invitee) {
       setInviteSent(true);
@@ -76,14 +79,15 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
           displayName: user.displayName,
         },
         recipient: invitee,
-        notificationType: "TOURINVITE", 
+        notificationType: "TOURINVITE",
         payload: {
           title: "Tour Invitation",
           tourId: tourData.tourId,
-          tourTitle: tourData.details.title
+          tourTitle: tourData.details.title,
         },
+        is_read: false,
         time_sent: Date.now(),
-      }
+      };
       await postToDB("/api/notification/", notification);
 
       // Send Invitation
@@ -96,8 +100,6 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
       setData(newTourData);
       await postToDB("/api/tour/edit", newTourData);
 
-      
-
       setTimeout(() => {
         setInviteSent(false);
         setInvitee("");
@@ -106,6 +108,9 @@ function OnboardersSection({ formState, allUserData, tourData, user, currentUser
       setErrorNotification(true);
     }
   };
+
+  
+  // ACCEPT invitation method
 
   const acceptInvite = async () => {
     var confirmationAnswer = window.confirm("Are you sure ?");

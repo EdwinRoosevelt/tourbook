@@ -2,69 +2,43 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useAuth } from "../authentication/Auth"
 
 import { BellRinging, InfoCircle, List, PlaylistAdd, Power, Settings, UserCircle } from 'tabler-icons-react';
 import { Avatar, Drawer, LoadingOverlay } from "@mantine/core";
-
 import tourbook from "../../public/icons/tourbook-2.png";
+
 import LoginModal from './LoginModal';
-
-
-import { asynclogout } from "../../store/UserSlice";
-import { useRouter } from 'next/router';
 import Notifications from './Notifications';
 
 
 function Header() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const [reload, setReload] = useState(false);
-
-  const isNewUser = useSelector((state) => state.isNewUser);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const currentUser = useSelector((state) => state.currentUser);
-  const userData = useSelector((state) => state.user);
-
+  const { currentUser, logout } = useAuth();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [profileDrawer, setProfileDrawer] = useState(false);
   const [notificationDrawer, setNotificationDrawer] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-
-  useEffect(() => {
-    if (isNewUser) router.push("/profile/create");
-  }, [isNewUser]);
-
-  useEffect(() => {
-    if (isLoggedIn) setIsLoading(false);
-  }, [isLoggedIn])
+  // useEffect(() => {
+  //   if (isLoggedIn) setIsLoading(false);
+  // }, [currentUser]);
 
   useEffect(() => {
     setNotificationDrawer(false);
     setProfileDrawer(false);
   }, [router])
 
-  // useEffect(() => {
-  //   if (!isNewUser || !isLoggedIn) router.replace("/");
-  // }, [isNewUser, isLoggedIn]);
 
-  useEffect(() => () => {
-    router.reload();
-  }, [isLoggedIn]);
+  // useEffect(() => () => {
+  //   router.reload();
+  // }, [isLoggedIn]);
 
-
-
-  console.log('rendering')
-
-  function signOut() {
-    dispatch(asynclogout());
-  }
 
   return (
     <>
-      <LoadingOverlay visible={isLoading} />
+  
       <header className="py-sm-3 bg-dark border-bottom">
         <div className="container-fluid d-flex wrap gap-4 p-2 justify-content-between align-items-center">
           <div className="col-3 col-md-2 col-lg-1 ml-4">
@@ -76,7 +50,7 @@ function Header() {
           </div>
 
           <div className="d-flex mx-sm-4 gap-3 justify-content-between align-items-center">
-            {isLoggedIn && (
+            {currentUser && (
               <>
                 <button
                   className="btn btn-dark p-2"
@@ -107,7 +81,11 @@ function Header() {
                     setProfileDrawer(true);
                   }}
                 >
-                  <Avatar src={userData.photoURL} alt="user logo" radius="xl" />
+                  <Avatar
+                    src={currentUser.photoURL}
+                    alt="user logo"
+                    radius="xl"
+                  />
                   {/* {userData.displayName.split(" ")[0]} */}
                 </button>
 
@@ -133,7 +111,7 @@ function Header() {
                     <div className="row g-0">
                       <div className="col-md-4 col-3 flex justify-content-center align-items-center">
                         <Avatar
-                          src={userData.photoURL}
+                          src={currentUser.photoURL}
                           size="xl"
                           alt="user logo"
                           style={{ borderRadius: "100px" }}
@@ -142,9 +120,10 @@ function Header() {
                       <div className="col-md-8 col-9">
                         <div className="card-body">
                           <h5 className="card-title fs-3">
-                            {userData.displayName}
+                            {currentUser.displayName}
                           </h5>
-                          <p>{userData.userName}</p>
+                          {/* <p>{currentUser.userName}</p> */}
+                          <p>{currentUser.email}</p>
                         </div>
                       </div>
                     </div>
@@ -199,7 +178,7 @@ function Header() {
                     <li>
                       <button
                         className="dropdown-item flex align-items-center gap-4 mb-2 p-2"
-                        onClick={signOut}
+                        onClick={logout}
                       >
                         <Power size="30" color="#dc3545" />
                         <p>Logout</p>
@@ -209,15 +188,15 @@ function Header() {
                 </Drawer>
               </>
             )}
-            {!isLoggedIn && (
+            {!currentUser && (
               <button
                 type="button"
-                className="btn  bg-warning text-dark flex gap-2"
+                className="btn bg-warning text-dark flex gap-2 px-4"
                 onClick={() => {
                   setIsLoginModalOpen(true);
                 }}
               >
-                <i className="bi bi-box-arrow-in-right"></i>login / SignUp
+                <i className="bi bi-box-arrow-in-right"></i>Login
               </button>
             )}
           </div>
@@ -226,7 +205,6 @@ function Header() {
       <LoginModal
         loginModalState={isLoginModalOpen}
         setIsLoginModalOpen={setIsLoginModalOpen}
-        setIsLoading={setIsLoading}
       />
     </>
   );

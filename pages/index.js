@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 
-import { useSelector } from 'react-redux';
+import { useAuth } from "../components/authentication/Auth";
 import { HeroBanner } from "../components/homepage/HeroBanner";
 
 
 export default function Home() {
+
+  const { currentUser } = useAuth()
 
   return (
     <>
@@ -17,6 +19,8 @@ export default function Home() {
         />
         <link rel="icon" href="/tourbook_icon.svg" />
       </Head>
+
+      {JSON.stringify(currentUser)}
 
       <HeroBanner />
     </>
