@@ -1,44 +1,57 @@
 import React, { useState, useEffect } from 'react'
 import Head from "next/head";
-import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { v4 as uuid_v4 } from "uuid";
 
 import ProfileContent from "../../components/profile/ProfileContent";
 import SaveChanges from "../../components/common/SaveChanges";
 import postToDB from '../../components/functions/postToDB'
-import { login } from "../../store/UserSlice";
+import { useAuth } from "../../components/authentication/Auth"
+import { useNotify } from '../../components/notification/Notify';
 
-const EMPTY_PROFILE = {
+var EMPTY_PROFILE = {
   userName: "",
   displayName: "",
-  photoURL: null,
-  mobile: "",
+  emailId: "",
+  photoURL: "/",
+  mobile: 0,
   notifications: [],
-  myTours: []
-}
+  myTours: [],
+};
 
 const formState = "NEW";
 
 function CreateProfile() {
-  // const userData = useSelector(state => state.user)
   const router = useRouter();
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  const isNewUser = useSelector((state) => state.isNewUser);
+
+  const { addNotification } = useNotify();
+  const { currentUser, tourbookUser, isNewUser, setIsNewUser } = useAuth();
 
   const [isFormReady, setIsFormReady] = useState(true);
   const [formLoader, setFormLoader] = useState(false);
   const [userData, setUserData] = useState(EMPTY_PROFILE);
 
-  const userSliceData = useSelector((state) => state.user);
 
   useEffect(() => {
-    setUserData({ ...userData, ...userSliceData });
+    if (currentUser) {
+      var filledProfile = {
+        userName: currentUser.displayName.toLowerCase().replace(" ", "_"),
+        displayName: currentUser.displayName,
+        emailId: currentUser.email,
+        photoURL: currentUser.photoURL,
+        mobile: currentUser.phoneNumber,
+        notifications: [],
+        myTours: [],
+      };
+      setUserData(filledProfile);
+    }
   }, []);
 
   useEffect(() => {
-    if (!isNewUser || !isLoggedIn) router.replace("/");
-  }, [isLoggedIn]);
+    if (!isNewUser || !currentUser) router.replace("/");
+  }, [isNewUser, currentUser]);
+
+
 
   function dataChangeHandler(key, value) {
     const newUserData = { ...userData };
@@ -55,8 +68,9 @@ function CreateProfile() {
     if (confirmationAnswer) {
       const response = await postToDB("/api/user/edit", userData);
       if (response.success) {
-        dispatch(login(response.Item));
-        router.push("/");
+        setIsNewUser(false);
+        addNotification({title: "Profile Created!", message: "Happy tourbooking!" });
+        router.push("/tours", null, {shallow: false});
       }
     }
     setIsFormReady(true);

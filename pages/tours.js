@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 
-import { useSelector } from "react-redux";
-
 import TourCard from "../components/tour/TourCard";
 
 
 export default function Tours({ tourData }) {
-  var [loggedInUser, setLoggedInUser] = useState(false);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-
-  useEffect(() => {
-    if (isLoggedIn) setLoggedInUser(true);
-    else setLoggedInUser(false);
-  }, [isLoggedIn]);
 
   return (
     <>

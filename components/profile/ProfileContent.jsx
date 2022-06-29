@@ -1,8 +1,6 @@
-import React from 'react'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useSelector } from 'react-redux';
-
+import { useAuth } from "../../components/authentication/Auth";
 
 import { Checks, Accessible, At, DeviceMobile, User } from "tabler-icons-react";
 import { TextInput, NumberInput, Loader } from "@mantine/core";
@@ -17,7 +15,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
   // const userData = useSelector(state => state.user)
   // console.log(userData)
   
-  const currentUser = useSelector(state => state.currentUser)
+  const { tourbookUser } = useAuth();
   const [userNameLoading, setUserNameLoading] = useState(false)
   const [userNameError, setUserNameError] = useState(false)
   const [userNameErrorMessage, setUserNameErrorMessage] = useState("");
@@ -33,7 +31,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
     if (userData.userName == "") { 
       clearTimeout(timer) 
       setUserNameError(true)
-      setUserNameErrorMessage("Invalid User Name");
+      setUserNameErrorMessage("UserName can't be empty!");
       setUserNameLoading(false) 
     }
     return () => clearTimeout(timer)
@@ -117,7 +115,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
             </div>
             <div className="col-md-8 px-4">
               {/* Section CONTENT */}
-              <div className="flex gap-3 flex-wrap mb-5">
+              <div className="flex gap-3 flex-wrap" style={{marginBottom: "100px"}}>
                 <TextInput
                   required
                   style={{ minWidth: "18rem" }}
