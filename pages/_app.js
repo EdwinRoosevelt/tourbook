@@ -7,6 +7,7 @@ import { ModalsProvider } from "@mantine/modals";
 import Header from "../components/UI/Header";
 import Footer from '../components/UI/Footer'
 import ClientOnly from '../components/ClientOnly'
+import { AuthProvider } from "../components/authentication/Auth"
 
 import store from '../store/index.js'
 import "../styles/globals.css";
@@ -15,19 +16,19 @@ import "../styles/globals.css";
 
 
 function MyApp({ Component, pageProps }) {
-  
-
 
   return (
     <MantineProvider>
       <ModalsProvider>
-        <Provider store={store}>
+        {/* <Provider store={store}> */}
+        <AuthProvider>
           <ClientOnly>
             <Header />
           </ClientOnly>
           <Component {...pageProps} />
           {/* <Footer/> */}
-        </Provider>
+        </AuthProvider>
+        {/* </Provider> */}
       </ModalsProvider>
     </MantineProvider>
   );
