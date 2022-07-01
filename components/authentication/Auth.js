@@ -45,11 +45,14 @@ export function AuthProvider({ children }) {
               setIsNewUser(true);
               addNotification({ title: "New User", message: "Create a profile before proceeding forward.." });
             } else setTourbookUser(response.Item);
+            setIsLoading(false);
           })
-          .then(setIsLoading(false));
+      } else {
+        setIsLoading(false);
       }
       setCurrentUser(user);
-      setIsLoading(false);
+      
+      
     });
     return unSubscribe
   }, [])
@@ -90,6 +93,7 @@ export function AuthProvider({ children }) {
       <AuthContext.Provider value={value}>
         <LoadingOverlay
           visible={isLoading}
+          overlayOpacity={0.9}
           loaderProps={{ size: "md", color: "blue", variant: "dots" }}
         />
         {children}

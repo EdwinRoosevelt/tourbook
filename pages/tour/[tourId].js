@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import Script from 'next/script'
-import { Helmet } from 'react-helmet'
 
 import TourPage from "../../components/tour/TourPage"
 
 
 
 function TourViewPage({ tourData, allUserData }) {
-  const router = useRouter();
 
   return (
     <div className="mt-3" style={{ backgroundColor: "#EEEEEE" }}>
