@@ -6,7 +6,7 @@ import postToDB from "../functions/postToDB";
 
 import styles from "./header.module.css";
 
-function Notifications({ currentUser }) {
+function Notifications({ tourbookUser }) {
 
   const [notifications, setNotifications] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -16,7 +16,7 @@ function Notifications({ currentUser }) {
   }, []);
 
   async function getNotification() {
-    const response = await fetch(`/api/user/${currentUser}`);
+    const response = await fetch(`/api/user/${tourbookUser.userName}`);
     const responseData = await response.json();
     if (responseData.success) setNotifications(responseData.Item.notifications);
     else console.log(responseData)

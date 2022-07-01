@@ -4,25 +4,14 @@ import { useRouter } from "next/router";
 
 import ProfileContent from "./ProfileContent";
 import SaveChanges from '../common/SaveChanges'
-
+import { useAuth } from "../authentication/Auth";
 
 
 function ProfilePage({initialUserData, formState}) {
     const router = useRouter();
     const [isFormReady, setIsFormReady] = useState(true);
     const [formLoader, setFormLoader] = useState(false);
-
-    const isNewUser = useSelector((state) => state.isNewUser);
-    const isLoggedIn = useSelector(state => state.isLoggedIn)
     const [userData, setUserData] = useState(initialUserData);
-
-    // useEffect(() => {
-    // if (!isNewUser) router.replace("/");
-    // }, []);
-
-    useEffect(() => {
-    if (!isLoggedIn) router.replace("/");
-    }, [isLoggedIn]);
 
     function dataChangeHandler(key, value) {
     const newUserData = { ...userData };

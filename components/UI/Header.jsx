@@ -15,7 +15,7 @@ import Notifications from './Notifications';
 
 function Header() {
   const router = useRouter();
-  const { currentUser, logout } = useAuth();
+  const { tourbookUser, logout } = useAuth();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [profileDrawer, setProfileDrawer] = useState(false);
@@ -38,7 +38,6 @@ function Header() {
 
   return (
     <>
-  
       <header className="py-sm-3 bg-dark border-bottom">
         <div className="container-fluid d-flex wrap gap-4 p-2 justify-content-between align-items-center">
           <div className="col-3 col-md-2 col-lg-1 ml-4">
@@ -50,7 +49,7 @@ function Header() {
           </div>
 
           <div className="d-flex mx-sm-4 gap-3 justify-content-between align-items-center">
-            {currentUser && (
+            {tourbookUser && (
               <>
                 <button
                   className="btn btn-dark p-2"
@@ -69,7 +68,7 @@ function Header() {
                   padding="xl"
                   size="xl"
                 >
-                  <Notifications currentUser={currentUser} />
+                  <Notifications tourbookUser={tourbookUser} />
                 </Drawer>
 
                 <button
@@ -82,7 +81,7 @@ function Header() {
                   }}
                 >
                   <Avatar
-                    src={currentUser.photoURL}
+                    src={tourbookUser.photoURL}
                     alt="user logo"
                     radius="xl"
                   />
@@ -111,7 +110,7 @@ function Header() {
                     <div className="row g-0">
                       <div className="col-md-4 col-3 flex justify-content-center align-items-center">
                         <Avatar
-                          src={currentUser.photoURL}
+                          src={tourbookUser.photoURL}
                           size="xl"
                           alt="user logo"
                           style={{ borderRadius: "100px" }}
@@ -120,10 +119,10 @@ function Header() {
                       <div className="col-md-8 col-9">
                         <div className="card-body">
                           <h5 className="card-title fs-3">
-                            {currentUser.displayName}
+                            {tourbookUser.displayName}
                           </h5>
                           {/* <p>{currentUser.userName}</p> */}
-                          <p>{currentUser.email}</p>
+                          <p>{tourbookUser.email}</p>
                         </div>
                       </div>
                     </div>
@@ -140,7 +139,9 @@ function Header() {
                     </li>
                     <li>
                       <Link
-                        href={`/profile/${encodeURIComponent(currentUser)}`}
+                        href={`/profile/${encodeURIComponent(
+                          tourbookUser.userName
+                        )}`}
                       >
                         <a className="dropdown-item flex align-items-center gap-4 mb-2 p-2">
                           <UserCircle size="30" />
@@ -188,7 +189,7 @@ function Header() {
                 </Drawer>
               </>
             )}
-            {!currentUser && (
+            {!tourbookUser && (
               <button
                 type="button"
                 className="btn bg-warning text-dark flex gap-2 px-4"

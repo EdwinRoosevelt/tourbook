@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 
 import ProfilePage from '../../components/profile/ProfilePage';
-
+import { useAuth } from '../../components/authentication/Auth'
 
 
 const formState = "EDIT";
 function ProfileViewPage({responseData}) {
-    const router = useRouter();
-    const isLoggedIn = useSelector((state) => state.isLoggedIn);
-    const isNewUser = useSelector((state) => state.isNewUser);
 
-    useEffect(() => {
-      if (!isLoggedIn) router.push("/", null, { shallow: true });
-      if (isNewUser) router.push("/profile/create", null, { shallow: true });
-    });
+  const router = useRouter();
+  const { tourbookUser } = useAuth()
+  const { pid } = router.query
+  const [showUser, setShowUser] = useState(false)
 
-  
+  useEffect(() => {
+    if (tourbookUser && pid != tourbookUser.userName) router.replace("/");
+    else setShowUser(true)
+  },[])
+
+
   return (
     <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
-      {responseData.success && (
+      {responseData.success && showUser && (
         <>
           <Head>
             <title>{responseData.Item.displayName}</title>

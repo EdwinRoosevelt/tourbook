@@ -39,11 +39,10 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
 
   async function checkUserName (userName) {
 
-    if (formState === "EDIT" && userName === currentUser ) {
+    if (formState === "EDIT" && userName === tourbookUser.userName) {
       setUserNameError(false);
       setIsFormReady(true);
-    }
-    else {
+    } else {
       const response = await fetch(`/api/user/${userName}`);
       const responseData = await response.json();
       if (responseData.success) {
@@ -52,7 +51,7 @@ function ProfileContent({ userData, dataChangeHandler, formState, setIsFormReady
       } else {
         setUserNameError(false);
         setIsFormReady(true);
-      }  
+      }
     }
     setUserNameLoading(false);
   }

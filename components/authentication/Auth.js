@@ -69,6 +69,7 @@ export function AuthProvider({ children }) {
 
   async function logout() {
     setIsLoading(true);
+    setTourbookUser(null)
     await signOut(auth).then(() => {
       addNotification({ title: "Logged Out!", message: "" });
       router.push('/')
