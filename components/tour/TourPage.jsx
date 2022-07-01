@@ -154,12 +154,12 @@ function TourPage({ originalData, originalFormState, allUserData }) {
       <div style={{ backgroundColor: "#EEEEEE" }}>
         {originalData.success && (
           <>
-            {data.details.organizers === tourbookUser.userName && (
+            {/* {data.details.organizers === tourbookUser.userName && (
               <Script
                 strategy="lazyOnload"
                 src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY}&libraries=places&callback=initMap`}
               ></Script>
-            )}
+            )} */}
             <form onSubmit={formSubmitHandler}>
               <LandingSection
                 data={data.details}

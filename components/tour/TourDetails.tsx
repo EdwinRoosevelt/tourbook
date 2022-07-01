@@ -11,16 +11,16 @@ import { DateRangePicker } from "@mantine/dates";
 function TourDetails({ data, tourbookUser, formState, setFormState, dataChangeHandler, setShareButton }) {
   const [refresh, setRefresh] = useState(false);
   // var date1, date2;
-  const displayPlaceSuggestions = () => {
-    const service = new google.maps.places.AutocompleteService()
-    service.getQueryPredictions({ input: `${data.venue}` }, (predictions, status) => {
-      console.log(predictions)
-    });
-  } 
+  // const displayPlaceSuggestions = () => {
+  //   const service = new google.maps.places.AutocompleteService()
+  //   service.getQueryPredictions({ input: `${data.venue}` }, (predictions, status) => {
+  //     console.log(predictions)
+  //   });
+  // } 
 
-  useEffect(() => {
-    displayPlaceSuggestions();
-  }, [])
+  // useEffect(() => {
+  //   displayPlaceSuggestions();
+  // }, [])
 
   
 
