@@ -192,7 +192,7 @@ function Header() {
             {!tourbookUser && (
               <button
                 type="button"
-                className="btn bg-warning text-dark flex gap-2 px-4"
+                className="btn btn-light text-light flex gap-2 px-4"
                 onClick={() => {
                   setIsLoginModalOpen(true);
                 }}

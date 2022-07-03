@@ -260,7 +260,7 @@ function OnboardersSection({
                     </a>
                   </div>
 
-                  {row.userName === tourbookUser.userName && (
+                  {tourbookUser && row.userName === tourbookUser.userName && (
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -279,7 +279,7 @@ function OnboardersSection({
                     </div>
                   )}
 
-                  {row.userName !== tourbookUser.userName && (
+                  {tourbookUser && row.userName !== tourbookUser.userName && (
                     <span className="badge rounded-pill bg-warning">
                       {row.status}
                     </span>

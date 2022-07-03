@@ -9,6 +9,7 @@ import { useAuth } from "../authentication/Auth";
 
 function ProfilePage({initialUserData, formState}) {
     const router = useRouter();
+    const { tourbookUser } = useAuth()
     const [isFormReady, setIsFormReady] = useState(true);
     const [formLoader, setFormLoader] = useState(false);
     const [userData, setUserData] = useState(initialUserData);
@@ -53,18 +54,22 @@ function ProfilePage({initialUserData, formState}) {
   return (
     <div className="p-sm-4 " style={{ backgroundColor: "#EEEEEE" }}>
       <form onSubmit={formSubmitHandler}>
-        <ProfileContent
-          userData={userData}
-          dataChangeHandler={dataChangeHandler}
-          formState={formState}
-          setIsFormReady={setIsFormReady}
-        />
-        <SaveChanges
-          formState={formState}
-          isFormReady={isFormReady}
-          formLoader={formLoader}
-          formDiscardHandler={formDiscardHandler}
-        />
+        {tourbookUser && (
+          <>
+            <ProfileContent
+              userData={userData}
+              dataChangeHandler={dataChangeHandler}
+              formState={formState}
+              setIsFormReady={setIsFormReady}
+            />
+            <SaveChanges
+              formState={formState}
+              isFormReady={isFormReady}
+              formLoader={formLoader}
+              formDiscardHandler={formDiscardHandler}
+            />
+          </>
+        )}
       </form>
     </div>
   );

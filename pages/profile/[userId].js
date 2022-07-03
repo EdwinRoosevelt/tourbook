@@ -11,32 +11,27 @@ function ProfileViewPage({responseData}) {
 
   const router = useRouter();
   const { tourbookUser } = useAuth()
-  const { pid } = router.query
-  const [showUser, setShowUser] = useState(false)
-
-  useEffect(() => {
-    if (tourbookUser && pid != tourbookUser.userName) router.replace("/");
-    else setShowUser(true)
-  },[])
-
+  const { userId } = router.query;
 
   return (
     <div className="p-4" style={{ backgroundColor: "#EEEEEE" }}>
-      {responseData.success && showUser && (
-        <>
-          <Head>
-            <title>{responseData.Item.displayName}</title>
-            <meta
-              name="description"
-              content={`${responseData.Item.displayName}'s profile`}
+      {tourbookUser &&
+        responseData.success &&
+        userId === tourbookUser.userName && (
+          <>
+            <Head>
+              <title>{responseData.Item.displayName}</title>
+              <meta
+                name="description"
+                content={`${responseData.Item.displayName}'s profile`}
+              />
+            </Head>
+            <ProfilePage
+              initialUserData={responseData.Item}
+              formState={formState}
             />
-          </Head>
-          <ProfilePage
-            initialUserData={responseData.Item}
-            formState={formState}
-          />
-        </>
-      )}
+          </>
+        )}
 
       {!responseData.success && (
         <>
@@ -45,9 +40,22 @@ function ProfileViewPage({responseData}) {
           </Head>
           <p
             className="flex justify-content-center align-items-center"
-            style={{ fontSize: "1.5rem", height: "80vh" }}
+            style={{ fontSize: "1.25rem", height: "80vh" }}
           >
             <strong>404</strong> &nbsp; | {responseData.message}
+          </p>
+        </>
+      )}
+      {tourbookUser && userId !== tourbookUser.userName && (
+        <>
+          <Head>
+            <title>[Under development]</title>
+          </Head>
+          <p
+            className="flex justify-content-center align-items-center"
+            style={{ fontSize: "1.25rem", height: "80vh" }}
+          >
+            Sorry! currently you can't view others page.
           </p>
         </>
       )}

@@ -44,7 +44,7 @@ function TourViewPage({ tourData, allUserData }) {
           </Head>
           <p
             className="flex justify-content-center align-items-center"
-            style={{ fontSize: "1.5rem", height: "80vh" }}
+            style={{ fontSize: "1.25rem", height: "80vh" }}
           >
             <strong>404</strong> &nbsp; | {tourData.message}
           </p>
