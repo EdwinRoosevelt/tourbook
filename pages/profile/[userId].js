@@ -55,7 +55,7 @@ function ProfileViewPage({responseData}) {
             className="flex justify-content-center align-items-center"
             style={{ fontSize: "1.25rem", height: "80vh" }}
           >
-            Sorry! currently you can't view others page.
+            Sorry! currently you can&apos;t view others page.
           </p>
         </>
       )}
