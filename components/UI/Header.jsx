@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import { Button } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -191,15 +193,18 @@ function Header() {
 							</>
 						)}
 						{!tourbookUser && (
-							<button
+							<Button
 								type="button"
-								className="btn btn-outline-dark flex gap-2 px-4"
+								variant="default"
+								radius="xl"
+								size="md"
 								onClick={() => {
 									setIsLoginModalOpen(true);
 								}}
 							>
-								<i className="bi bi-box-arrow-in-right"></i>Login
-							</button>
+								<p>Login</p>
+								{/* <i className="bi bi-box-arrow-in-right"></i> */}
+							</Button>
 						)}
 					</div>
 				</div>
